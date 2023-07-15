@@ -1,0 +1,17 @@
+{
+  "name": "coding-family-full-stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "backend:dev": "npm --prefix ./backend run dev",
+    "backend:install": "npm --prefix ./backend install",
+    "backend:uninstall": "npm --prefix ./backend uninstall",
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:install": "npm --prefix ./frontend install",
+    "frontend:uninstall": "npm --prefix ./frontend uninstall"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
