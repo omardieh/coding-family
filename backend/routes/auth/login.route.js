@@ -17,11 +17,11 @@ loginRouter.post("/", (req, res, next) => {
         res.status(401).json({ message: "User not found." });
         return;
       }
-      const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
+      const passwordCorrect = foundUser.comparePassword(password);
       if (passwordCorrect) {
-        const { _id, email, name } = foundUser;
-        const payload = { _id, email, name };
-        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        const { _id, email, username } = foundUser;
+        const payload = { _id, email, username };
+        const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
         });

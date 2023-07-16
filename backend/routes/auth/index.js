@@ -1,6 +1,6 @@
-const { signupRouter } = require("./signup.routes");
-const { loginRouter } = require("./login.routes");
-const { verifyRouter } = require("./verify.routes");
+const { signupRouter } = require("./signup.route");
+const { loginRouter } = require("./login.route");
+const { verifyRouter } = require("./verify.route");
 const { isAuthenticated } = require("../../middleware/jwt.middleware");
 
 module.exports = (app) => {

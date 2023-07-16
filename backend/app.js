@@ -1,6 +1,3 @@
-require("dotenv").config();
-require("./db");
-
 const express = require("express");
 const app = express();
 require("./config")(app);
@@ -10,6 +7,6 @@ require("./routes/auth")(app);
 require("./routes/api")(app);
 
 // error middleware :
-require("./error-handling")(app);
+require("./middleware/routesError.middleware")(app);
 
 module.exports = app;

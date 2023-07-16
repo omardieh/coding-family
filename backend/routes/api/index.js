@@ -1,6 +1,6 @@
 const apiRouter = require("express").Router();
-const projectRouter = require("./project.routes");
-const taskRouter = require("./task.routes");
+const projectRouter = require("./project.route");
+const taskRouter = require("./task.route");
 const { isAuthenticated } = require("../../middleware/jwt.middleware");
 
 apiRouter.get("/", (req, res, next) => {

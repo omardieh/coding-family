@@ -1,7 +1,14 @@
+require("dotenv").config();
 const app = require("./app");
+const { connectDB } = require("./config/database.config");
 
-const PORT = process.env.PORT || 5005;
+connectDB().then(connectServer);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+function connectServer() {
+  app.listen(process.env.SEVER_PORT, (e) => {
+    if (e) {
+      console.error("app.listen:", e);
+    }
+    console.log(`connected Server | PORT : ${process.env.SEVER_PORT}`);
+  });
+}
