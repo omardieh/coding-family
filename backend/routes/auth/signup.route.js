@@ -13,6 +13,8 @@ signupRouter.post("/", (req, res, next) => {
   User.findOne({ email })
     .then((foundUser) => {
       if (foundUser) {
+        console.log(foundUser);
+
         res.status(400).json({ message: "User already exists." });
         return;
       }
@@ -25,7 +27,6 @@ signupRouter.post("/", (req, res, next) => {
       res.status(201).json({ user: user });
     })
     .catch((err) => {
-      console.log(err);
       res.status(400).json(err.message);
     });
 });

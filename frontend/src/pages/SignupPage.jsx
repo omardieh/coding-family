@@ -4,7 +4,7 @@ import axios from "axios";
 import authService from "../services/AuthService";
 const API_URL = "http://localhost:5005";
 
-function SignupPage(props) {
+function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -19,14 +19,16 @@ function SignupPage(props) {
   const handleSignupSubmit = (e) => {
     e.preventDefault();
     const requestBody = { email, password, username };
+    console.log(requestBody);
     authService
       .signup(requestBody)
       .then((response) => {
+        console.log("res", response);
         navigate("/login");
       })
       .catch((error) => {
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
+        const errorDescription = error.message;
+        setErrorMessage(JSON.stringify(errorDescription));
       });
   };
 

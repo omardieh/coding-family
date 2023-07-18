@@ -20,11 +20,13 @@ function LoginPage() {
     authService
       .login()
       .then((response) => {
+        console.log(response);
         storeToken(response.data.authToken);
         authenticateUser();
         navigate("/");
       })
       .catch((error) => {
+        console.log(error);
         const errorDescription = error.response.data.message;
         setErrorMessage(errorDescription);
       })
