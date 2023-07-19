@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import authService from "../services/AuthService";
@@ -16,9 +15,8 @@ function LoginPage() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    axios;
     authService
-      .login()
+      .login({ email, password })
       .then((response) => {
         console.log(response);
         storeToken(response.data.authToken);
@@ -27,11 +25,10 @@ function LoginPage() {
       })
       .catch((error) => {
         console.log(error);
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
-      })
-      .finally(() => navigate("/projects"));
+        setErrorMessage(error.response.data);
+      });
   };
+  console.log(errorMessage);
 
   return (
     <div className="LoginPage">
