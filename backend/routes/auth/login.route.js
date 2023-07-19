@@ -6,14 +6,14 @@ const loginRouter = express.Router();
 
 loginRouter.post("/", (req, res, next) => {
   const { email, password } = req.body;
-  if (email === "" || password === "") {
-    res.status(400).json({ message: "Provide email and password." });
+  if (!email || !password) {
+    res.status(400).json("Provide email and password.");
     return;
   }
   User.findOne({ email })
     .then((foundUser) => {
       if (!foundUser) {
-        res.status(401).json({ message: "User not found." });
+        res.status(401).json("User not found.");
         return;
       }
       const passwordCorrect = foundUser.comparePassword(password);
