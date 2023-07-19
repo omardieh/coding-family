@@ -1,27 +1,28 @@
 const express = require("express");
 const User = require("../../models/User.model");
-
+const EmailService = require("../../services/email.service");
 const signupRouter = express.Router();
 
 signupRouter.post("/", (req, res, next) => {
   const { email, password, username } = req.body;
-  if (email === "" || password === "" || username === "") {
-    res.status(400).json({ message: "Provide email, password and username" });
-    return;
+  if (!email || !password || !username) {
+    return res.status(400).json("Provide email, password, and username");
   }
-
   User.findOne({ email })
     .then((foundUser) => {
       if (foundUser) {
-        res.status(400).json({ message: "User already exists." });
-        return;
+        return res.status(400).json("User already exists.");
       }
-      return User.create({ email, password, username });
-    })
-    .then((createdUser) => {
-      const { email, username, _id } = createdUser;
-      const user = { email, username, _id };
-      res.status(201).json({ user: user });
+      return User.create({ email, password, username })
+        .then((createdUser) => {
+          console.log("User created:", createdUser);
+          EmailService.sendEmail(createdUser.email, "subject", "body");
+          return res.status(201).json(createdUser);
+        })
+        .catch((error) => {
+          console.error("User creation error:", error);
+          return res.status(500).json("Internal Server Error");
+        });
     })
     .catch((error) => {
       if (error.name === "ValidationError") {
@@ -35,7 +36,7 @@ signupRouter.post("/", (req, res, next) => {
         res.status(400).json(errorMessage);
         return;
       }
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json("Internal Server Error");
     });
 });
 
