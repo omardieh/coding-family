@@ -55,11 +55,19 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  this.emailVerificationCode = await bcrypt.hash(
+    this.emailVerificationCode,
+    salt
+  );
   next();
 });
 
 userSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.compareEmail = async function (verificationCode) {
+  return bcrypt.compare(verificationCode, this.emailVerificationCode);
 };
 
 const User = model("User", userSchema);
