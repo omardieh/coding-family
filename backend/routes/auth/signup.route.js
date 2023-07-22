@@ -1,19 +1,9 @@
 const express = require("express");
 const User = require("../../models/User.model");
 const EmailService = require("../../services/email.service");
-const signupRouter = express.Router();
-const fs = require("fs");
-const path = require("path");
-const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
-const verifyEmailTemplate = (customLink) => {
-  const emailTemplate = fs.readFileSync(
-    path.join(__dirname, "../../utils/emailTemplates/verify.html"),
-    "utf-8"
-  );
-  const withLink = emailTemplate.replace("{{verificationLink}}", customLink);
-  return withLink;
-};
+const signupRouter = express.Router();
 
 signupRouter.post("/", (req, res, next) => {
   const { email, password, username } = req.body;
@@ -23,19 +13,35 @@ signupRouter.post("/", (req, res, next) => {
   User.findOne({ email })
     .then((foundUser) => {
       if (foundUser) {
-        return res.status(400).json("User already exists.");
+        res.status(400).json("User already exists.");
+        return;
       }
-      const emailVerificationCode = crypto.randomBytes(64).toString("hex");
-
-      return User.create({ email, password, username, emailVerificationCode })
+      const emailVerifyCode = EmailService.getRandomString();
+      const emailVerifyCodeExpiresAt = EmailService.getExpirationDate(15);
+      return User.create({
+        email,
+        password,
+        username,
+        emailVerifyCode,
+        emailVerifyCodeExpiresAt,
+      })
         .then((createdUser) => {
-          const linkToSend = `http://localhost:4000/auth/verify/email?userID=${createdUser._id}&code=${emailVerificationCode}`;
-          EmailService.sendEmail(
-            createdUser.email,
-            "Verify Your Account",
-            verifyEmailTemplate(linkToSend)
+          const { _id, email, username } = createdUser;
+          const payload = { _id, email, username };
+          const emailVerifyToken = jwt.sign(
+            payload,
+            process.env.JWT_TOKEN_SECRET,
+            {
+              algorithm: "HS256",
+              expiresIn: "15m",
+            }
           );
-          return res.status(201).json(createdUser);
+          EmailService.sendEmailVerify(
+            createdUser,
+            emailVerifyCode,
+            emailVerifyToken
+          );
+          return res.status(201).json({ emailVerifyToken });
         })
         .catch((error) => {
           console.error("User creation error:", error);

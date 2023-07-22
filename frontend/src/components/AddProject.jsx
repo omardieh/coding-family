@@ -22,7 +22,7 @@ function AddProject(props) {
         setDescription("");
         props.refreshProjects();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   return (

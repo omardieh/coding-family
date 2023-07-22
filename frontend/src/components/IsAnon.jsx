@@ -7,8 +7,6 @@ function IsAnon({ children }) {
 
   if (isLoading) return <p>Loading ...</p>;
 
-  console.log(isLoggedIn, "anonymous");
-
   if (isLoggedIn) {
     return <Navigate to="/" />;
   } else {

@@ -9,6 +9,6 @@ function connectServer() {
     if (e) {
       console.error("app.listen:", e);
     }
-    console.log(`connected Server | PORT : ${process.env.SEVER_PORT}`);
+    console.info(`connected Server  | PORT : ${process.env.SEVER_PORT}`);
   });
 }
