@@ -1,4 +1,7 @@
+const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
@@ -10,16 +13,40 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-exports.sendEmail = async (to, subject, body) => {
+exports.sendEmailVerify = async (
+  createdUser,
+  emailVerifyCode,
+  emailVerifyToken
+) => {
+  const emailTemplate = fs.readFileSync(
+    path.join(__dirname, "../utils/emailTemplates/verify.html"),
+    "utf-8"
+  );
+  const linkToSend = `${process.env.SERVER_URL}/auth/verify/email?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
+  const emailVerifyHTML = emailTemplate.replace(
+    "{{verificationLink}}",
+    linkToSend
+  );
   try {
     const mailOptions = {
       from: process.env.MAIL_FROM,
-      to,
-      subject,
-      html: body,
+      to: createdUser.email,
+      subject: "Please Verify Your Email",
+      html: emailVerifyHTML,
     };
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
+};
+
+exports.getRandomString = () => {
+  const randomString = crypto.randomBytes(64).toString("hex");
+  return randomString;
+};
+
+exports.getExpirationDate = (minutes) => {
+  const expirationDate = new Date();
+  expirationDate.setMinutes(expirationDate.getMinutes() + minutes);
+  return expirationDate;
 };

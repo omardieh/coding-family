@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import authService from "../services/AuthService";
+import AuthService from "../services/AuthService";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,20 +15,17 @@ function LoginPage() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    authService
-      .login({ email, password })
+    AuthService.login({ email, password })
       .then((response) => {
-        console.log(response);
         storeToken(response.data.authToken);
         authenticateUser();
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         setErrorMessage(error.response.data);
       });
   };
-  console.log(errorMessage);
 
   return (
     <div className="LoginPage">

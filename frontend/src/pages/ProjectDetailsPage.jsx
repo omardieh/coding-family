@@ -19,7 +19,7 @@ function ProjectDetailsPage(props) {
         const oneProject = response.data;
         setProject(oneProject);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
 
   useEffect(() => {

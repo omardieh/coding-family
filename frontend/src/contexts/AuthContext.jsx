@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from "react";
-import authService from "../services/AuthService";
+import AuthService from "../services/AuthService";
 
 const AuthContext = createContext();
 
@@ -19,8 +19,7 @@ function AuthProvider(props) {
   const authenticateUser = () => {
     const storedToken = localStorage.getItem("authToken");
     if (storedToken) {
-      authService
-        .verify()
+      AuthService.verifyToken()
         .then((response) => {
           const user = response.data;
           setIsLoggedIn(true);
@@ -31,6 +30,7 @@ function AuthProvider(props) {
           setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);
+          console.error(error);
         });
     } else {
       setIsLoggedIn(false);

@@ -37,9 +37,12 @@ const userSchema = new Schema(
       enum: ["member", "editor", "admin"],
       default: "member",
     },
-    emailVerificationCode: {
+    emailVerifyCode: {
       type: String,
       default: "",
+    },
+    emailVerifyCodeExpiresAt: {
+      type: Date,
     },
     isEmailVerified: {
       type: Boolean,
@@ -55,10 +58,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  this.emailVerificationCode = await bcrypt.hash(
-    this.emailVerificationCode,
-    salt
-  );
+  this.emailVerifyCode = await bcrypt.hash(this.emailVerifyCode, salt);
   next();
 });
 
@@ -67,7 +67,7 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 userSchema.methods.compareEmail = async function (verificationCode) {
-  return bcrypt.compare(verificationCode, this.emailVerificationCode);
+  return bcrypt.compare(verificationCode, this.emailVerifyCode);
 };
 
 const User = model("User", userSchema);

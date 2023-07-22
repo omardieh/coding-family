@@ -21,7 +21,7 @@ function EditProjectPage(props) {
         setTitle(oneProject.title);
         setDescription(oneProject.description);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, [projectId]);
 
   const handleFormSubmit = (e) => {
@@ -40,7 +40,7 @@ function EditProjectPage(props) {
       .then(() => {
         navigate("/projects");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   return (

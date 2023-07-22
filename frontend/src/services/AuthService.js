@@ -23,8 +23,17 @@ class AuthService {
     return this.api.post("/auth/signup", requestBody);
   };
 
-  verify = () => {
-    return this.api.get("/auth/verify");
+  verifyToken = () => {
+    return this.api.get("/auth/verify/token");
+  };
+
+  verifyEmail = (requestBody) => {
+    const requestHeaders = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("emailVerifyToken")}`,
+      },
+    };
+    return this.api.post("/auth/verify/email", requestBody, requestHeaders);
   };
 }
 
