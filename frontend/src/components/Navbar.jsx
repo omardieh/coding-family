@@ -9,10 +9,17 @@ function Navbar() {
     { title: "Projects", path: "/projects" },
     { title: "Signup", path: "/signup" },
     { title: "Login", path: "/login" },
+    { title: "Dashboard", path: "/dashboard" },
   ];
 
   if (isLoggedIn) {
     navElements = navElements.filter((e) => e.path !== "/signup");
+  }
+
+  if (!isLoggedIn) {
+    navElements = navElements.filter(
+      (e) => e.path !== "/dashboard" && e.path !== "/projects"
+    );
   }
 
   return (
