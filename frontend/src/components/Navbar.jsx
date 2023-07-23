@@ -39,15 +39,21 @@ export default function Navbar() {
 
   return (
     <NAV ref={ref}>
-      <BUTTON onClick={() => setIsMobMenu(!isMobMenu)}>
-        {isMobMenu ? "X" : "O"}
-      </BUTTON>
+      <I
+        onClick={() => setIsMobMenu(!isMobMenu)}
+        className={isMobMenu ? "open" : ""}
+      >
+        <BURGER_MENU />
+        <BURGER_MENU />
+        <BURGER_MENU />
+        <BURGER_MENU />
+      </I>
       {navElements.map(({ id, title, path }) => (
         <LINK
           key={id}
           to={path}
           onClick={() => handleLinkClick(path)}
-          isMobMenu={isMobMenu}
+          ismobmenu={isMobMenu.toString()}
         >
           {path === "/login" ? (isLoggedIn ? "Logout" : title) : title}
         </LINK>
@@ -78,7 +84,7 @@ const LINK = styled(NavLink)`
   @media ${mob}, ${tab} {
     width: 100%;
     height: 5em;
-    display: ${(props) => (props.isMobMenu ? "flex" : "none")};
+    display: ${(props) => (props.ismobmenu ? "flex" : "none")};
     justify-content: center;
     align-items: center;
   }
@@ -101,19 +107,65 @@ const LINK = styled(NavLink)`
   }
 `;
 
-const BUTTON = styled.button`
+const I = styled.i`
   @media ${mob}, ${tab} {
-    height: 5em;
-    display: flex;
-    align-self: flex-end;
-    align-items: center;
-    background: ${colors.blackDark};
-    color: ${colors.white};
-    padding: 0.3em 2em;
-    border: 1px solid ${colors.neonYellow};
-    color: ${colors.neonYellow};
-    box-shadow: 0 0 3px ${colors.neonYellow}, 0 0 3px ${colors.neonYellow} inset;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    margin-top: 0.6rem;
+    position: relative;
+    transform: rotate(0deg);
+    transition: 0.5s ease-in-out;
     cursor: pointer;
+    right: -40%;
+
+    &.open span:nth-child(1) {
+      top: 18px;
+      width: 0%;
+      left: 50%;
+    }
+
+    &.open span:nth-child(2) {
+      transform: rotate(45deg);
+    }
+
+    &.open span:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+
+    &.open span:nth-child(4) {
+      top: 18px;
+      width: 0%;
+      left: 50%;
+    }
   }
   display: none;
+`;
+
+const BURGER_MENU = styled.span`
+  @media ${mob}, ${tab} {
+    display: block;
+    position: absolute;
+    height: 9px;
+    width: 100%;
+    background: #d3531a;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: 0.25s ease-in-out;
+
+    &:nth-child(1) {
+      top: 0px;
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+      top: 18px;
+    }
+
+    &:nth-child(4) {
+      top: 36px;
+    }
+  }
 `;
