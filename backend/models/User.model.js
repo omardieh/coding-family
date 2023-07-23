@@ -48,6 +48,12 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    tutorials: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tutorial",
+      },
+    ],
   },
   {
     timestamps: true,
