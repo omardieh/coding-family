@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "fullstack": "concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
-    "backend:dev": "npm --prefix ./backend run dev",
-    "backend:install": "npm --prefix ./backend install",
-    "backend:uninstall": "npm --prefix ./backend uninstall",
-    "frontend:dev": "npm --prefix frontend run dev",
-    "frontend:install": "npm --prefix ./frontend install",
-    "frontend:uninstall": "npm --prefix ./frontend uninstall"
+    "b:d": "npm --prefix ./backend run dev",
+    "b:i": "npm --prefix ./backend install",
+    "b:u": "npm --prefix ./backend uninstall",
+    "f:d": "npm --prefix frontend run dev",
+    "f:i": "npm --prefix ./frontend install",
+    "f:u": "npm --prefix ./frontend uninstall"
   },
   "keywords": [],
   "author": "",

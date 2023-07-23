@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from "../services/AuthService";
+import AuthService from "../services/AuthService";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -17,9 +17,12 @@ function SignupPage() {
   const handleSignupSubmit = (e) => {
     e.preventDefault();
     const requestBody = { email, password, username };
-    authService
-      .signup(requestBody)
+    AuthService.signup(requestBody)
       .then((response) => {
+        localStorage.setItem(
+          "emailVerifyToken",
+          response.data.emailVerifyToken
+        );
         navigate("/login");
       })
       .catch((error) => {
