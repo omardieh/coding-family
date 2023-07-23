@@ -1,7 +1,4 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom"; // <== IMPORT
-
-import Navbar from "./components/Navbar"; // <== IMPORT
 import HomePage from "./pages/HomePage"; // <== IMPORT
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 import EditProjectPage from "./pages/EditProjectPage";
@@ -12,11 +9,11 @@ import IsAnon from "./components/IsAnon";
 import Verification from "./pages/verification";
 import Dashboard from "./pages/dashboard";
 import Projects from "./pages/projects";
+import Layout from "./components/Layout";
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
+    <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -46,7 +43,7 @@ function App() {
         </Route>
 
         <Route
-          path="/signup"
+          path="/register"
           element={
             <IsAnon>
               <SignupPage />
@@ -57,7 +54,7 @@ function App() {
         <Route path="/verification" element={<Verification />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </div>
+    </Layout>
   );
 }
 
