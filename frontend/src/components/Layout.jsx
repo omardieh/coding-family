@@ -18,7 +18,7 @@ export default function Layout({ children }) {
   );
 }
 
-const { mob, tab, lap, des } = breakpoints;
+const { mob, tab } = breakpoints;
 
 const HEADER = styled.header`
   @media ${mob}, ${tab} {
@@ -51,7 +51,11 @@ const MAIN = styled.main`
 const FOOTER = styled.footer`
   flex-basis: 7%;
   width: 100%;
-  background: pink;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.blackDark};
+  color: ${colors.white};
 `;
 
 const H1 = styled.h1`

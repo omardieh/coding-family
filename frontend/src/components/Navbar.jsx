@@ -8,7 +8,7 @@ import { useOuterClick } from "./../hooks/useOuterClick";
 
 export default function Navbar() {
   const { isLoggedIn, logOutUser } = useContext(AuthContext);
-  const [ref, isMobMenu, setIsMobMenu] = useOuterClick(true);
+  const [ref, isMobMenu, setIsMobMenu] = useOuterClick(false);
 
   let navElements = [
     { id: 1, title: "Welcome", path: "/" },
@@ -84,9 +84,11 @@ const LINK = styled(NavLink)`
   @media ${mob}, ${tab} {
     width: 100%;
     height: 5em;
-    display: ${(props) => (props.ismobmenu ? "flex" : "none")};
+    display: flex;
     justify-content: center;
     align-items: center;
+    visibility: ${(props) =>
+      props.ismobmenu === "true" ? "visible" : "hidden"};
   }
 
   display: inline-block;
@@ -112,7 +114,7 @@ const I = styled.i`
     display: block;
     width: 3rem;
     height: 3rem;
-    margin-top: 0.6rem;
+    margin: 0.5rem 0;
     position: relative;
     transform: rotate(0deg);
     transition: 0.5s ease-in-out;
@@ -138,6 +140,7 @@ const I = styled.i`
       width: 0%;
       left: 50%;
     }
+    transform: scale(0.8);
   }
   display: none;
 `;
@@ -148,7 +151,7 @@ const BURGER_MENU = styled.span`
     position: absolute;
     height: 9px;
     width: 100%;
-    background: #d3531a;
+    background: ${colors.white};
     border-radius: 9px;
     opacity: 1;
     left: 0;
