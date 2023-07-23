@@ -6,7 +6,6 @@ function IsPrivate({ children }) {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
 
   if (isLoading) return <p>Loading ...</p>;
-  console.log(isLoggedIn, "private");
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
   } else {
