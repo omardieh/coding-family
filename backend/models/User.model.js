@@ -32,6 +32,7 @@ const userSchema = new Schema(
         "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
       ],
     },
+    avatar: { type: String, default: "" },
     role: {
       type: String,
       enum: ["member", "editor", "admin"],
@@ -39,15 +40,22 @@ const userSchema = new Schema(
     },
     emailVerifyCode: {
       type: String,
-      default: "",
+      required: [true, "Email Verify code is missing."],
     },
     emailVerifyCodeExpiresAt: {
       type: Date,
+      required: [true, "Email Verify code exp date is missing."],
     },
     isEmailVerified: {
       type: Boolean,
       default: false,
     },
+    tutorials: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tutorial",
+      },
+    ],
   },
   {
     timestamps: true,

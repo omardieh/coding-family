@@ -1,8 +1,8 @@
 import { createContext, useState } from "react";
 
-const ThemeContext = createContext(null);
+const ThemeContext = createContext();
 
-function ThemeContextProvider(props) {
+function ThemeProvider(props) {
   const [theme, setTheme] = useState("default");
   const multipleValues = {
     themeState: [theme, setTheme],
@@ -13,3 +13,5 @@ function ThemeContextProvider(props) {
     </ThemeContext.Provider>
   );
 }
+
+export { ThemeProvider, ThemeContext };
