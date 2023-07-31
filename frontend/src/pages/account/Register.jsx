@@ -20,7 +20,11 @@ export default function Register() {
   const handleSignupSubmit = () => {
     const requestBody = { email, password, username };
     AuthService.signup(requestBody)
-      .then(navigate("/account/login"))
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/account/login");
+        }
+      })
       .catch((error) => {
         setErrorMessage(error.response.data);
       });
@@ -32,7 +36,7 @@ export default function Register() {
         title="Sign Up"
         onSubmit={handleSignupSubmit}
         onSubmitLabel="Sign Up"
-        errorMessage={errorMessage}
+        error={errorMessage}
       >
         <Input
           type="username"
