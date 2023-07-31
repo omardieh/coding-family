@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../services/AuthService";
-import { Form, Input } from "../components/Forms";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import AuthService from "../../services/AuthService";
+import { Form, Input } from "../../components/Forms";
 
-function SignupPage() {
+export default function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passRepeat, setPassRepeat] = useState("");
-  const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
@@ -17,17 +17,10 @@ function SignupPage() {
   const handlePassRepeat = (e) => setPassRepeat(e.target.value);
   const handleUsername = (e) => setUsername(e.target.value);
 
-  const handleSignupSubmit = (e) => {
-    e.preventDefault();
+  const handleSignupSubmit = () => {
     const requestBody = { email, password, username };
     AuthService.signup(requestBody)
-      .then((response) => {
-        localStorage.setItem(
-          "emailVerifyToken",
-          response.data.emailVerifyToken
-        );
-        navigate("/login");
-      })
+      .then(navigate("/account/login"))
       .catch((error) => {
         setErrorMessage(error.response.data);
       });
@@ -37,7 +30,7 @@ function SignupPage() {
     <>
       <Form
         title="Sign Up"
-        handleSubmit={handleSignupSubmit}
+        onSubmit={handleSignupSubmit}
         onSubmitLabel="Sign Up"
         errorMessage={errorMessage}
       >
@@ -64,6 +57,7 @@ function SignupPage() {
           placeholder="******"
           value={password}
           onChange={handlePassword}
+          $background="rgba(53, 245, 5, 0.1)"
         />
         <Input
           type="password"
@@ -72,35 +66,13 @@ function SignupPage() {
           placeholder="******"
           value={passRepeat}
           onChange={handlePassRepeat}
+          $background="rgba(53, 245, 5, 0.1)"
         />
       </Form>
       <p>
-        Already have account? <Link to={"/login"}>Login Here</Link>
+        Already have account? <Link to={"/account/login"}>Login Here</Link>
       </p>
-      {/* <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={handleUsername}
-        />
-        <button type="submit">Sign Up</button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link> */}
+      <Outlet />
     </>
   );
 }
-
-export default SignupPage;

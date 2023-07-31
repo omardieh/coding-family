@@ -8,7 +8,7 @@ const signupRouter = express.Router();
 signupRouter.post("/", (req, res, next) => {
   const { email, password, username } = req.body;
   if (!email || !password || !username) {
-    return res.status(400).json("Provide email, password, and username");
+    return res.status(400).json("Provide Username, Email and Password");
   }
   User.findOne({ email })
     .then((foundUser) => {
@@ -41,7 +41,7 @@ signupRouter.post("/", (req, res, next) => {
             emailVerifyCode,
             emailVerifyToken
           );
-          return res.status(201).json({ emailVerifyToken });
+          return res.status(201);
         })
         .catch((error) => {
           console.error("User creation error:", error);

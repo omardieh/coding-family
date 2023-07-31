@@ -44,10 +44,6 @@ function AuthProvider(props) {
     authenticateUser();
   };
 
-  const clearEmailVerifyToken = () => {
-    localStorage.removeItem("emailVerifyToken");
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -57,7 +53,6 @@ function AuthProvider(props) {
         storeToken,
         authenticateUser,
         logOutUser,
-        clearEmailVerifyToken,
       }}
     >
       {props.children}

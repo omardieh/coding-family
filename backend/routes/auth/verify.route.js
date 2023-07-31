@@ -8,8 +8,8 @@ verifyRouter.get("/token", isAuthenticated, (req, res) => {
   res.status(200).json(req.payload);
 });
 
-verifyRouter.get("/email", (req, res) => {
-  const { userID, code } = req.query;
+verifyRouter.post("/email", (req, res) => {
+  const { userID, code } = req.body;
   User.findById(userID).then((foundUser) => {
     if (!foundUser) {
       res.status(400).json("verification code is not valid");
@@ -37,23 +37,21 @@ verifyRouter.get("/email", (req, res) => {
           res.status(400).json("error while verifying email");
           return;
         }
-        res.redirect(
-          `${process.env.CLIENT_URL}/verification?userID=${updatedUser._id}`
-        );
+        res.status(201).json("email verification was successful");
       });
     });
   });
 });
 
-verifyRouter.post("/email", isAuthenticated, (req, res) => {
-  const { userID } = req.body;
-  User.findById(userID).then((foundUser) => {
-    if (!foundUser) {
-      res.status(400).json("verification code is not valid");
-      return;
-    }
-    res.status(200).json("email verification was successful");
-  });
-});
+// verifyRouter.post("/email", isAuthenticated, (req, res) => {
+//   const { userID } = req.body;
+//   User.findById(userID).then((foundUser) => {
+//     if (!foundUser) {
+//       res.status(400).json("verification code is not valid");
+//       return;
+//     }
+//     res.status(200).json("email verification was successful");
+//   });
+// });
 
 module.exports = { verifyRouter };
