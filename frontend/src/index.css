@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  line-height: 1em;
 }
 
 body {
@@ -13,6 +14,8 @@ body {
 
 h1 {
   font-family: "Pompiere", cursive;
+  text-transform: uppercase;
+  font-size: 25px;
 }
 
 button,
@@ -41,4 +44,10 @@ input[type="reset"] {
   background: transparent;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: local("MontserratAlt1-Light"),
+    url("./assets/fonts/MontserratAlt1-Thin.ttf") format("truetype");
 }
