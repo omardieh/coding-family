@@ -23,8 +23,8 @@ verifyRouter.get("/email", (req, res) => {
       res.status(200).json("email has been already verified");
       return;
     }
-    foundUser.compareEmail(code).then((isMatch) => {
-      if (!isMatch) {
+    foundUser.compareEmail(code).then((codeCorrect) => {
+      if (!codeCorrect) {
         res.status(400).json("verification code is not valid");
         return;
       }

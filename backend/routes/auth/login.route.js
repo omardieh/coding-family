@@ -13,11 +13,14 @@ loginRouter.post("/", (req, res, next) => {
   User.findOne({ email })
     .then((foundUser) => {
       if (!foundUser) {
-        res.status(401).json("User not found.");
+        res.status(401).json("Wrong Email or Password");
         return;
       }
-      const passwordCorrect = foundUser.comparePassword(password);
-      if (passwordCorrect) {
+      foundUser.comparePassword(password).then((passwordCorrect) => {
+        if (!passwordCorrect) {
+          res.status(401).json("Wrong Email or Password");
+          return;
+        }
         const { _id, email, username } = foundUser;
         const payload = { _id, email, username };
         const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
@@ -25,12 +28,10 @@ loginRouter.post("/", (req, res, next) => {
           expiresIn: "6h",
         });
         res.status(200).json({ authToken: authToken });
-      } else {
-        res.status(401).json({ message: "Unable to authenticate the user" });
-      }
+      });
     })
     .catch((err) => {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json("Internal Server Error");
       next(err);
     });
 });
