@@ -27,13 +27,17 @@ class AuthService {
     return this.api.get("/auth/verify/token");
   };
 
-  verifyEmail = (requestBody) => {
+  verifyEmail = ({ userID, token, code }) => {
     const requestHeaders = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("emailVerifyToken")}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-    return this.api.post("/auth/verify/email", requestBody, requestHeaders);
+    return this.api.post(
+      "/auth/verify/email",
+      { userID, code },
+      requestHeaders
+    );
   };
 }
 
