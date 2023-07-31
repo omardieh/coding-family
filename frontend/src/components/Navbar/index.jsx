@@ -13,9 +13,6 @@ export default function Navbar() {
   const [ref, isMobMenu, setIsMobMenu] = useOuterClick(false);
   let navElements = JSON.parse(JSON.stringify(navLinks));
 
-  if (isLoggedIn) {
-    navElements = navElements.filter((e) => e.path !== "/register");
-  }
   if (!isLoggedIn) {
     navElements = navElements.filter(
       (e) => e.path !== "/dashboard" && e.path !== "/projects"
@@ -23,7 +20,7 @@ export default function Navbar() {
   }
 
   const handleLinkClick = (path) => {
-    if (path === "/login") {
+    if (path === "/account") {
       if (isLoggedIn) {
         logOutUser();
       }
@@ -41,7 +38,7 @@ export default function Navbar() {
       <DIV $isMobMenu={isMobMenu.toString()}>
         {navElements.map(({ id, title, path }) => (
           <LINK key={id} to={path} onClick={() => handleLinkClick(path)}>
-            {path === "/login" ? (isLoggedIn ? "Logout" : title) : title}
+            {path === "/account" ? (isLoggedIn ? "Logout" : title) : title}
           </LINK>
         ))}
       </DIV>
@@ -70,7 +67,7 @@ const DIV = styled.div`
   @media ${mob}, ${tab} {
     flex-direction: column;
     transform: ${(props) =>
-      props.$isMobMenu === "true" ? "translateY(0)" : "translateY(-130%)"};
+      props.$isMobMenu === "true" ? "translateY(0)" : "translateY(-150%)"};
     transition: all 0.5s ease-in-out;
   }
   @media ${lap}, ${des} {
