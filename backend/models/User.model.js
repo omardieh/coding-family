@@ -15,7 +15,6 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, "Email is required."],
       unique: true,
       lowercase: true,
       trim: true,
@@ -26,11 +25,21 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required."],
       match: [
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
         "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
       ],
+    },
+    avatar: {
+      type: String,
+      default:
+        "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+    },
+    githubID: {
+      type: String,
+    },
+    fullName: {
+      type: String,
     },
     role: {
       type: String,
