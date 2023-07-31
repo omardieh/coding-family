@@ -11,8 +11,10 @@ export default function Input({
   value,
   onChange,
   enableShowPass,
+  $background,
 }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const determineInputType = () => {
     if (type === "email") return "email";
@@ -20,8 +22,16 @@ export default function Input({
     return "text";
   };
 
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
+
   return (
-    <CONTAINER>
+    <CONTAINER $isFocused={isInputFocused}>
       {label && <LABEL>{label}</LABEL>}
       <INPUT
         name={name}
@@ -29,6 +39,9 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        $background={$background}
       />
       {type === "password" && enableShowPass && (
         <PASSWORD_CONTAINER $marginTop=".5em">
@@ -50,14 +63,11 @@ export default function Input({
 const CONTAINER = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const INPUT = styled.input`
-  width: ${(props) => props.$width || "100%"};
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  & > label {
+    height: ${(props) => (props.$isFocused ? "1.5em" : 0)};
+    overflow: hidden;
+    transition: height 0.2s ease-in-out;
+  }
 `;
 
 const PASSWORD_CONTAINER = styled.div`
@@ -65,6 +75,15 @@ const PASSWORD_CONTAINER = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: ${(props) => props.$marginTop || "auto"};
+`;
+
+const INPUT = styled.input`
+  width: ${(props) => props.$width || "100%"};
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  background: ${(props) => props.$background || colors.white};
+  border-radius: 5px;
 `;
 
 const LABEL = styled.label`
