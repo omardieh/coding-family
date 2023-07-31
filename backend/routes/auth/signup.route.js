@@ -41,11 +41,21 @@ signupRouter.post("/", (req, res, next) => {
             emailVerifyCode,
             emailVerifyToken
           );
-          return res.status(201);
+          return res
+            .status(200)
+            .send("Verification Email was sent Successfully");
         })
         .catch((error) => {
-          console.error("User creation error:", error);
-          return res.status(500).json("Internal Server Error");
+          if (error.name === "ValidationError") {
+            let key;
+            Object.keys(req.body).forEach((element) => {
+              if (error.errors[element]) {
+                key = element;
+              }
+            });
+            const errorMessage = error.errors[key].message;
+            return res.status(400).json(errorMessage);
+          }
         });
     })
     .catch((error) => {
