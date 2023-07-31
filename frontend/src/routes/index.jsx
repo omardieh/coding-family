@@ -10,6 +10,7 @@ import Account from "../pages/account";
 import Register from "../pages/account/Register";
 import Login from "../pages/account/Login";
 import Welcome from "./../pages/index";
+import GithubAuth from "../pages/account/githubAuth";
 
 export default function RenderRoutes() {
   return (
@@ -60,7 +61,7 @@ const routes = [
     ],
   },
   {
-    path: "/account/",
+    path: "/account",
     element: (
       <IsAnon>
         <Account />
@@ -80,6 +81,14 @@ const routes = [
         element: (
           <IsAnon>
             <Login />
+          </IsAnon>
+        ),
+      },
+      {
+        path: "/account/github",
+        element: (
+          <IsAnon>
+            <GithubAuth />
           </IsAnon>
         ),
       },
