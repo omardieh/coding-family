@@ -48,10 +48,11 @@ const userSchema = new Schema(
     },
     emailVerifyCode: {
       type: String,
-      default: "",
+      required: [true, "Email Verify code is missing."],
     },
     emailVerifyCodeExpiresAt: {
       type: Date,
+      required: [true, "Email Verify code exp date is missing."],
     },
     isEmailVerified: {
       type: Boolean,
