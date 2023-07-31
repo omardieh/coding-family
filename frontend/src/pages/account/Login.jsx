@@ -28,6 +28,12 @@ export default function Login() {
       });
   };
 
+  const handleLogin = () => {
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${
+      import.meta.env.VITE_GITHUB_CLIENT_ID
+    }&redirect_uri=${import.meta.env.VITE_GITHUB_REDIRECT_URI}&scope=read:user`;
+  };
+
   return (
     <>
       <Form
@@ -54,6 +60,7 @@ export default function Login() {
           enableShowPass
         />
       </Form>
+      <button onClick={handleLogin}>Login with GitHub</button>
       <p>
         Don&apos;t have an account yet?{" "}
         <Link to={"/account/register"}> Sign Up Here</Link>
