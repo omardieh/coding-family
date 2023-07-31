@@ -2,6 +2,5 @@
   { "id": 1, "title": "Welcome", "path": "/" },
   { "id": 2, "title": "Projects", "path": "/projects" },
   { "id": 3, "title": "Dashboard", "path": "/dashboard" },
-  { "id": 4, "title": "Login", "path": "/login" },
-  { "id": 5, "title": "Register", "path": "/register" }
+  { "id": 4, "title": "Login / Register", "path": "/account" }
 ]
