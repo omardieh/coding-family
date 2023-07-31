@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import AuthService from "../services/AuthService";
+import { Input } from "./../components/Forms";
+import { Form } from "../components/Forms";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,8 +15,7 @@ function LoginPage() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
+  const handleLoginSubmit = () => {
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
@@ -28,8 +29,37 @@ function LoginPage() {
   };
 
   return (
-    <div className="LoginPage">
-      <h1>Login</h1>
+    <>
+      <Form
+        title="Login"
+        onSubmit={handleLoginSubmit}
+        onSubmitLabel="Login"
+        error={errorMessage}
+      >
+        <Input
+          type="email"
+          name="email"
+          label="email: "
+          placeholder="address@example.com"
+          value={email}
+          onChange={handleEmail}
+        />
+        <Input
+          type="password"
+          name="password"
+          label="password: "
+          placeholder="******"
+          value={password}
+          onChange={handlePassword}
+          enableShowPass
+        />
+      </Form>
+      <p>
+        Don&apos;t have an account yet?{" "}
+        <Link to={"/register"}> Sign Up Here</Link>
+      </p>
+
+      {/*       
       <form onSubmit={handleLoginSubmit}>
         <label>Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmail} />
@@ -44,8 +74,8 @@ function LoginPage() {
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <p>Don&apos;t have an account yet?</p>
-      <Link to={"/register"}> Sign Up</Link>
-    </div>
+      <Link to={"/register"}> Sign Up</Link> */}
+    </>
   );
 }
 
