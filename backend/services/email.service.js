@@ -22,18 +22,18 @@ exports.sendEmailVerify = async (
     path.join(__dirname, "../utils/emailTemplates/verify.html"),
     "utf-8"
   );
-  const linkToSend = `${process.env.SERVER_URL}/auth/verify/email?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
+  const linkToSend = `${process.env.CLIENT_URL}/verification?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
   const emailVerifyHTML = emailTemplate.replace(
     "{{verificationLink}}",
     linkToSend
   );
+  const mailOptions = {
+    from: process.env.MAIL_FROM,
+    to: createdUser.email,
+    subject: "Please Verify Your Email",
+    html: emailVerifyHTML,
+  };
   try {
-    const mailOptions = {
-      from: process.env.MAIL_FROM,
-      to: createdUser.email,
-      subject: "Please Verify Your Email",
-      html: emailVerifyHTML,
-    };
     await transporter.sendMail(mailOptions);
   } catch (error) {
     console.error(error);
