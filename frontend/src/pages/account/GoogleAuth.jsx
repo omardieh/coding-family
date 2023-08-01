@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
+import axios from "axios";
 
-export default function GithubAuth() {
+export default function GoogleAuth() {
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
@@ -11,7 +11,7 @@ export default function GithubAuth() {
   useEffect(() => {
     if (code) {
       axios
-        .post(`${import.meta.env.VITE_SERVER_URL}/auth/github`, { code })
+        .post(`${import.meta.env.VITE_SERVER_URL}/auth/google`, { code })
         .then((response) => {
           storeToken(response.data.authToken);
           authenticateUser();
@@ -23,7 +23,6 @@ export default function GithubAuth() {
       console.error("Missing access code in the URL.");
     }
   }, [code, authenticateUser, storeToken]);
-
   return (
     <div>
       <p>Loading...</p>
