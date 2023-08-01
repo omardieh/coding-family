@@ -11,6 +11,7 @@ import Register from "../pages/account/Register";
 import Login from "../pages/account/Login";
 import Welcome from "./../pages/index";
 import GithubAuth from "../pages/account/githubAuth";
+import GoogleAuth from "./../pages/account/GoogleAuth";
 
 export default function RenderRoutes() {
   return (
@@ -92,8 +93,23 @@ const routes = [
           </IsAnon>
         ),
       },
+      {
+        path: "/account/google",
+        element: (
+          <IsAnon>
+            <GoogleAuth />
+          </IsAnon>
+        ),
+      },
     ],
   },
   { path: "/verification", element: <Verification /> },
-  { path: "/dashboard", element: <Dashboard /> },
+  {
+    path: "/dashboard",
+    element: (
+      <IsPrivate>
+        <Dashboard />
+      </IsPrivate>
+    ),
+  },
 ];

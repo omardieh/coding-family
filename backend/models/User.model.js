@@ -38,6 +38,9 @@ const userSchema = new Schema(
     githubID: {
       type: String,
     },
+    googleID: {
+      type: String,
+    },
     fullName: {
       type: String,
     },
@@ -49,10 +52,12 @@ const userSchema = new Schema(
     emailVerifyCode: {
       type: String,
       required: [true, "Email Verify code is missing."],
+      default: "",
     },
     emailVerifyCodeExpiresAt: {
       type: Date,
       required: [true, "Email Verify code exp date is missing."],
+      default: Date.now(),
     },
     isEmailVerified: {
       type: Boolean,

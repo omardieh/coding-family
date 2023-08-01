@@ -28,10 +28,14 @@ export default function Login() {
       });
   };
 
-  const handleLogin = () => {
+  const handleLoginGithub = () => {
     window.location.href = `https://github.com/login/oauth/authorize?client_id=${
       import.meta.env.VITE_GITHUB_CLIENT_ID
     }&redirect_uri=${import.meta.env.VITE_GITHUB_REDIRECT_URI}&scope=read:user`;
+  };
+
+  const handleLoginGoogle = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
   };
 
   return (
@@ -60,7 +64,8 @@ export default function Login() {
           enableShowPass
         />
       </Form>
-      <button onClick={handleLogin}>Login with GitHub</button>
+      <button onClick={handleLoginGithub}>Login with GitHub</button>
+      <button onClick={handleLoginGoogle}>Login with Google</button>
       <p>
         Don&apos;t have an account yet?{" "}
         <Link to={"/account/register"}> Sign Up Here</Link>
