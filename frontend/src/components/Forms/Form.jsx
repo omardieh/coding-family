@@ -1,6 +1,8 @@
 import { styled } from "styled-components";
 import { breakpoints } from "../../global/breakpoints";
 import { colors } from "../../global/colors";
+import Button from "../Button";
+import { Link } from "react-router-dom";
 
 export default function Form({
   title,
@@ -8,6 +10,8 @@ export default function Form({
   error,
   children,
   description,
+  onSubmitLabel,
+  link,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,6 +26,14 @@ export default function Form({
       {description && <P>{description}</P>}
       {children}
       {error && <LABEL>{error}</LABEL>}
+      <Button variant="primary" type="submit">
+        {onSubmitLabel || "Submit"}
+      </Button>
+      {link && (
+        <P>
+          Don&apos;t have an account yet? <Link to={link}> Sign Up Here</Link>
+        </P>
+      )}
     </FORM>
   );
 }
@@ -30,7 +42,6 @@ const { mob, tab, lap, des } = breakpoints;
 
 const FORM = styled.form`
   background-color: ${colors.whiteDark};
-  width: 25em;
   padding: 3em 2em;
   display: flex;
   flex-direction: column;
@@ -39,12 +50,10 @@ const FORM = styled.form`
   row-gap: 1em;
   border-radius: 14px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-`;
-
-const P = styled.p`
-  margin-bottom: 1em;
   text-align: center;
 `;
+
+const P = styled.p``;
 
 const LABEL = styled.label`
   padding: 1em;

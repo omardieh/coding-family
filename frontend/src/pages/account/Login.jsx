@@ -43,17 +43,19 @@ export default function Login() {
 
   return (
     <>
+      <h2>Login to your Account</h2>
       <Form
-        title="Hey there! Let's get you started 😄"
-        description="To begin, just drop in your email and password, or login with the power of your Google or GitHub account! 🚀"
+        title="Let's get you started 🚀"
+        description="To begin, just drop in your email and password"
         onSubmit={handleLoginSubmit}
-        onSubmitLabel="Login"
+        onSubmitLabel="Sign in using Email"
         error={errorMessage}
+        link="/account/register"
       >
         <Input
           type="email"
           name="email"
-          label="email: "
+          label="email"
           placeholder="address@example.com"
           value={email}
           onChange={handleEmail}
@@ -61,19 +63,26 @@ export default function Login() {
         <Input
           type="password"
           name="password"
-          label="password: "
+          label="password"
           placeholder="******"
           value={password}
           onChange={handlePassword}
           enableShowPass
         />
         <b />
-
-        <Button variant="primary" type="submit">
-          Sign in using Email
-        </Button>
       </Form>
-      <div>
+
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          rowGap: "1em",
+          justifyContent: "center",
+        }}
+      >
+        <p style={{ width: "100%", textAlign: "center" }}>
+          Login using Social network Accounts
+        </p>
         <Button onClick={handleLoginGoogle} variant="light" icon={<FcGoogle />}>
           Sign in with Google
         </Button>
@@ -81,11 +90,6 @@ export default function Login() {
           Sign in with Github
         </Button>
       </div>
-
-      <p>
-        Don&apos;t have an account yet?{" "}
-        <Link to={"/account/register"}> Sign Up Here</Link>
-      </p>
     </>
   );
 }
