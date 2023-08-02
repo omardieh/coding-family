@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export default function Button({
   icon,
@@ -23,6 +23,7 @@ export default function Button({
       isLoading={isLoading}
       variant={variant || "primary"}
       size={size || "medium"}
+      type={type || "submit"}
     >
       {children}
       {isLoading ? "Loading..." : icon && <ICON>{icon}</ICON>}

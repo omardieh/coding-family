@@ -11,7 +11,9 @@ export default function Form({
   children,
   description,
   onSubmitLabel,
-  link,
+  linkText,
+  linkPath,
+  linkUnderlined,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,15 +25,15 @@ export default function Form({
   return (
     <FORM onSubmit={handleSubmit}>
       {title && <h3>{title}</h3>}
-      {description && <P>{description}</P>}
+      {description && <P style={{ marginBottom: "1em" }}>{description}</P>}
       {children}
       {error && <LABEL>{error}</LABEL>}
       <Button variant="primary" type="submit">
         {onSubmitLabel || "Submit"}
       </Button>
-      {link && (
-        <P>
-          Don&apos;t have an account yet? <Link to={link}> Sign Up Here</Link>
+      {linkPath && linkText && linkUnderlined && (
+        <P style={{ marginTop: "1em" }}>
+          {linkText} <Link to={linkPath}>{linkUnderlined}</Link>
         </P>
       )}
     </FORM>
@@ -41,16 +43,13 @@ export default function Form({
 const { mob, tab, lap, des } = breakpoints;
 
 const FORM = styled.form`
-  background-color: ${colors.whiteDark};
-  padding: 3em 2em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 1em;
-  border-radius: 14px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
+  flex-basis: 45%;
 `;
 
 const P = styled.p``;

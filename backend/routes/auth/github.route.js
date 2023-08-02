@@ -5,6 +5,11 @@ const User = require("../../models/User.model");
 
 const githubRouter = express.Router();
 
+githubRouter.get("/", (req, res) => {
+  const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URI}&scope=read:user`;
+  res.redirect(githubAuthURL);
+});
+
 githubRouter.post("/", async (req, res) => {
   const { code } = req.body;
   if (!code) {
