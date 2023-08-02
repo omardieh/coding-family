@@ -1,9 +1,12 @@
 import { useContext, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import AuthService from "../../services/AuthService";
 import { Input } from "./../../components/Forms";
 import { Form } from "../../components/Forms";
+import Button from "../../components/Button";
+import { FaPlus, FaTrash, FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -41,7 +44,8 @@ export default function Login() {
   return (
     <>
       <Form
-        title="Login"
+        title="Hey there! Let's get you started 😄"
+        description="To begin, just drop in your email and password, or login with the power of your Google or GitHub account! 🚀"
         onSubmit={handleLoginSubmit}
         onSubmitLabel="Login"
         error={errorMessage}
@@ -63,14 +67,25 @@ export default function Login() {
           onChange={handlePassword}
           enableShowPass
         />
+        <b />
+
+        <Button variant="primary" type="submit">
+          Sign in using Email
+        </Button>
       </Form>
-      <button onClick={handleLoginGithub}>Login with GitHub</button>
-      <button onClick={handleLoginGoogle}>Login with Google</button>
+      <div>
+        <Button onClick={handleLoginGoogle} variant="light" icon={<FcGoogle />}>
+          Sign in with Google
+        </Button>
+        <Button onClick={handleLoginGithub} variant="dark" icon={<FaGithub />}>
+          Sign in with Github
+        </Button>
+      </div>
+
       <p>
         Don&apos;t have an account yet?{" "}
         <Link to={"/account/register"}> Sign Up Here</Link>
       </p>
-      <Outlet />
     </>
   );
 }

@@ -5,9 +5,9 @@ import { colors } from "../../global/colors";
 export default function Form({
   title,
   onSubmit,
-  onSubmitLabel,
   error,
   children,
+  description,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,10 +18,10 @@ export default function Form({
 
   return (
     <FORM onSubmit={handleSubmit}>
-      {title && <H2>{title}</H2>}
+      {title && <h3>{title}</h3>}
+      {description && <P>{description}</P>}
       {children}
       {error && <LABEL>{error}</LABEL>}
-      <BUTTON type="submit">{onSubmitLabel || "Submit"}</BUTTON>
     </FORM>
   );
 }
@@ -31,7 +31,7 @@ const { mob, tab, lap, des } = breakpoints;
 const FORM = styled.form`
   background-color: ${colors.whiteDark};
   width: 25em;
-  padding: 3em 0;
+  padding: 3em 2em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,19 +41,9 @@ const FORM = styled.form`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-const H2 = styled.h2`
-  margin-bottom: 0.5em;
-`;
-
-const BUTTON = styled.button`
-  padding: 10px 20px;
-  font-size: 16px;
-  background: ${colors.blackDark};
-  color: ${colors.white};
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 1em 0;
+const P = styled.p`
+  margin-bottom: 1em;
+  text-align: center;
 `;
 
 const LABEL = styled.label`
