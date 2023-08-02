@@ -78,7 +78,7 @@ const MAIN = styled.main`
   align-items: center;
   flex-direction: column;
   padding: 2em;
-  row-gap: 3em;
+  row-gap: 2em;
 `;
 
 const FOOTER = styled.footer`
