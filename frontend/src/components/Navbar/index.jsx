@@ -86,19 +86,18 @@ const LINK = styled(NavLink)`
     display: flex;
     justify-content: center;
     align-items: center;
+    background: ${colors.white.mid};
+    color: ${colors.black.light};
   }
-
+  &.active {
+    border-radius: 3px;
+    color: ${colors.primary.light};
+    background: ${colors.white.mid};
+    border: 1px solid ${colors.white.mid};
+    box-shadow: 0 0 3px ${colors.white.mid}, 0 0 3px ${colors.white.dark} inset;
+  }
   display: inline-block;
   text-decoration: none;
-  color: ${colors.white};
-  background-color: ${colors.blackDark};
   padding: 0.5em;
-
-  &.active {
-    background: ${colors.blackDark};
-    border-radius: 3px;
-    border: 1px solid ${colors.neonYellow};
-    color: ${colors.neonYellow};
-    box-shadow: 0 0 3px ${colors.neonYellow}, 0 0 3px ${colors.neonYellow} inset;
-  }
+  color: ${colors.white.light};
 `;
