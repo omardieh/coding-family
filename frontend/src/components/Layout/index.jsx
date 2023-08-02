@@ -75,8 +75,6 @@ const MAIN = styled.main`
   width: 100%;
   overflow-y: scroll;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 2em;
