@@ -1,9 +1,13 @@
 import { useContext, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import AuthService from "../../services/AuthService";
 import { Input } from "./../../components/Forms";
 import { Form } from "../../components/Forms";
+import Button from "../../components/Button";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { CARD, SEPARATOR } from "../../global/elements";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -28,44 +32,80 @@ export default function Login() {
       });
   };
 
-  const handleLogin = () => {
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${
-      import.meta.env.VITE_GITHUB_CLIENT_ID
-    }&redirect_uri=${import.meta.env.VITE_GITHUB_REDIRECT_URI}&scope=read:user`;
+  const handleLoginGithub = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/github`;
+  };
+
+  const handleLoginGoogle = () => {
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
   };
 
   return (
     <>
-      <Form
-        title="Login"
-        onSubmit={handleLoginSubmit}
-        onSubmitLabel="Login"
-        error={errorMessage}
-      >
-        <Input
-          type="email"
-          name="email"
-          label="email: "
-          placeholder="address@example.com"
-          value={email}
-          onChange={handleEmail}
-        />
-        <Input
-          type="password"
-          name="password"
-          label="password: "
-          placeholder="******"
-          value={password}
-          onChange={handlePassword}
-          enableShowPass
-        />
-      </Form>
-      <button onClick={handleLogin}>Login with GitHub</button>
-      <p>
-        Don&apos;t have an account yet?{" "}
-        <Link to={"/account/register"}> Sign Up Here</Link>
-      </p>
-      <Outlet />
+      <h2>Login to your Account</h2>
+      <CARD>
+        <Form
+          title="Let's get you started 🚀"
+          description="To begin, just drop in your email and password"
+          onSubmit={handleLoginSubmit}
+          onSubmitLabel="Sign in using Email"
+          error={errorMessage}
+          linkText="Don't have an account yet? Please"
+          linkUnderlined="Sign Up Here"
+          linkPath="/account/register"
+        >
+          <Input
+            type="email"
+            name="email"
+            label="email"
+            placeholder="address@example.com"
+            value={email}
+            onChange={handleEmail}
+          />
+          <Input
+            type="password"
+            name="password"
+            label="password"
+            placeholder="******"
+            value={password}
+            onChange={handlePassword}
+            enableShowPass
+          />
+          <b />
+        </Form>
+        <SEPARATOR />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "1em",
+            justifyContent: "center",
+            alignItems: "center",
+            flexBasis: "45%",
+            padding: "1em",
+          }}
+        >
+          <p
+            style={{ width: "100%", textAlign: "center", marginBottom: "1em" }}
+          >
+            Login using Google or Github account
+          </p>
+          <Button
+            onClick={handleLoginGoogle}
+            variant="light"
+            icon={<FcGoogle />}
+          >
+            Sign in with Google
+          </Button>
+          <Button
+            onClick={handleLoginGithub}
+            variant="dark"
+            icon={<FaGithub />}
+          >
+            Sign in with Github
+          </Button>
+        </div>
+      </CARD>
     </>
   );
 }

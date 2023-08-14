@@ -1,13 +1,19 @@
 import { styled } from "styled-components";
 import { breakpoints } from "../../global/breakpoints";
 import { colors } from "../../global/colors";
+import Button from "../Button";
+import { Link } from "react-router-dom";
 
 export default function Form({
   title,
   onSubmit,
-  onSubmitLabel,
   error,
   children,
+  description,
+  onSubmitLabel,
+  linkText,
+  linkPath,
+  linkUnderlined,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,10 +24,18 @@ export default function Form({
 
   return (
     <FORM onSubmit={handleSubmit}>
-      {title && <H2>{title}</H2>}
+      {title && <h3>{title}</h3>}
+      {description && <P style={{ marginBottom: "1em" }}>{description}</P>}
       {children}
       {error && <LABEL>{error}</LABEL>}
-      <BUTTON type="submit">{onSubmitLabel || "Submit"}</BUTTON>
+      <Button variant="primary" type="submit">
+        {onSubmitLabel || "Submit"}
+      </Button>
+      {linkPath && linkText && linkUnderlined && (
+        <P style={{ marginTop: "1em" }}>
+          {linkText} <Link to={linkPath}>{linkUnderlined}</Link>
+        </P>
+      )}
     </FORM>
   );
 }
@@ -29,32 +43,16 @@ export default function Form({
 const { mob, tab, lap, des } = breakpoints;
 
 const FORM = styled.form`
-  background-color: ${colors.whiteDark};
-  width: 25em;
-  padding: 3em 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 1em;
-  border-radius: 14px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  flex-basis: 45%;
 `;
 
-const H2 = styled.h2`
-  margin-bottom: 0.5em;
-`;
-
-const BUTTON = styled.button`
-  padding: 10px 20px;
-  font-size: 16px;
-  background: ${colors.blackDark};
-  color: ${colors.white};
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 1em 0;
-`;
+const P = styled.p``;
 
 const LABEL = styled.label`
   padding: 1em;

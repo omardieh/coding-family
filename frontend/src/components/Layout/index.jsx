@@ -32,8 +32,8 @@ const HEADER = styled.header`
   max-height: 7%;
   width: 100%;
   display: flex;
-  background-color: ${colors.blackDark};
-  color: ${colors.white};
+  background: ${colors.primary.bg.mid};
+  color: ${colors.white.mid};
 `;
 
 const DIV = styled.div`
@@ -68,19 +68,17 @@ const H1 = styled.h1`
 `;
 
 const MAIN = styled.main`
-  background-color: ${colors.white};
+  background: ${colors.white.bg.mid};
   flex-basis: 86%;
   max-height: 86%;
   max-width: 100%;
   width: 100%;
   overflow-y: scroll;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 2em;
-  row-gap: 3em;
+  row-gap: 2em;
 `;
 
 const FOOTER = styled.footer`
@@ -89,6 +87,6 @@ const FOOTER = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.blackDark};
-  color: ${colors.white};
+  background: ${colors.black.bg.mid};
+  color: ${colors.white.mid};
 `;

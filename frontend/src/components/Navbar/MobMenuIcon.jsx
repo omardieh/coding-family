@@ -56,7 +56,7 @@ const BURGER_MENU = styled.span`
     position: absolute;
     height: 9px;
     width: 100%;
-    background: ${colors.white};
+    background: ${colors.white.mid};
     border-radius: 9px;
     opacity: 1;
     left: 0;
