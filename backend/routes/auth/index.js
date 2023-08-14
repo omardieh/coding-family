@@ -3,6 +3,7 @@ const { loginRouter } = require("./login.route");
 const { verifyRouter } = require("./verify.route");
 const { githubRouter } = require("./github.route");
 const { googleRouter } = require("./google.route");
+const { captchaRouter } = require("./captcha.route");
 
 module.exports = (app) => {
   app.use("/auth/signup", signupRouter);
@@ -10,4 +11,5 @@ module.exports = (app) => {
   app.use("/auth/verify", verifyRouter);
   app.use("/auth/github", githubRouter);
   app.use("/auth/google", googleRouter);
+  app.use("/auth/captcha", captchaRouter);
 };
