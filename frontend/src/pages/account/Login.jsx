@@ -8,18 +8,25 @@ import Button from "../../components/Button";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { CARD, SEPARATOR } from "../../global/elements";
+import { useCaptchaContext } from "../../contexts/CaptchaContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { isVerified } = useCaptchaContext();
+
   const navigate = useNavigate();
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
   const handleLoginSubmit = () => {
+    if (!isVerified) {
+      setErrorMessage("reCAPTCHA verification failed. Please try again.");
+      return;
+    }
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
@@ -33,10 +40,18 @@ export default function Login() {
   };
 
   const handleLoginGithub = () => {
+    if (!isVerified) {
+      setErrorMessage("reCAPTCHA verification failed. Please try again.");
+      return;
+    }
     window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/github`;
   };
 
   const handleLoginGoogle = () => {
+    if (!isVerified) {
+      setErrorMessage("reCAPTCHA verification failed. Please try again.");
+      return;
+    }
     window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
   };
 
