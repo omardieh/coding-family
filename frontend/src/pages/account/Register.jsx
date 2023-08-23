@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 import { Form, Input } from "../../components/Forms";
-import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -11,26 +10,6 @@ export default function Register() {
   const [passRepeat, setPassRepeat] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   const navigate = useNavigate();
-
-  const [isVerified, setIsVerified] = useState(false);
-
-  const handleRecaptchaVerify = (token) => {
-    // Send the token to the server for verification
-    fetch("/verify-recaptcha", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsVerified(data.verified);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -58,10 +37,6 @@ export default function Register() {
         onSubmitLabel="Sign Up"
         error={errorMessage}
       >
-        <ReCAPTCHA
-          sitekey={import.meta.env.VITE_GOOGLE_CAPTCHA_KEY}
-          onChange={handleRecaptchaVerify}
-        />
         <Input
           type="username"
           name="username"
