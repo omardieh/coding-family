@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { styled } from "styled-components";
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user } = useAuthContext();
+
   return (
     <DIV>
       <P> {user.username} </P>

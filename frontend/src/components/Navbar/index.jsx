@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { styled } from "styled-components";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { useOuterClick } from "./../../hooks/useOuterClick";
 import { breakpoints } from "./../../global/breakpoints";
 import { colors } from "./../../global/colors";
@@ -9,13 +8,13 @@ import MobMenuIcon from "./MobMenuIcon";
 import navLinks from "./navLinks.json";
 
 export default function Navbar() {
-  const { isLoggedIn, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, logOutUser } = useAuthContext();
   const [ref, isMobMenu, setIsMobMenu] = useOuterClick(false);
   let navElements = JSON.parse(JSON.stringify(navLinks));
 
   if (!isLoggedIn) {
     navElements = navElements.filter(
-      (e) => e.path !== "/dashboard" && e.path !== "/projects"
+      (e) => e.path === "/" || e.path === "/account"
     );
   }
 

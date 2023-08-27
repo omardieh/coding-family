@@ -1,7 +1,9 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import AuthService from "../services/AuthService";
 
 const AuthContext = createContext();
+
+const useAuthContext = () => useContext(AuthContext);
 
 function AuthProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,4 +62,4 @@ function AuthProvider(props) {
   );
 }
 
-export { AuthProvider, AuthContext };
+export { AuthProvider, useAuthContext };
