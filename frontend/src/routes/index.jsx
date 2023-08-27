@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import EditProjectPage from "../pages/EditProjectPage";
 import ProjectDetailsPage from "../pages/ProjectDetailsPage";
-import Dashboard from "../pages/dashboard";
 import Projects from "../pages/projects";
 import Verification from "../pages/verification";
 import IsPrivate from "./IsPrivate";
@@ -9,9 +8,11 @@ import IsAnon from "./IsAnon";
 import Account from "../pages/account";
 import Register from "../pages/account/Register";
 import Login from "../pages/account/Login";
-import Welcome from "./../pages/index";
+import Welcome from "./../pages";
 import GithubAuth from "../pages/account/githubAuth";
 import GoogleAuth from "./../pages/account/GoogleAuth";
+import Dashboard from "../pages/account/Dashboard";
+import Chat from "../pages/chat";
 
 export default function RenderRoutes() {
   return (
@@ -104,6 +105,14 @@ const routes = [
     ],
   },
   { path: "/verification", element: <Verification /> },
+  {
+    path: "/chat",
+    element: (
+      <IsPrivate>
+        <Chat />
+      </IsPrivate>
+    ),
+  },
   {
     path: "/dashboard",
     element: (

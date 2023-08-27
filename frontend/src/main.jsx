@@ -1,7 +1,6 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./assets/fonts/MontserratAlt1-Light.ttf";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
