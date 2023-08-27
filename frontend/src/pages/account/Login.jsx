@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
 import AuthService from "../../services/AuthService";
 import { Input } from "./../../components/Forms";
 import { Form } from "../../components/Forms";
@@ -14,7 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, authenticateUser } = useAuthContext();
   const { isVerified } = useCaptchaContext();
 
   const navigate = useNavigate();

@@ -1,6 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const ThemeContext = createContext();
+
+const useThemeContext = () => useContext(ThemeContext);
 
 function ThemeProvider(props) {
   const [theme, setTheme] = useState("default");
@@ -14,4 +16,4 @@ function ThemeProvider(props) {
   );
 }
 
-export { ThemeProvider, ThemeContext };
+export { ThemeProvider, useThemeContext };

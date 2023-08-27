@@ -21,8 +21,8 @@ export default function Button({
       onClick={handleClick}
       isDisabled={isDisabled}
       isLoading={isLoading}
-      variant={variant || "primary"}
-      size={size || "medium"}
+      $variant={variant || "primary"}
+      $size={size || "medium"}
       type={type || "submit"}
     >
       {children}
@@ -51,8 +51,8 @@ const BUTTON = styled.button`
       cursor: not-allowed;
     `}
 
-  ${({ variant }) => {
-    switch (variant) {
+  ${({ $variant }) => {
+    switch ($variant) {
       case "primary":
         return `
           color: #ffffff;
@@ -125,8 +125,8 @@ const BUTTON = styled.button`
     }
   }}
 
-  ${({ size }) => {
-    switch (size) {
+  ${({ $size }) => {
+    switch ($size) {
       case "small":
         return `
           padding: 8px 16px;
