@@ -49,7 +49,6 @@ googleRouter.post("/", async (req, res) => {
     }
     const { name, picture, email } = getUserInfo.data;
     const foundUser = await User.findOne({ googleID: email });
-    console.log("foundUser:::", foundUser);
     if (foundUser) {
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
