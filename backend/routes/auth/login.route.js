@@ -25,8 +25,8 @@ loginRouter.post("/", (req, res, next) => {
           res.status(401).json("Wrong Email or Password");
           return;
         }
-        const { _id, email, username } = foundUser;
-        const payload = { _id, email, username };
+        const { _id, email, username, avatar } = foundUser;
+        const payload = { _id, email, username, avatar };
         const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",

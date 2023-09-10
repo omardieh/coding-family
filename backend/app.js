@@ -4,6 +4,7 @@ require("./config")(app);
 
 // routes :
 require("./routes/auth")(app);
+require("./routes/user")(app);
 require("./routes/api")(app);
 
 // error middleware :
