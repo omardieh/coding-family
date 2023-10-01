@@ -13,7 +13,7 @@ function useSocketIO(server) {
       {
         author: "server",
         message:
-          "welcome to the webSocket chat app! mad with Node, React and socket.io",
+          "welcome to the webSocket chat app! made with Node, React and socket.io",
       },
     ];
     socket.emit("MessagesFromServer", messages);

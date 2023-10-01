@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 
 export default function Chat() {
-  const socket = socketIOClient(`http://localhost:4000`);
+  const socket = socketIOClient(import.meta.env.VITE_SERVER_URL);
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({
@@ -15,13 +15,13 @@ export default function Chat() {
       setIsConnected(true);
     });
 
-    socket.on("MessagesFromServer", (messagesFromServer) => {
-      setMessages(messagesFromServer);
-    });
+    // socket.on("MessagesFromServer", (messagesFromServer) => {
+    //   setMessages(messagesFromServer);
+    // });
 
-    socket.on("MessageToClient", (MessageToClient) => {
-      setMessages((prev) => [...prev, MessageToClient]);
-    });
+    // socket.on("MessageToClient", (MessageToClient) => {
+    //   setMessages((prev) => [...prev, MessageToClient]);
+    // });
 
     socket.on("disconnect", () => {
       setIsConnected(false);

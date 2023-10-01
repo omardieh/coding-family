@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { styled } from "styled-components";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { useOuterClick } from "./../../hooks/useOuterClick";
+import useOuterClick from "./../../hooks/useOuterClick";
 import { breakpoints } from "./../../global/breakpoints";
 import { colors } from "./../../global/colors";
 import MobMenuIcon from "./MobMenuIcon";

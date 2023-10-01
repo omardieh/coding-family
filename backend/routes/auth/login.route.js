@@ -16,6 +16,7 @@ loginRouter.post("/", (req, res, next) => {
         res.status(401).json("Wrong Email or Password");
         return;
       }
+
       if (!foundUser.isEmailVerified) {
         res.status(401).json("Please Verify Your Email to Login");
         return;

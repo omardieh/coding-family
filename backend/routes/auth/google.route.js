@@ -48,8 +48,11 @@ googleRouter.post("/", async (req, res) => {
       return res.status(401).json("Unauthorized");
     }
     const { name, picture, email } = getUserInfo.data;
-    const foundUser = await User.findOne({ googleID: email });
-    if (foundUser) {
+    const foundUsers = await User.find({
+      $or: [{ googleID: email }, { email: email }],
+    });
+    if (foundUsers.length) {
+      const [foundUser] = foundUsers;
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
       const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
