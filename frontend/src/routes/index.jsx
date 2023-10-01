@@ -9,7 +9,7 @@ import Account from "../pages/account";
 import Register from "../pages/account/Register";
 import Login from "../pages/account/Login";
 import Welcome from "./../pages";
-import GithubAuth from "../pages/account/githubAuth";
+import GithubAuth from "../pages/account/GithubAuth";
 import GoogleAuth from "./../pages/account/GoogleAuth";
 import Dashboard from "../pages/account/Dashboard";
 import Chat from "../pages/chat";

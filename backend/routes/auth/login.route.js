@@ -20,6 +20,12 @@ loginRouter.post("/", (req, res, next) => {
         res.status(401).json("Please Verify Your Email to Login");
         return;
       }
+
+      if (foundUser.googleID || foundUser.githubID) {
+        res.status(401).json("Email is used by Google or GitHub account");
+        return;
+      }
+
       foundUser.comparePassword(password).then((passwordCorrect) => {
         if (!passwordCorrect) {
           res.status(401).json("Wrong Email or Password");
