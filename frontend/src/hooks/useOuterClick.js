@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export const useOuterClick = (initialIsVisible) => {
+export default function useOuterClick(initialIsVisible) {
   const [isVisible, setIsVisible] = useState(initialIsVisible);
   const ref = useRef(null);
 
@@ -18,4 +18,4 @@ export const useOuterClick = (initialIsVisible) => {
   }, []);
 
   return [ref, isVisible, setIsVisible];
-};
+}

@@ -1,10 +1,23 @@
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const ActivityLog = require("../models/ActivityLog.model");
 
 module.exports = (app) => {
+  app.use((req, res, next) => {
+    ActivityLog.create({
+      clientIP: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+      reqMethod: req.method,
+      reqPath: `${req.protocol}://${req.hostname}${req.originalUrl}`,
+      user: req.payload ? req.payload._id : null,
+    }).then((createdLog) => {
+      console.info("LOG: ", createdLog);
+      next();
+    });
+  });
+
   const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000,
+    max: 100,
   });
 
   app.use(limiter);
@@ -18,13 +31,13 @@ module.exports = (app) => {
           fontSrc: ["'self'"],
         },
       },
-      dnsPrefetchControl: false, // Disable DNS prefetching
-      frameguard: { action: "sameorigin" }, // Prevent Clickjacking
-      hsts: { maxAge: 31536000, includeSubDomains: true }, // Enable HSTS
-      ieNoOpen: true, // Block IE content rendering
-      noSniff: true, // Prevent MIME type sniffing
-      referrerPolicy: { policy: "no-referrer" }, // Control Referrer information
-      xssFilter: true, // Enable XSS filter
+      dnsPrefetchControl: false,
+      frameguard: { action: "sameorigin" },
+      hsts: { maxAge: 31536000, includeSubDomains: true },
+      ieNoOpen: true,
+      noSniff: true,
+      referrerPolicy: { policy: "no-referrer" },
+      xssFilter: true,
     })
   );
 };
