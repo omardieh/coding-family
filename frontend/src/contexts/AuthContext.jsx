@@ -32,7 +32,7 @@ function AuthProvider(props) {
           setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);
-          console.error(error);
+          console.error(error.message);
         });
     } else {
       setIsLoggedIn(false);

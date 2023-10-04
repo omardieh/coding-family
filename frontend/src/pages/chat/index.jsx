@@ -15,13 +15,13 @@ export default function Chat() {
       setIsConnected(true);
     });
 
-    // socket.on("MessagesFromServer", (messagesFromServer) => {
-    //   setMessages(messagesFromServer);
-    // });
+    socket.on("MessagesFromServer", (messagesFromServer) => {
+      setMessages(messagesFromServer);
+    });
 
-    // socket.on("MessageToClient", (MessageToClient) => {
-    //   setMessages((prev) => [...prev, MessageToClient]);
-    // });
+    socket.on("MessageToClient", (MessageToClient) => {
+      setMessages((prev) => [...prev, MessageToClient]);
+    });
 
     socket.on("disconnect", () => {
       setIsConnected(false);
