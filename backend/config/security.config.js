@@ -28,7 +28,9 @@ module.exports = (app) => {
     });
 
     ActivityLog.create({
-      clientIP: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+      clientIP:
+        req.headers["x-forwarded-for"]?.split(",").shift() ||
+        req.socket?.remoteAddress,
       reqMethod: req.method,
       reqPath: `${req.protocol}://${req.hostname}${req.originalUrl}`,
       user: req.payload ? req.payload._id : null,

@@ -25,6 +25,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+      select: false,
       match: [
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
         "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
@@ -45,6 +46,7 @@ const userSchema = new Schema(
       type: String,
     },
     role: {
+      select: false,
       type: String,
       enum: ["member", "editor", "admin"],
       default: "member",
@@ -53,11 +55,13 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Email Verify code is missing."],
       default: "",
+      select: false,
     },
     emailVerifyCodeExpiresAt: {
       type: Date,
       required: [true, "Email Verify code exp date is missing."],
       default: Date.now(),
+      select: false,
     },
     isEmailVerified: {
       type: Boolean,
