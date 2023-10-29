@@ -19,7 +19,7 @@ export const CARD = styled.section`
     justify-content: center;
   }
   @media ${lap}, ${des} {
-    justify-content: space-between;
+    justify-content: ${(props) => props.$justifyContent || "space-between;"};
   }
 `;
 

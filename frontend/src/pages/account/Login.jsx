@@ -9,6 +9,7 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { CARD, SEPARATOR } from "../../global/elements";
 import { useCaptchaContext } from "../../contexts/CaptchaContext";
+import onChangeHandler from "../../hanlders/onChange.handler";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -16,11 +17,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const { storeToken, authenticateUser } = useAuthContext();
   const { isVerified } = useCaptchaContext();
-
   const navigate = useNavigate();
-
-  const handleEmail = (e) => setEmail(e.target.value);
-  const handlePassword = (e) => setPassword(e.target.value);
 
   const handleLoginSubmit = () => {
     if (!isVerified) {
@@ -75,7 +72,7 @@ export default function Login() {
             label="email"
             placeholder="address@example.com"
             value={email}
-            onChange={handleEmail}
+            onChange={(event) => onChangeHandler(event.target.value, setEmail)}
           />
           <Input
             type="password"
@@ -83,7 +80,9 @@ export default function Login() {
             label="password"
             placeholder="******"
             value={password}
-            onChange={handlePassword}
+            onChange={(event) =>
+              onChangeHandler(event.target.value, setPassword)
+            }
             enableShowPass
           />
           <b />

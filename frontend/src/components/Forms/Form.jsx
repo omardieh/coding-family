@@ -8,12 +8,13 @@ export default function Form({
   title,
   onSubmit,
   error,
-  children,
   description,
   onSubmitLabel,
   linkText,
   linkPath,
   linkUnderlined,
+  $flexBasis,
+  children,
 }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -23,7 +24,7 @@ export default function Form({
   };
 
   return (
-    <FORM onSubmit={handleSubmit}>
+    <FORM $flexBasis={$flexBasis} onSubmit={handleSubmit}>
       {title && <h3>{title}</h3>}
       {description && <P style={{ marginBottom: "1em" }}>{description}</P>}
       {children}
@@ -49,7 +50,7 @@ const FORM = styled.form`
   align-items: center;
   row-gap: 1em;
   text-align: center;
-  flex-basis: 45%;
+  flex-basis: ${(props) => props.$flexBasis || "45%"};
 `;
 
 const P = styled.p``;
