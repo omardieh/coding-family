@@ -7,7 +7,7 @@ import SubmitBar from "../../components/ChatScreen/SubmitBar";
 
 export default function Chat() {
   const { user } = useAuthContext();
-  const { socket, isConnected } = useSocketContext();
+  const { socket } = useSocketContext();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   useEffect(() => {
@@ -17,15 +17,15 @@ export default function Chat() {
     socket.on("MessageToClient", (MessageToClient) => {
       setMessages((prev) => [...prev, MessageToClient]);
     });
-
     return () => socket.disconnect();
-  }, [socket, isConnected]);
+  }, []);
 
   const submitNewMessage = () => {
     socket.emit("MessageToServer", { user: user._id, message });
     setMessage("");
   };
 
+  console.log(messages);
   return (
     <>
       <ChatScreen user={user.username || ""}>
