@@ -11,11 +11,6 @@ function useSocketIO(server) {
       console.log("User disconnected");
     });
 
-    // const timeDateNow = new Date()
-    //   .toLocaleString()
-    //   .replace(",", "")
-    //   .replace(/:.. /, " ");
-
     ChatMessage.find()
       .populate("user")
       .then((messages) => {
@@ -24,7 +19,11 @@ function useSocketIO(server) {
 
     socket.on("MessageToServer", ({ user, message }) => {
       ChatMessage.create({ user, message }).then((createdMessage) => {
-        io.emit("MessageToClient", createdMessage);
+        createdMessage
+          .populate("user")
+          .then((populatedMessage) =>
+            io.emit("MessageToClient", populatedMessage)
+          );
       });
     });
   });
