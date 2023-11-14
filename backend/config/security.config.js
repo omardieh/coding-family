@@ -35,7 +35,7 @@ module.exports = (app) => {
       reqPath: `${req.protocol}://${req.hostname}${req.originalUrl}`,
       user: req.payload ? req.payload._id : null,
     }).then((createdLog) => {
-      console.info("LOG: ", createdLog);
+      // console.info("LOG: ", createdLog);
       next();
     });
   });

@@ -14,10 +14,15 @@ function ScreenMessages({ messages }) {
 
   return (
     <section className={classes.screen}>
-      {messages.map(({ author, message, date }, i) => (
+      {messages.map(({ user, message, createdAt }, i) => (
         <div ref={divRef} className={classes.message} key={i}>
-          <span className={classes.spanAuthor}>{author}</span>
-          <span className={classes.spanDate}> {date} </span>
+          <span className={classes.spanAuthor}>{user.username}</span>
+          <span className={classes.spanDate}>
+            {new Date(createdAt)
+              .toLocaleString()
+              .replace(",", "")
+              .replace(/:.. /, " ")}
+          </span>
           <p className={classes.pMessage}> {message}</p>
         </div>
       ))}
