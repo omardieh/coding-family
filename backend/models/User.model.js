@@ -25,7 +25,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      select: false,
       match: [
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
         "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
@@ -55,7 +54,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Email Verify code is missing."],
       default: "",
-      select: false,
     },
     emailVerifyCodeExpiresAt: {
       type: Date,
@@ -80,18 +78,19 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password") || !this.isModified("emailVerifyCode"))
+    return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   this.emailVerifyCode = await bcrypt.hash(this.emailVerifyCode, salt);
   next();
 });
 
-userSchema.methods.comparePassword = async function (password) {
-  return bcrypt.compare(password, this.password);
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, userSchema.password);
 };
 
-userSchema.methods.compareEmail = async function (verificationCode) {
+userSchema.methods.compareEmail = function (verificationCode) {
   return bcrypt.compare(verificationCode, this.emailVerifyCode);
 };
 
