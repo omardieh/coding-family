@@ -12,5 +12,8 @@ export default defineConfig({
       protocol: "wss",
       clientPort: 2001,
     },
+    watch: {
+      usePolling: true,
+    },
   },
 });
