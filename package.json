@@ -4,13 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fullstack": "concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
-    "b:d": "npm --prefix ./backend run dev",
-    "b:i": "npm --prefix ./backend install",
-    "b:u": "npm --prefix ./backend uninstall",
-    "f:d": "npm --prefix frontend run dev",
-    "f:i": "npm --prefix ./frontend install",
-    "f:u": "npm --prefix ./frontend uninstall"
+    "fullstack": "concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\""
   },
   "keywords": [],
   "author": "",

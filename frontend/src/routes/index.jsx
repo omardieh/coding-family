@@ -102,6 +102,14 @@ const routes = [
           </IsAnon>
         ),
       },
+      {
+        path: "/account/dashboard",
+        element: (
+          <IsPrivate>
+            <Dashboard />
+          </IsPrivate>
+        ),
+      },
     ],
   },
   { path: "/verification", element: <Verification /> },
@@ -110,14 +118,6 @@ const routes = [
     element: (
       <IsPrivate>
         <Chat />
-      </IsPrivate>
-    ),
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <IsPrivate>
-        <Dashboard />
       </IsPrivate>
     ),
   },
