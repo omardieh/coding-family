@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Divider, Paper } from "@mui/material";
+import validator from "validator";
+import { Paper } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -24,12 +25,12 @@ export default function Login() {
   const { isVerified, isLoading: captchaLoading } = useCaptchaContext();
 
   useEffect(() => {
-    if (!isVerified) {
+    if (!isVerified && !captchaLoading) {
       setErrorMessage("reCAPTCHA verification failed. Please try again.");
     } else {
       setErrorMessage(null);
     }
-  }, [isVerified]);
+  }, [isVerified, captchaLoading]);
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -40,6 +41,26 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
+
+    if (!validator.isEmail(email)) {
+      setErrorMessage("Please enter a valid email");
+      return;
+    }
+
+    if (
+      !validator.isStrongPassword(password, {
+        minLength: 6,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 0,
+      })
+    ) {
+      setErrorMessage(
+        "Please ensures that the password contains at least one uppercase letter, one number, and 6 characters long."
+      );
+      return;
+    }
+
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
@@ -95,19 +116,20 @@ export default function Login() {
             handleShowPassword={handleShowPassword}
             errorMessage={errorMessage}
           />
-          <Divider orientation="vertical" variant="middle" flexItem />
-          <SocialLoginLink
-            to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}
-            styleLink={{ width: "100%" }}
-            styleButton={{ padding: "1em 0" }}
-            icon={<FaGithub />}
-          />
-          <SocialLoginLink
-            to={`${import.meta.env.VITE_SERVER_URL}/auth/google`}
-            styleLink={{ width: "100%" }}
-            styleButton={{ padding: "1em 0", marginTop: "2em" }}
-            icon={<FcGoogle />}
-          />
+          <>
+            <SocialLoginLink
+              to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+              icon={<FaGithub />}
+            />
+            <SocialLoginLink
+              to={`${import.meta.env.VITE_SERVER_URL}/auth/google`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+              icon={<FcGoogle />}
+            />
+          </>
         </Box>
       </Grid>
     </Grid>

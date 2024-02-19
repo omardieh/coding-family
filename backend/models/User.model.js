@@ -9,8 +9,8 @@ const userSchema = new Schema(
       unique: [true, "username is already taken."],
       trim: true,
       match: [
-        /^[A-Za-z][A-Za-z0-9_]{5,21}$/,
-        "Your username should be at least 6 characters long, start with a letter, and can include letters, numbers, or underscores.",
+        /^(?=.*[A-Z])(?=.*[0-9]).{6,}$/,
+        "Please ensures that the password contains at least one uppercase letter, one number, and 6 characters long.",
       ],
     },
     email: {
