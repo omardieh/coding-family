@@ -14,5 +14,4 @@ require("./routes")(app);
 // error middleware :
 require("./middleware/routesError.middleware")(app);
 
-console.log(process.env);
 module.exports = app;
