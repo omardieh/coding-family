@@ -7,7 +7,7 @@ export const useCaptchaContext = () => useContext(CaptchaContext);
 
 export const CaptchaProvider = ({ children }) => {
   const [isVerified, setIsVerified] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const script = document.createElement("script");
     script.src = `https://www.google.com/recaptcha/api.js?render=${
@@ -31,7 +31,8 @@ export const CaptchaProvider = ({ children }) => {
               })
               .catch((error) => {
                 console.error(error);
-              });
+              })
+              .finally(() => setIsLoading(false));
           });
       });
     };
@@ -42,7 +43,7 @@ export const CaptchaProvider = ({ children }) => {
   }, []);
 
   return (
-    <CaptchaContext.Provider value={{ isVerified }}>
+    <CaptchaContext.Provider value={{ isVerified, isLoading }}>
       {children}
     </CaptchaContext.Provider>
   );

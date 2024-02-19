@@ -7,10 +7,8 @@ export default defineConfig({
   server: {
     strictPort: true,
     port: 2001,
-    hmr: {
-      host: "coding.family",
-      protocol: "wss",
-      clientPort: 2001,
+    watch: {
+      usePolling: true,
     },
   },
 });

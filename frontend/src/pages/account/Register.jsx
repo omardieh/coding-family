@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import AuthService from "../../services/AuthService";
-import { Form, Input } from "../../components/Forms";
+// import { Form, Input } from "../../components/Forms";
 import { CARD } from "../../global/elements";
 
 export default function Register() {
@@ -33,7 +33,7 @@ export default function Register() {
   return (
     <>
       <h2>Welcome to our Community!</h2>
-      <CARD $justifyContent="center">
+      {/* <CARD $justifyContent="center">
         <Form
           $flexBasis="85%"
           title="Happy to have a new member in the fam!"
@@ -82,7 +82,7 @@ export default function Register() {
         </Form>
 
         <Outlet />
-      </CARD>
+      </CARD> */}
     </>
   );
 }

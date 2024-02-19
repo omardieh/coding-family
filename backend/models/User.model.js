@@ -87,7 +87,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.comparePassword = function (password) {
-  return bcrypt.compare(password, userSchema.password);
+  return bcrypt.compare(password, this.password);
 };
 
 userSchema.methods.compareEmail = function (verificationCode) {
