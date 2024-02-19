@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useCaptchaContext } from "../../contexts/CaptchaContext";
 import AuthService from "../../services/AuthService";
@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -31,7 +30,16 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { storeToken, authenticateUser } = useAuthContext();
   const { isVerified } = useCaptchaContext();
+
+  useEffect(() => {
+    if (!isVerified) {
+      setErrorMessage("reCAPTCHA verification failed. Please try again.");
+    }
+  }, [isVerified]);
+  console.log(isVerified);
+
   const navigate = useNavigate();
+
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (event) => {
@@ -41,10 +49,12 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    if (!isVerified) {
-      setErrorMessage("reCAPTCHA verification failed. Please try again.");
+
+    if (!email || !password) {
+      setErrorMessage("Email and Password are required");
       return;
     }
+
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
