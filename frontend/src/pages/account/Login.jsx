@@ -26,6 +26,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const { storeToken, authenticateUser } = useAuthContext();
@@ -34,11 +35,10 @@ export default function Login() {
   useEffect(() => {
     if (!isVerified) {
       setErrorMessage("reCAPTCHA verification failed. Please try again.");
+    } else {
+      setErrorMessage(null);
     }
   }, [isVerified]);
-  console.log(isVerified);
-
-  const navigate = useNavigate();
 
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -49,12 +49,6 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-
-    if (!email || !password) {
-      setErrorMessage("Email and Password are required");
-      return;
-    }
-
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
@@ -177,7 +171,7 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/account/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
