@@ -16,7 +16,7 @@ export default function EmailVerify() {
         setVerifyMessage(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("AuthService.verifyEmail : ", error);
         navigate("/");
       });
   }, [userID, token, code, navigate]);

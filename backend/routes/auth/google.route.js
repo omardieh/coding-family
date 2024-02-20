@@ -79,7 +79,7 @@ googleRouter.post("/", async (req, res) => {
     });
     res.status(200).json({ authToken: authToken });
   } catch (error) {
-    console.error(error);
+    console.error("google auth error: ", error);
     res.status(500).json(error);
   }
 });

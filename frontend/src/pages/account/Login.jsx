@@ -20,7 +20,6 @@ import Loading from "./../../components/Loading/index";
 export default function Login() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const { storeToken, authenticateUser } = useAuthContext();
   const { isVerified, isLoading: captchaLoading } = useCaptchaContext();
 
@@ -31,8 +30,6 @@ export default function Login() {
       setErrorMessage(null);
     }
   }, [isVerified, captchaLoading]);
-
-  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,7 +65,7 @@ export default function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.error(error);
+        console.error("AuthService.login : ", error);
         setErrorMessage(error.response.data);
       });
   };
@@ -104,18 +101,20 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <LoginForm
-            handleSubmit={handleSubmit}
-            showPassword={showPassword}
-            handleShowPassword={handleShowPassword}
-            errorMessage={errorMessage}
-          />
+          <>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+          </>
+          <>
+            <LoginForm
+              handleSubmit={handleSubmit}
+              errorMessage={errorMessage}
+            />
+          </>
           <>
             <SocialLoginLink
               to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}

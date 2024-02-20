@@ -25,7 +25,6 @@ export default function Chat() {
     setMessage("");
   };
 
-  console.log(messages);
   return (
     <>
       <ChatScreen user={user.username || ""}>
