@@ -14,6 +14,7 @@ githubRouter.post("/", async (req, res) => {
   const { code } = req.body;
   if (!code) {
     res.status(404).json("code not found");
+    return;
   }
   try {
     const getAccessToken = await axios.post(
