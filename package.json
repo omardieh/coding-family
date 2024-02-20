@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fullstack": "concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\""
+    "fullstack": "set NODE_ENV=dev&&concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\""
   },
   "keywords": [],
   "author": "",

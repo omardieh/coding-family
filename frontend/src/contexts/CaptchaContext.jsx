@@ -27,6 +27,7 @@ export const CaptchaProvider = ({ children }) => {
                 token,
               })
               .then((response) => {
+                console.log("resp", response.data);
                 setIsVerified(response.data.verified);
               })
               .catch((error) => {
