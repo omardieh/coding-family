@@ -11,14 +11,16 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function LoginForm({
   handleSubmit,
-  showPassword,
-  handleShowPassword,
   errorMessage,
+  disabled = false,
 }) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -46,8 +48,8 @@ export default function LoginForm({
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleShowPassword}
-                  onMouseDown={handleShowPassword}
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
@@ -65,6 +67,7 @@ export default function LoginForm({
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
           style={{ padding: "1em 0" }}
+          disabled={disabled}
         >
           Sign In
         </Button>

@@ -39,7 +39,7 @@ githubRouter.post("/", async (req, res) => {
     });
     const { login, id, avatar_url, name } = getUserInfo.data;
     const foundUser = await User.findOne({ githubID: id });
-    console.log(foundUser);
+    // console.log(foundUser);
     if (foundUser) {
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };

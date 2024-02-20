@@ -17,7 +17,7 @@ export default function GoogleAuth() {
           authenticateUser();
         })
         .catch((error) => {
-          console.error(error);
+          console.error("GoogleAuth : ", error);
         });
     } else {
       console.error("Missing access code in the URL.");

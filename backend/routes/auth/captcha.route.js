@@ -23,7 +23,7 @@ captchaRouter.post("/", async (req, res) => {
       res.json({ verified: false });
     }
   } catch (error) {
-    console.error(error);
+    console.error("captchaError: ", error);
   }
 });
 
