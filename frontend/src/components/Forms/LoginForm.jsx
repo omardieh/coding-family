@@ -69,7 +69,7 @@ export default function LoginForm({
           style={{ padding: "1em 0" }}
           disabled={disabled}
         >
-          Sign In
+          Login
         </Button>
         <Grid container>
           <Grid item xs>
@@ -79,7 +79,7 @@ export default function LoginForm({
           </Grid>
           <Grid item>
             <Link to="/account/register" variant="body2">
-              {"Don't have an account? Sign Up"}
+              {"Don't have an account? Register"}
             </Link>
           </Grid>
         </Grid>

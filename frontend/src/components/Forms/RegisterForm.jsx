@@ -94,14 +94,9 @@ export default function RegisterForm({
           Register
         </Button>
         <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link to="/account/register" variant="body2">
-              {"Don't have an account? Sign Up"}
+          <Grid style={{ margin: "auto" }} item>
+            <Link to="/account/login" variant="body2">
+              {"Already have an account? Login"}
             </Link>
           </Grid>
         </Grid>

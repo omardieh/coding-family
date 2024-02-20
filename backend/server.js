@@ -14,7 +14,6 @@ function connectServer() {
     }
     console.info(`connected Server  | PORT : ${process.env.SEVER_PORT}`);
   });
-
   useSocketIO(server);
 }
 
