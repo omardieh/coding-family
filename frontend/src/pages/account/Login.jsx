@@ -1,32 +1,63 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../contexts/AuthContext";
-import AuthService from "../../services/AuthService";
-import { Input } from "./../../components/Forms";
-import { Form } from "../../components/Forms";
-import Button from "../../components/Button";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { CARD, SEPARATOR } from "../../global/elements";
+import validator from "validator";
+import { Paper } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { useAuthContext } from "../../contexts/AuthContext";
 import { useCaptchaContext } from "../../contexts/CaptchaContext";
+import AuthService from "../../services/AuthService";
+import LoginForm from "../../components/Forms/LoginForm";
+import SocialLoginLink from "./../../components/Forms/SocialLoginLink";
+import Loading from "./../../components/Loading/index";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
-  const { storeToken, authenticateUser } = useAuthContext();
-  const { isVerified } = useCaptchaContext();
-
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const { storeToken, authenticateUser } = useAuthContext();
+  const { isVerified, isLoading: captchaLoading } = useCaptchaContext();
 
-  const handleEmail = (e) => setEmail(e.target.value);
-  const handlePassword = (e) => setPassword(e.target.value);
-
-  const handleLoginSubmit = () => {
-    if (!isVerified) {
+  useEffect(() => {
+    if (!isVerified && !captchaLoading) {
       setErrorMessage("reCAPTCHA verification failed. Please try again.");
+    } else {
+      setErrorMessage(null);
+    }
+  }, [isVerified, captchaLoading]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const { email, password } = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    if (!validator.isEmail(email)) {
+      setErrorMessage("Please enter a valid email");
       return;
     }
+
+    if (
+      !validator.isStrongPassword(password, {
+        minLength: 6,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 0,
+      })
+    ) {
+      setErrorMessage(
+        "Please ensures that the password contains at least one uppercase letter, one number, and 6 characters long."
+      );
+      return;
+    }
+
     AuthService.login({ email, password })
       .then((response) => {
         storeToken(response.data.authToken);
@@ -34,93 +65,76 @@ export default function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.error(error);
+        console.error("AuthService.login : ", error);
         setErrorMessage(error.response.data);
       });
   };
 
-  const handleLoginGithub = () => {
-    if (!isVerified) {
-      setErrorMessage("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/github`;
-  };
-
-  const handleLoginGoogle = () => {
-    if (!isVerified) {
-      setErrorMessage("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-    window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google`;
-  };
+  if (captchaLoading) return <Loading />;
 
   return (
-    <>
-      <h2>Login to your Account</h2>
-      <CARD>
-        <Form
-          title="Let's get you started 🚀"
-          description="To begin, just drop in your email and password"
-          onSubmit={handleLoginSubmit}
-          onSubmitLabel="Sign in using Email"
-          error={errorMessage}
-          linkText="Don't have an account yet? Please"
-          linkUnderlined="Sign Up Here"
-          linkPath="/account/register"
-        >
-          <Input
-            type="email"
-            name="email"
-            label="email"
-            placeholder="address@example.com"
-            value={email}
-            onChange={handleEmail}
-          />
-          <Input
-            type="password"
-            name="password"
-            label="password"
-            placeholder="******"
-            value={password}
-            onChange={handlePassword}
-            enableShowPass
-          />
-          <b />
-        </Form>
-        <SEPARATOR />
-        <div
-          style={{
+    <Grid container component="main" sx={{ height: "100vh" }}>
+      <CssBaseline />
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: (t) =>
+            t.palette.mode === "light"
+              ? t.palette.grey[50]
+              : t.palette.grey[900],
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box
+          sx={{
+            my: 8,
+            mx: 4,
             display: "flex",
             flexDirection: "column",
-            rowGap: "1em",
-            justifyContent: "center",
             alignItems: "center",
-            flexBasis: "45%",
-            padding: "1em",
           }}
         >
-          <p
-            style={{ width: "100%", textAlign: "center", marginBottom: "1em" }}
-          >
-            Login using Google or Github account
-          </p>
-          <Button
-            onClick={handleLoginGoogle}
-            variant="light"
-            icon={<FcGoogle />}
-          >
-            Sign in with Google
-          </Button>
-          <Button
-            onClick={handleLoginGithub}
-            variant="dark"
-            icon={<FaGithub />}
-          >
-            Sign in with Github
-          </Button>
-        </div>
-      </CARD>
-    </>
+          <>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
+          </>
+          <>
+            <LoginForm
+              handleSubmit={handleSubmit}
+              errorMessage={errorMessage}
+            />
+          </>
+          <>
+            <SocialLoginLink
+              to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+            >
+              Login with GitHub
+              <FaGithub />
+            </SocialLoginLink>
+            <SocialLoginLink
+              to={`${import.meta.env.VITE_SERVER_URL}/auth/google`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+            >
+              Login with Google
+              <FcGoogle />
+            </SocialLoginLink>
+          </>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }

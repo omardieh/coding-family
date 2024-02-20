@@ -9,8 +9,8 @@ const userSchema = new Schema(
       unique: [true, "username is already taken."],
       trim: true,
       match: [
-        /^[A-Za-z][A-Za-z0-9_]{5,21}$/,
-        "Your username should be at least 6 characters long, start with a letter, and can include letters, numbers, or underscores.",
+        /^[a-zA-Z0-9_.]{6,}$/,
+        "Usernames can only use letters, numbers, underscores, and periods.",
       ],
     },
     email: {
@@ -45,6 +45,7 @@ const userSchema = new Schema(
       type: String,
     },
     role: {
+      select: false,
       type: String,
       enum: ["member", "editor", "admin"],
       default: "member",
@@ -58,6 +59,7 @@ const userSchema = new Schema(
       type: Date,
       required: [true, "Email Verify code exp date is missing."],
       default: Date.now(),
+      select: false,
     },
     isEmailVerified: {
       type: Boolean,
@@ -76,18 +78,19 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  if (!this.isModified("password") || !this.isModified("emailVerifyCode"))
+    return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   this.emailVerifyCode = await bcrypt.hash(this.emailVerifyCode, salt);
   next();
 });
 
-userSchema.methods.comparePassword = async function (password) {
+userSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.compareEmail = async function (verificationCode) {
+userSchema.methods.compareEmail = function (verificationCode) {
   return bcrypt.compare(verificationCode, this.emailVerifyCode);
 };
 

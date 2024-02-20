@@ -1,4 +1,5 @@
 const socketIO = require("socket.io");
+const ChatMessage = require("../models/ChatMessage.model");
 
 function useSocketIO(server) {
   const io = socketIO(server, {
@@ -9,17 +10,21 @@ function useSocketIO(server) {
     socket.on("disconnect", () => {
       console.log("User disconnected");
     });
-    const messages = [
-      {
-        author: "server",
-        message:
-          "welcome to the webSocket chat app! mad with Node, React and socket.io",
-      },
-    ];
-    socket.emit("MessagesFromServer", messages);
-    socket.on("MessageToServer", (message) => {
-      messages.push(message);
-      io.emit("MessageToClient", message);
+
+    ChatMessage.find()
+      .populate("user")
+      .then((messages) => {
+        socket.emit("MessagesFromServer", messages);
+      });
+
+    socket.on("MessageToServer", ({ user, message }) => {
+      ChatMessage.create({ user, message }).then((createdMessage) => {
+        createdMessage
+          .populate("user")
+          .then((populatedMessage) =>
+            io.emit("MessageToClient", populatedMessage)
+          );
+      });
     });
   });
 }

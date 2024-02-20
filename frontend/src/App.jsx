@@ -1,12 +1,13 @@
 import Layout from "./components/Layout";
 import RenderRoutes from "./routes";
 
-const siteLogo = "Coding Family";
-const siteSlogan = "Where Innovation is Home.";
-
 function App() {
   return (
-    <Layout siteSlogan={siteSlogan} siteLogo={siteLogo}>
+    <Layout
+      title="Coding Family - Where Innovation is Home"
+      description="Where Innovation is Home."
+      logo="Coding Family"
+    >
       <RenderRoutes />
     </Layout>
   );

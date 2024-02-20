@@ -4,12 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 4001",
+    "dev": "vite --port 2002",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.16",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -17,7 +24,8 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.14.1",
     "socket.io-client": "^4.7.2",
-    "styled-components": "^6.0.5"
+    "styled-components": "^6.1.8",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",

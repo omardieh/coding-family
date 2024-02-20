@@ -3,7 +3,6 @@ const logger = require("morgan");
 const cors = require("cors");
 
 module.exports = (app) => {
-  app.set("trust proxy", 1);
   app.use(
     cors({
       origin: [process.env.CLIENT_URL],

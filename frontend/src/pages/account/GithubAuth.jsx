@@ -17,10 +17,10 @@ export default function GithubAuth() {
           authenticateUser();
         })
         .catch((error) => {
-          console.error(error);
+          console.error("GithubAuth : ", error);
         });
     } else {
-      console.error("Missing access code in the URL.");
+      console.error("Missing [access code] in the URL.");
     }
   }, [code, authenticateUser, storeToken]);
 

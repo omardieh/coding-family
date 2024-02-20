@@ -3,21 +3,47 @@ import Footer from "./../Footer";
 import Navbar from "./../Navbar/index";
 import { colors } from "./../../global/colors";
 import { breakpoints } from "./../../global/breakpoints";
+import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import { red } from "@mui/material/colors";
+import CssBaseline from "@mui/material/CssBaseline";
+import { useEffect } from "react";
 
-export default function Layout({ children, siteLogo, siteSlogan }) {
+export default function Layout({ title, logo, description, children }) {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#556cd6",
+      },
+      secondary: {
+        main: "#19857b",
+      },
+      error: {
+        main: red.A400,
+      },
+    },
+  });
+
+  useEffect(() => {
+    document.title = title;
+  }, []);
+
   return (
     <>
-      <HEADER>
-        <DIV>
-          <H1> {siteLogo || "Site Logo Here"} </H1>
-          <P> {siteSlogan || "Site Slogan Here"} </P>
-        </DIV>
-        <Navbar />
-      </HEADER>
-      <MAIN>{children}</MAIN>
-      <FOOTER>
-        <Footer />
-      </FOOTER>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HEADER>
+          <DIV>
+            <H1> {logo || "Site Logo Here"} </H1>
+            <P> {description || "Site Description Here"} </P>
+          </DIV>
+          <Navbar />
+        </HEADER>
+        <MAIN>{children}</MAIN>
+        <FOOTER>
+          <Footer title={title} />
+        </FOOTER>
+      </ThemeProvider>
     </>
   );
 }
@@ -79,6 +105,7 @@ const MAIN = styled.main`
   flex-direction: column;
   padding: 2em;
   row-gap: 2em;
+  position: relative;
 `;
 
 const FOOTER = styled.footer`

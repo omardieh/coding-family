@@ -1,4 +1,8 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({
+  path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`),
+});
+
 const app = require("./app");
 const { connectDB } = require("./config/database.config");
 const { useSocketIO } = require("./config/socket.config");
@@ -10,7 +14,6 @@ function connectServer() {
     }
     console.info(`connected Server  | PORT : ${process.env.SEVER_PORT}`);
   });
-
   useSocketIO(server);
 }
 
