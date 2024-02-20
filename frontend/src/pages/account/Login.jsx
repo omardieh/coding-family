@@ -106,7 +106,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Login
             </Typography>
           </>
           <>
@@ -120,14 +120,18 @@ export default function Login() {
               to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}
               styleLink={{ width: "100%" }}
               styleButton={{ padding: "1em 0", marginTop: "2em" }}
-              icon={<FaGithub />}
-            />
+            >
+              Login with GitHub
+              <FaGithub />
+            </SocialLoginLink>
             <SocialLoginLink
               to={`${import.meta.env.VITE_SERVER_URL}/auth/google`}
               styleLink={{ width: "100%" }}
               styleButton={{ padding: "1em 0", marginTop: "2em" }}
-              icon={<FcGoogle />}
-            />
+            >
+              Login with Google
+              <FcGoogle />
+            </SocialLoginLink>
           </>
         </Box>
       </Grid>
