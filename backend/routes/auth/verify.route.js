@@ -1,10 +1,10 @@
 const express = require("express");
 const User = require("../../models/User.model");
 const { isAuthenticated } = require("../../middleware/jwt.middleware");
-
+const validateUserToken = require("../../middleware/validateUserToken.middleware");
 const verifyRouter = express.Router();
 
-verifyRouter.get("/token", isAuthenticated, (req, res) => {
+verifyRouter.get("/token", validateUserToken, (req, res) => {
   res.status(200).json(req.payload);
 });
 
