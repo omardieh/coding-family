@@ -36,7 +36,7 @@ export default function Navbar() {
       <MobMenuIcon toggleMobMenu={toggleMobMenu} isMobMenu={isMobMenu} />
       <DIV $isMobMenu={isMobMenu.toString()}>
         {navElements.map(({ id, title, path }) => (
-          <LINK key={id} to={path} onClick={() => handleLinkClick(path)}>
+          <LINK key={id} to={path} onClick={() => handleLinkClick(path)} end>
             {path === "/account" ? (isLoggedIn ? "Logout" : title) : title}
           </LINK>
         ))}
