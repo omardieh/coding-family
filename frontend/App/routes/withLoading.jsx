@@ -1,5 +1,5 @@
 import { useAuthContext } from "../contexts/AuthContext";
-import Loading from "../components/Loading";
+import Loading from "/features/Loading";
 
 export default function withLoading(ChildComponent) {
   return (props) => {
