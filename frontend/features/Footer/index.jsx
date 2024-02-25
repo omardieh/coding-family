@@ -22,91 +22,81 @@ const useStyles = makeStyles((theme) => ({
 export default function Footer({ title }) {
   const classes = useStyles();
   return (
-    <Box
+    <Grid
+      container
+      spacing={6}
       sx={{
-        width: "100%",
-        height: "auto",
-        backgroundColor: "secondary.main",
-        paddingTop: "1rem",
-        paddingBottom: "1rem",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "baseline",
+        padding: "2em 0",
+        minWidth: "100%",
+        height: "auto",
+        backgroundColor: "primary.main",
+        color: "primary",
       }}
       component={"footer"}
     >
-      <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={6}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-            padding: "1em 0",
-          }}
-        >
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="h6">Copyright © 2024 Your Company</Typography>
-            <Typography variant="body2">All rights reserved.</Typography>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              display: "flex",
-              alignItems: "baseline",
-              justifyContent: "space-between",
-            }}
-            xs={12}
-            sm={6}
-            md={4}
+      <Grid item xs={12} sm={6} md={4}>
+        <Typography variant="h6">Copyright © 2024 Your Company</Typography>
+        <Typography variant="body2">All rights reserved.</Typography>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+        }}
+        xs={12}
+        sm={6}
+        md={4}
+      >
+        <Typography variant="h6">Quick Links</Typography>
+        <Link href="#">Home</Link>
+        <Link href="#">About Us</Link>
+        <Link href="#">Contact Us</Link>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={4}
+        sx={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Typography style={{ marginRight: ".5em" }} variant="h6">
+          Connect with Us
+        </Typography>
+        <div className={classes.socialIcons}>
+          <IconButton
+            color="inherit"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Typography variant="h6">Quick Links</Typography>
-            <Link href="#">Home</Link>
-            <Link href="#">About Us</Link>
-            <Link href="#">Contact Us</Link>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            md={4}
-            sx={{
-              display: "flex",
-              alignItems: "baseline",
-              justifyContent: "flex-end",
-            }}
+            <FacebookIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Typography style={{ marginRight: ".5em" }} variant="h6">
-              Connect with Us
-            </Typography>
-            <div className={classes.socialIcons}>
-              <IconButton
-                color="inherit"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FacebookIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <TwitterIcon />
-              </IconButton>
-              <IconButton
-                color="inherit"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <InstagramIcon />
-              </IconButton>
-            </div>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+            <TwitterIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <InstagramIcon />
+          </IconButton>
+        </div>
+      </Grid>
+    </Grid>
   );
 }
