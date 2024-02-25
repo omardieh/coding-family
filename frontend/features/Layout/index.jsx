@@ -26,14 +26,14 @@ export default function Layout({ title, children }) {
 
   useEffect(() => {
     document.title = title;
-  }, []);
+  }, [title]);
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        {children}
+        <MAIN>{children}</MAIN>
         <Footer title={title} />
       </ThemeProvider>
     </>
@@ -45,14 +45,14 @@ const { mob, tab, lap, des } = breakpoints;
 const MAIN = styled.main`
   background: ${colors.white.bg.mid};
   flex-basis: 86%;
-  max-height: 86%;
   max-width: 100%;
+  background: yellow;
   width: 100%;
   overflow-y: scroll;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 2em;
+  padding: 4em;
   top: 2em;
   padding-bottom: 5em;
   row-gap: 2em;
