@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext } from "react";
 import AuthService from "/common/services/AuthService";
+import Loading from "/features/Loading";
 
 const AuthContext = createContext();
 
@@ -57,7 +58,7 @@ function AuthProvider(props) {
         logOutUser,
       }}
     >
-      {props.children}
+      {isLoading ? <Loading /> : props.children}
     </AuthContext.Provider>
   );
 }

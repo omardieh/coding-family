@@ -51,3 +51,7 @@ input[type="reset"] {
   src: local("MontserratAlt1-Light"),
     url("./assets/fonts/MontserratAlt1-Thin.ttf") format("truetype");
 }
+
+a.active {
+  text-decoration: underline !important;
+}
