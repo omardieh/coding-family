@@ -9,7 +9,6 @@ export default function useFetch(baseURL) {
   const fetcher = useMemo(() => async ({ method = "GET", endPoint = "/", reqBody = null, headers = {}, timeout = 0 }) => {
     setLoading(true);
     const source = axios.CancelToken.source();
-
     try {
       const response = await axios({
         method,
@@ -20,12 +19,10 @@ export default function useFetch(baseURL) {
         timeout,
         cancelToken: source.token,
       });
-
       setData(response.data);
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log("Request canceled", err.message); // Handle cancellation
-      } else {
+        console.log("Request canceled", err.message);
         setError(err.response ? err.response.data : err.message);
       }
     } finally {

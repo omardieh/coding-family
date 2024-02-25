@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import Loading from "/features/Loading";
 
 const CaptchaContext = createContext();
 
@@ -42,6 +43,7 @@ export const CaptchaProvider = ({ children }) => {
     };
   }, []);
 
+  if (isLoading) return <Loading />;
   return (
     <CaptchaContext.Provider value={{ isVerified, isLoading }}>
       {children}
