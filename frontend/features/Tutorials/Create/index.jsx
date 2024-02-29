@@ -2,10 +2,9 @@ import { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Box, Button, Switch, TextField, Typography } from "@material-ui/core";
 import { useAuthContext } from "/common/contexts/AuthContext";
-import "./MDEditor.css";
-import useTutorialsHook from "./hook";
+import useTutorialsHook from "../hook";
 
-export default function NewTutorialPage() {
+export default function TutorialsCreate() {
   const [content, setContent] = useState("**Hello world!!!**");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
