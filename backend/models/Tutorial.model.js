@@ -2,10 +2,19 @@ const { Schema, model } = require("mongoose");
 
 const tutorialSchema = new Schema(
   {
+    isPublic: {
+      type: Boolean,
+      required: [true, "Active state is required."],
+      default: true,
+    },
     title: {
       type: String,
       required: [true, "Title is required."],
       trim: true,
+    },
+    slug: {
+      type: String,
+      unique: true,
     },
     description: {
       type: String,
@@ -23,10 +32,6 @@ const tutorialSchema = new Schema(
     tags: {
       type: [String],
       required: [true, "At least one tag is required."],
-    },
-    date: {
-      type: Date,
-      required: [true, "Date is required."],
     },
     views: {
       type: Number,
@@ -58,6 +63,31 @@ const tutorialSchema = new Schema(
     timestamps: true,
   }
 );
+
+tutorialSchema.pre("save", async function (next) {
+  if (!this.isModified("title")) {
+    return next();
+  }
+  this.slug = slugify(this.title);
+  const existingTutorial = await this.constructor.findOne({ slug: this.slug });
+  if (existingTutorial) {
+    let suffix = 1;
+    while (await this.constructor.findOne({ slug: `${this.slug}${suffix}` })) {
+      suffix++;
+    }
+    this.slug = `${this.slug}${suffix}`;
+  }
+  next();
+});
+
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .trim();
+}
 
 const Tutorial = model("Tutorial", tutorialSchema);
 module.exports = Tutorial;

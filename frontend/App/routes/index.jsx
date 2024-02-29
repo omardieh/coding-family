@@ -11,6 +11,8 @@ import Dashboard from "/features/Dashboard";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
 import NewTutorialPage from "/features/Tutorials/NewTutorialPage";
+import Tutorials from "/features/Tutorials/index";
+import TutorialDetailsPage from "../../features/Tutorials/TutorialDetailsPage";
 
 export default function RenderRoutes() {
   return (
@@ -104,12 +106,12 @@ const routes = [
   },
   {
     path: "/tutorials",
-    element: (
-      <IsPrivate>
-        <Profile />
-      </IsPrivate>
-    ),
+    element: <Tutorials />,
     children: [
+      {
+        path: "/tutorials/:slug",
+        element: <TutorialDetailsPage />,
+      },
       {
         path: "/tutorials/new",
         element: (
