@@ -8,6 +8,9 @@ import Welcome from "/features/Welcome";
 import GithubAuth from "/features/Login/GithubAuth";
 import GoogleAuth from "/features/Login/GoogleAuth";
 import Dashboard from "/features/Dashboard";
+import Profile from "/features/Profile";
+import EditProfilePage from "/features/Profile/EditProfilePage";
+import NewTutorialPage from "/features/Tutorials/NewTutorialPage";
 
 export default function RenderRoutes() {
   return (
@@ -80,5 +83,41 @@ const routes = [
         <Dashboard />
       </IsPrivate>
     ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <IsPrivate>
+        <Profile />
+      </IsPrivate>
+    ),
+    children: [
+      {
+        path: "/profile/edit",
+        element: (
+          <IsPrivate>
+            <EditProfilePage />
+          </IsPrivate>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/tutorials",
+    element: (
+      <IsPrivate>
+        <Profile />
+      </IsPrivate>
+    ),
+    children: [
+      {
+        path: "/tutorials/new",
+        element: (
+          <IsPrivate>
+            <NewTutorialPage />
+          </IsPrivate>
+        ),
+      },
+    ],
   },
 ];

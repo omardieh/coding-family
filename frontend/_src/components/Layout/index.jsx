@@ -95,8 +95,6 @@ const H1 = styled.h1`
 
 const MAIN = styled.main`
   background: ${colors.white.bg.mid};
-  flex-basis: 86%;
-  max-height: 86%;
   max-width: 100%;
   width: 100%;
   overflow-y: scroll;
