@@ -5,8 +5,8 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      required: [true, "username is required."],
-      unique: [true, "username is already taken."],
+      required: [true, "Username is required."],
+      unique: [true, "Username is already taken."],
       trim: true,
       match: [
         /^[a-zA-Z0-9_.]{6,}$/,
@@ -65,12 +65,60 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    tutorials: [
+    createdTutorials: [
       {
         type: Schema.Types.ObjectId,
         ref: "Tutorial",
       },
     ],
+    favoriteTutorials: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Tutorial",
+      },
+    ],
+    bio: {
+      type: String,
+    },
+    socialMedia: {
+      facebook: String,
+      twitter: String,
+      linkedin: String,
+    },
+    skills: [
+      {
+        type: String,
+      },
+    ],
+    country: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    notificationPreferences: {
+      email: {
+        type: Boolean,
+        default: true,
+      },
+    },
+    accountStatus: {
+      type: String,
+      enum: ["active", "suspended"],
+      default: "active",
+    },
   },
   {
     timestamps: true,
