@@ -39,6 +39,14 @@ class AuthService {
       requestHeaders
     );
   };
+
+  getUserInfo = () => {
+    return this.api.get("/user/profile");
+  };
+
+  updateUserInfo = (reqBody) => {
+    return this.api.patch("/user/profile", reqBody);
+  };
 }
 
 const authService = new AuthService();

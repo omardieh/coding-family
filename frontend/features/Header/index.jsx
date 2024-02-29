@@ -12,8 +12,8 @@ export default function Header() {
   const { isLoggedIn, logOutUser } = useAuthContext();
 
   return (
-    <AppBar component="header">
-      <Toolbar style={{ justifyContent: "space-between" }}>
+    <AppBar sx={{ width: "100%" }} component="header">
+      <Toolbar>
         <Navbar navLinks={isLoggedIn ? userLinks : guestLinks}>
           {isLoggedIn && (
             <AvatarMenu navLinks={userAvatarLinks} handleClick={logOutUser} />

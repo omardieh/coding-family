@@ -2,6 +2,7 @@ import { v4 as uuid } from "uuid";
 
 export const guestLinks = [
   { id: uuid(), title: "Welcome", path: "/" },
+  { id: uuid(), title: "Tutorials", path: "/tutorials" },
   { id: uuid(), title: "About", path: "/about" },
   { id: uuid(), title: "Contact", path: "/contact" },
   { id: uuid(), title: "Login", path: "/login" },
@@ -10,6 +11,7 @@ export const guestLinks = [
 
 export const userLinks = [
   { id: uuid(), title: "Welcome", path: "/" },
+  { id: uuid(), title: "Tutorials", path: "/tutorials" },
   { id: uuid(), title: "About", path: "/about" },
   { id: uuid(), title: "Contact", path: "/contact" },
 ];

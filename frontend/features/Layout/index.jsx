@@ -8,8 +8,10 @@ import { red } from "@mui/material/colors";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect } from "react";
 import Header from "../Header";
+import useScrollTop from "/common/hooks/useScrollTop";
 
 export default function Layout({ title, children }) {
+  useScrollTop("main__app");
   const theme = createTheme({
     palette: {
       primary: {
@@ -33,7 +35,7 @@ export default function Layout({ title, children }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <MAIN>{children}</MAIN>
+        <MAIN id="main__app">{children}</MAIN>
         <Footer title={title} />
       </ThemeProvider>
     </>
@@ -44,7 +46,7 @@ const { mob, tab, lap, des } = breakpoints;
 
 const MAIN = styled.main`
   background: ${colors.white.bg.mid};
-  flex-basis: 86%;
+  min-height: 88%;
   max-width: 100%;
   background: yellow;
   width: 100%;
@@ -52,9 +54,8 @@ const MAIN = styled.main`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 4em;
-  top: 2em;
-  padding-bottom: 5em;
+  padding: 6em 2em;
+  padding-bottom: 10em;
   row-gap: 2em;
   position: relative;
   @media ${mob}, ${tab} {

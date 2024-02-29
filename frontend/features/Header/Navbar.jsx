@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/material";
 import { useState } from "react";
-import { Button, CssBaseline, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MobSideMenu from "./MobSideMenu";
 
@@ -13,8 +13,14 @@ export default function Navbar({ navLinks, children }) {
   };
 
   return (
-    <>
-      <CssBaseline />
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -24,11 +30,7 @@ export default function Navbar({ navLinks, children }) {
       >
         <MenuIcon />
       </IconButton>
-      <Typography
-        variant="h6"
-        component="div"
-        sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-      >
+      <Typography variant="h6" component="div">
         Site Logo
       </Typography>
       <Box sx={{ display: { xs: "none", sm: "inline-flex" } }}>
@@ -47,6 +49,6 @@ export default function Navbar({ navLinks, children }) {
         drawerWidth={drawerWidth}
         mobileOpen={mobileOpen}
       />
-    </>
+    </Box>
   );
 }
