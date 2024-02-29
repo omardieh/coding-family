@@ -8,8 +8,8 @@ require("./config/security.config")(app);
 // routes :
 require("./routes/auth")(app);
 require("./routes/user")(app);
-require("./routes/api")(app);
-require("./routes")(app);
+// require("./routes/api")(app);
+// require("./routes")(app);
 
 // error middleware :
 require("./middleware/routesError.middleware")(app);
