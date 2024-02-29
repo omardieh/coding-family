@@ -8,7 +8,7 @@ require("./config/security.config")(app);
 // routes :
 require("./routes/auth")(app);
 require("./routes/user")(app);
-// require("./routes/api")(app);
+require("./routes/tutorials")(app);
 // require("./routes")(app);
 
 // error middleware :
