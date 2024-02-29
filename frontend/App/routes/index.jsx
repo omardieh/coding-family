@@ -10,9 +10,10 @@ import GoogleAuth from "/features/Login/GoogleAuth";
 import Dashboard from "/features/Dashboard";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
-import NewTutorialPage from "/features/Tutorials/NewTutorialPage";
-import Tutorials from "/features/Tutorials/index";
-import TutorialDetailsPage from "../../features/Tutorials/TutorialDetailsPage";
+import Tutorials from "/features/Tutorials";
+import TutorialsCreate from "/features/Tutorials/Create";
+import Tutorial from "/features/Tutorials/Tutorial";
+import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
 
 export default function RenderRoutes() {
   return (
@@ -110,13 +111,21 @@ const routes = [
     children: [
       {
         path: "/tutorials/:slug",
-        element: <TutorialDetailsPage />,
+        element: <Tutorial />,
       },
       {
-        path: "/tutorials/new",
+        path: "/tutorials/:slug/edit",
         element: (
           <IsPrivate>
-            <NewTutorialPage />
+            <TutorialEdit />
+          </IsPrivate>
+        ),
+      },
+      {
+        path: "/tutorials/create",
+        element: (
+          <IsPrivate>
+            <TutorialsCreate />
           </IsPrivate>
         ),
       },

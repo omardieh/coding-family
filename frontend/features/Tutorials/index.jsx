@@ -3,6 +3,7 @@ import { Box, Button } from "@material-ui/core";
 import useTutorialsHook from "./hook";
 import { useEffect } from "react";
 import Loading from "/features/Loading";
+import "./MDEditor.css";
 
 export default function Tutorials() {
   const {
@@ -20,7 +21,7 @@ export default function Tutorials() {
 
   return (
     <div>
-      <Link to="/tutorials/new">
+      <Link to="/tutorials/create">
         <Button>Create New Tutorial</Button>
         <Box>
           {tutorials.map(({ slug, title }) => (

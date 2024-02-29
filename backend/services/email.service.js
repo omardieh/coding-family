@@ -21,7 +21,7 @@ class EmailService {
       path.join(__dirname, "../utils/emailTemplates/verify.html"),
       "utf-8"
     );
-    const linkToSend = `${process.env.CLIENT_URL}/verification?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
+    const linkToSend = `${process.env.CLIENT_URL}/notification?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
     const emailVerifyHTML = emailTemplate.replace(
       "{{verificationLink}}",
       linkToSend

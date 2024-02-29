@@ -1,12 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import useTutorialsHook from "./hook";
+import useTutorialsHook from "../hook";
 import Loading from "/features/Loading";
 import { useEffect } from "react";
 import { Box, Button, Typography } from "@material-ui/core";
 import MDEditor from "@uiw/react-md-editor";
 import { useAuthContext } from "/common/contexts/AuthContext";
 
-export default function TutorialDetailsPage() {
+export default function Tutorial() {
   const { slug } = useParams();
   const { user } = useAuthContext();
   const {
@@ -20,8 +20,8 @@ export default function TutorialDetailsPage() {
     getTutorialBySlug(slug);
   }, []);
 
-  const isOwner = JSON.stringify(tutorial.author) === JSON.stringify(user._id);
   if (loading || !tutorial) return <Loading />;
+  const isOwner = JSON.stringify(tutorial.author) === JSON.stringify(user._id);
 
   return (
     <Box
@@ -39,9 +39,14 @@ export default function TutorialDetailsPage() {
         >
           {tutorial.title}
         </Typography>
-        <Typography variant="p">{tutorial.description}</Typography>
-        <Typography variant="h6">{tutorial.tags.map((tag) => tag)}</Typography>
-        <Typography variant="p">
+        <Typography variant="subtitle2">{tutorial.description}</Typography>
+        <Typography variant="subtitle1">
+          {tutorial.tags.map((tag) => tag)}
+        </Typography>
+        <Typography variant="subtitle2">
+          {new Date(tutorial.createdAt).toDateString()}
+        </Typography>
+        <Typography variant="subtitle2">
           {tutorial.isPublic ? "Published" : "Draft"}
         </Typography>
       </Box>
