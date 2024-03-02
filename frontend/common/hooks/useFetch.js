@@ -41,11 +41,9 @@ export default function useFetch(baseURL) {
             cancelToken: source.token,
           });
           setData(response.data);
+          setError(null);
         } catch (err) {
-          if (axios.isCancel(err)) {
-            console.log("Request canceled", err.message);
-            setError(err.response ? err.response.data : err.message);
-          }
+          setError(err.response ? err.response.data : err.message);
         } finally {
           setLoading(false);
         }

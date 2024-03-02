@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Box, Typography, Link } from "@material-ui/core";
+import { Button, Box, Typography, Link } from "@mui/material";
 import { useAuthContext } from "/common/contexts/AuthContext";
 import { NavLink } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
