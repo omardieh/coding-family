@@ -7,22 +7,25 @@ const tutorialSchema = new Schema(
       required: [true, "Active state is required."],
       default: true,
     },
-    title: {
-      type: String,
-      required: [true, "Title is required."],
-      trim: true,
-    },
     slug: {
       type: String,
       unique: true,
     },
+    title: {
+      type: String,
+      required: [true, "Title is required."],
+      trim: true,
+      maxlength: [100, "Title must be at most 100 characters."],
+    },
     description: {
       type: String,
       required: [true, "Description is required."],
+      maxlength: [500, "Description must be at most 500 characters."],
     },
     content: {
       type: String,
       required: [true, "Content is required."],
+      maxlength: [50000, "Content must be at most 50,000 characters."],
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -32,14 +35,26 @@ const tutorialSchema = new Schema(
     tags: {
       type: [String],
       required: [true, "At least one tag is required."],
+      validate: {
+        validator: function (tags) {
+          return (
+            Array.isArray(tags) &&
+            tags.length > 0 &&
+            new Set(tags).size === tags.length
+          );
+        },
+        message: "Tags must be an array with at least one unique tag.",
+      },
     },
     views: {
       type: Number,
       default: 0,
+      min: [0, "Views cannot be negative."],
     },
     likes: {
       type: Number,
       default: 0,
+      min: [0, "Likes cannot be negative."],
     },
     comments: [
       {
@@ -51,6 +66,7 @@ const tutorialSchema = new Schema(
         content: {
           type: String,
           required: [true, "Comment content is required."],
+          maxlength: [1000, "Comment must be at most 1000 characters."],
         },
         date: {
           type: Date,

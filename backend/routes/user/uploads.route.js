@@ -1,8 +1,8 @@
-const uploadRouter = require("express").Router();
+const uploadsRouter = require("express").Router();
 const User = require("../../models/User.model");
 const fileUploader = require("../../config/cloudinary.config");
 
-uploadRouter.post("/", fileUploader.single("user-avatar"), (req, res) => {
+uploadsRouter.post("/", fileUploader.single("user-avatar"), (req, res) => {
   User.findByIdAndUpdate(
     req.body.userID,
     { avatar: req.file.path },
@@ -14,4 +14,4 @@ uploadRouter.post("/", fileUploader.single("user-avatar"), (req, res) => {
     .catch((err) => res.json(err));
 });
 
-module.exports = uploadRouter;
+module.exports = uploadsRouter;

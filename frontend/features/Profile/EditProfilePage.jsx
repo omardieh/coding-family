@@ -7,7 +7,7 @@ import {
   Typography,
   Input,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useAuthContext } from "/common/contexts/AuthContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import countries from "/common/assets/countries.json";

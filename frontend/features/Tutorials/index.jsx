@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Box, Button } from "@material-ui/core";
 import useTutorialsHook from "./hook";
 import { useEffect } from "react";
 import Loading from "/features/Loading";
 import "./MDEditor.css";
+import { Box, Button } from "@mui/material";
 
 export default function Tutorials() {
   const {
@@ -22,15 +22,15 @@ export default function Tutorials() {
   return (
     <div>
       <Link to="/tutorials/create">
-        <Button>Create New Tutorial</Button>
-        <Box>
-          {tutorials.map(({ slug, title }) => (
-            <Link key={slug} to={`/tutorials/${slug}`}>
-              {title}
-            </Link>
-          ))}
-        </Box>
+        <Button variant="outlined">Create New Tutorial</Button>
       </Link>
+      <Box>
+        {tutorials.map(({ slug, title }) => (
+          <Link key={slug} to={`/tutorials/${slug}`}>
+            {title}
+          </Link>
+        ))}
+      </Box>
     </div>
   );
 }

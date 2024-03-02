@@ -25,6 +25,13 @@ export default function useTutorialsHook() {
     });
   };
 
+  const deleteTutorialBySlug = async (slug) => {
+    await fetcher({
+      method: "DELETE",
+      endPoint: "/tutorials/" + slug,
+    });
+  };
+
   const updateTutorialBySlug = async (slug, reqBody) => {
     await fetcher({
       method: "PUT",
@@ -40,6 +47,7 @@ export default function useTutorialsHook() {
     postNewTutorial,
     getAllTutorials,
     getTutorialBySlug,
+    deleteTutorialBySlug,
     updateTutorialBySlug,
   };
 }
