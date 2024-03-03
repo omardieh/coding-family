@@ -16,6 +16,11 @@ const tutorialSchema = new Schema(
       required: [true, "Title is required."],
       trim: true,
       maxlength: [100, "Title must be at most 100 characters."],
+      minlength: [8, "Title must be at least 8 characters."],
+      match: [
+        /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/,
+        "Tutorial title should contain only letters, numbers, with one space between words.",
+      ],
     },
     description: {
       type: String,
@@ -33,18 +38,9 @@ const tutorialSchema = new Schema(
       required: [true, "Author is required."],
     },
     tags: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: "TutorialTag",
       required: [true, "At least one tag is required."],
-      validate: {
-        validator: function (tags) {
-          return (
-            Array.isArray(tags) &&
-            tags.length > 0 &&
-            new Set(tags).size === tags.length
-          );
-        },
-        message: "Tags must be an array with at least one unique tag.",
-      },
     },
     views: {
       type: Number,

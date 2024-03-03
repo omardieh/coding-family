@@ -17,7 +17,7 @@ export default function TutorialForm(props) {
   const { user } = useAuthContext();
   const [title, setTitle] = useState(props.title || "");
   const [description, setDescription] = useState(props.description || "");
-  const [tags, setTags] = useState(props.tags || []);
+  const [tags, setTags] = useState(props.tags.map(({ label }) => label) || []);
   const [content, setContent] = useState(props.content || "**Hello world!!!**");
   const [isPublic, setIsPublic] = useState(props.isPublic || true);
   const [errorMessage, setErrorMessage] = useState(props.errorMessage || null);
@@ -51,7 +51,7 @@ export default function TutorialForm(props) {
       });
     }
   };
-  console.log("props", props.errorMessage);
+
   return (
     <Box
       sx={{
@@ -140,6 +140,11 @@ export default function TutorialForm(props) {
       {(errorMessage || props.errorMessage) && (
         <Alert style={{ width: "100%", marginTop: "2em" }} severity="error">
           {errorMessage || props.errorMessage}
+        </Alert>
+      )}
+      {(!errorMessage || !props.errorMessage) && props.infoMessage && (
+        <Alert style={{ width: "100%", marginTop: "2em" }} severity="success">
+          {props.infoMessage}
         </Alert>
       )}
     </Box>

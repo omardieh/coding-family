@@ -24,6 +24,7 @@ export default function TutorialEdit() {
   useEffect(() => {
     getTutorialBySlug(slug);
   }, [updatedTutorial]);
+  console.log(updatedTutorial, tutorial);
 
   if (loading || updatedLoading || !tutorial) return <Loading />;
   const isOwner =
@@ -39,6 +40,7 @@ export default function TutorialEdit() {
       description={tutorial.description}
       tags={tutorial.tags}
       isPublic={tutorial.isPublic}
+      infoMessage={updatedTutorial?.updated ? "Successfully updated" : null}
     />
   );
 }
