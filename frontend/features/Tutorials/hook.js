@@ -40,6 +40,18 @@ export default function useTutorialsHook() {
     });
   };
 
+  const getTutorialsTags = async () => {
+    await fetcher({
+      endPoint: "/tutorials/tags",
+    });
+  };
+
+  const getTutorialsByTag = async (tag) => {
+    await fetcher({
+      endPoint: "/tutorials/tags/" + tag,
+    });
+  };
+
   return {
     data,
     error,

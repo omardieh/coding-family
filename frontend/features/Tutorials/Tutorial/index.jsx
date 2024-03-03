@@ -1,16 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import useTutorialsHook from "../hook";
 import Loading from "/features/Loading";
-import { useEffect } from "react";
-import {
-  Autocomplete,
-  Box,
-  Chip,
-  ListItem,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Chip, Typography } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import { useAuthContext } from "/common/contexts/AuthContext";
 import { Button } from "@mui/material";
@@ -31,7 +23,8 @@ export default function Tutorial() {
 
   if (loading || !tutorial) return <Loading />;
   const isOwner =
-    JSON.stringify(tutorial.author._id) === JSON.stringify(user._id);
+    JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
+
   console.log(tutorial);
   return (
     <Box
@@ -65,22 +58,16 @@ export default function Tutorial() {
           component="fieldset"
         >
           <legend style={{ padding: "0 1em" }}> Tags </legend>
-          {tutorial.tags.map((data) => (
-            <>
-              <Link
-                to={
-                  "/tutorials/tags/" +
-                  data.toLowerCase().trim().replaceAll(" ", "-")
-                }
-              >
+          {tutorial.tags.map(({ _id, label, slug }) => (
+            <React.Fragment key={_id}>
+              <Link to={"/tutorials/tags/" + slug}>
                 <Chip
                   sx={{ padding: "1.5em", cursor: "pointer" }}
-                  key={data}
                   icon={null}
-                  label={data}
+                  label={label}
                 />
               </Link>
-            </>
+            </React.Fragment>
           ))}
         </Box>
         <Typography variant="subtitle2">

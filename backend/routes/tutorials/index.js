@@ -1,11 +1,12 @@
 const tutorialsRouter = require("express").Router();
 const { isAuthenticated } = require("../../middleware/jwt.middleware");
 const Tutorial = require("../../models/Tutorial.model");
+const TutorialTag = require("../../models/TutorialTag.model");
 const mongoInputError = require("../../middleware/mongoInputsError.middleware");
 
 tutorialsRouter.get("/", async (req, res, next) => {
   try {
-    const foundTutorials = await Tutorial.find();
+    const foundTutorials = await Tutorial.find().populate("tags");
     res.json(foundTutorials);
   } catch (error) {
     next(error);
@@ -20,23 +21,28 @@ tutorialsRouter.post("/", isAuthenticated, async (req, res, next) => {
       isPublic,
       title,
       description,
-      tags,
+      tags: [],
       content,
     });
+    if (tags.length) {
+      for (const tag of tags) {
+        const foundTag = await TutorialTag.findOne({ label: tag });
+        if (foundTag) {
+          foundTag.tutorials.push(createdTutorial._id);
+          await foundTag.save();
+          continue;
+        }
+        const createdTag = await TutorialTag.create({
+          label: tag,
+          tutorials: [createdTutorial._id],
+        });
+        createdTutorial.tags.push(createdTag._id);
+        await createdTutorial.save();
+      }
+    }
     res.json(createdTutorial);
   } catch (error) {
     mongoInputError(error, req, res);
-    // if (error.name === "ValidationError") {
-    //   let key;
-    //   Object.keys(req.body).forEach((element) => {
-    //     if (error.errors[element]) {
-    //       key = element;
-    //     }
-    //   });
-    //   const errorMessage = error.errors[key].message;
-    //   res.status(400).json(errorMessage);
-    //   return;
-    // }
   }
 });
 
@@ -44,8 +50,8 @@ tutorialsRouter.get("/:slug", async (req, res, next) => {
   const { slug } = req.params;
   try {
     const foundTutorial = await Tutorial.findOne({ slug }).populate(
-      "author",
-      "username"
+      "author tags",
+      "username label slug"
     );
     if (!foundTutorial) {
       res.json("error finding tutorial");
@@ -59,17 +65,61 @@ tutorialsRouter.get("/:slug", async (req, res, next) => {
 
 tutorialsRouter.put("/:slug", async (req, res, next) => {
   const { slug } = req.params;
+  const { tags: newTags, ...reqBody } = req.body;
+
   try {
-    const foundTutorial = await Tutorial.findOneAndUpdate({ slug }, req.body, {
+    const updatedTutorial = await Tutorial.findOneAndUpdate({ slug }, reqBody, {
       new: true,
       runValidators: true,
+      upsert: true,
+      populate: { path: "tags" },
     });
-    if (!foundTutorial) {
-      res.json("error finding tutorial");
+
+    if (!updatedTutorial) {
+      res.status(500).json("error updating tutorial");
       return;
     }
-    res.json(foundTutorial);
+
+    const [tagsToRemove, clearRemovedTags, createTags] = [[], [], []];
+    for (const tag of updatedTutorial.tags) {
+      if (tag && !newTags.includes(tag.label)) {
+        tagsToRemove.push(tag._id);
+        clearRemovedTags.push(
+          TutorialTag.findOneAndUpdate(
+            { _id: tag._id },
+            { $pull: { tutorials: updatedTutorial._id } },
+            { new: true }
+          )
+        );
+      }
+    }
+    await Promise.all(clearRemovedTags);
+    updatedTutorial.tags = updatedTutorial.tags.filter(
+      (t) => !tagsToRemove.includes(t._id)
+    );
+
+    for (const tag of newTags) {
+      if (!updatedTutorial.tags.find((t) => t.label === tag)) {
+        const foundTag = await TutorialTag.findOne({ label: tag });
+        if (foundTag) {
+          foundTag.tutorials.push(updatedTutorial._id);
+          createTags.push(foundTag.save());
+          updatedTutorial.tags.push(foundTag._id);
+          continue;
+        }
+        const createdTag = await TutorialTag.create({
+          label: tag,
+          tutorials: [updatedTutorial._id],
+        });
+        updatedTutorial.tags.push(createdTag._id);
+      }
+    }
+    await Promise.all(createTags);
+    await updatedTutorial.save();
+
+    res.status(200).json({ updated: true });
   } catch (error) {
+    console.log("incoming req", error);
     mongoInputError(error, req, res);
   }
 });
