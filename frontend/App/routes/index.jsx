@@ -14,25 +14,28 @@ import Tutorials from "/features/Tutorials";
 import TutorialsCreate from "/features/Tutorials/Create";
 import Tutorial from "/features/Tutorials/Tutorial";
 import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
+import TutorialsTags from "/features/Tutorials/Tags";
+import TutorialsTagsTag from "/features/Tutorials/Tags/Tag";
 
 export default function RenderRoutes() {
-  return (
-    <Routes>
-      {routes.map((route, index) => (
-        <Route key={index} path={route.path}>
-          <Route index element={route.element} />
-          {route.children &&
-            route.children.map((childRoute, childIndex) => (
-              <Route
-                key={childIndex}
-                path={childRoute.path}
-                element={childRoute.element}
-              />
-            ))}
-        </Route>
-      ))}
-    </Routes>
-  );
+  const renderRoutesRecursively = (routes) => {
+    const result = [];
+    const handler = (routes) => {
+      routes.forEach((route) => {
+        result.push(
+          <Route key={route.path} path={route.path}>
+            <Route index element={route.element} />
+          </Route>
+        );
+        if (route.children) {
+          handler(route.children);
+        }
+      });
+    };
+    handler(routes);
+    return result;
+  };
+  return <Routes>{renderRoutesRecursively(routes)}</Routes>;
 }
 
 const routes = [
@@ -128,6 +131,13 @@ const routes = [
             <TutorialsCreate />
           </IsPrivate>
         ),
+      },
+      {
+        path: "/tutorials/tags",
+        element: <TutorialsTags />,
+        children: [
+          { path: "/tutorials/tags/:slug", element: <TutorialsTagsTag /> },
+        ],
       },
     ],
   },

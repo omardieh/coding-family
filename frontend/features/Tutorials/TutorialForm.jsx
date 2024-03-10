@@ -17,7 +17,7 @@ export default function TutorialForm(props) {
   const { user } = useAuthContext();
   const [title, setTitle] = useState(props.title || "");
   const [description, setDescription] = useState(props.description || "");
-  const [tags, setTags] = useState(props.tags.map(({ label }) => label) || []);
+  const [tags, setTags] = useState(props.tags?.map(({ label }) => label) || []);
   const [content, setContent] = useState(props.content || "**Hello world!!!**");
   const [isPublic, setIsPublic] = useState(props.isPublic || true);
   const [errorMessage, setErrorMessage] = useState(props.errorMessage || null);
