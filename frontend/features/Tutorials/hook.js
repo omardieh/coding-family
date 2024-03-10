@@ -46,9 +46,9 @@ export default function useTutorialsHook() {
     });
   };
 
-  const getTutorialsByTag = async (tag) => {
+  const getTutorialsByTag = async (slug) => {
     await fetcher({
-      endPoint: "/tutorials/tags/" + tag,
+      endPoint: "/tutorials/tags/" + slug,
     });
   };
 
@@ -61,5 +61,7 @@ export default function useTutorialsHook() {
     getTutorialBySlug,
     deleteTutorialBySlug,
     updateTutorialBySlug,
+    getTutorialsTags,
+    getTutorialsByTag,
   };
 }

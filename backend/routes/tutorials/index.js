@@ -24,23 +24,25 @@ tutorialsRouter.post("/", isAuthenticated, async (req, res, next) => {
       tags: [],
       content,
     });
-    if (tags.length) {
-      for (const tag of tags) {
-        const foundTag = await TutorialTag.findOne({ label: tag });
-        if (foundTag) {
-          foundTag.tutorials.push(createdTutorial._id);
-          await foundTag.save();
-          continue;
-        }
-        const createdTag = await TutorialTag.create({
-          label: tag,
-          tutorials: [createdTutorial._id],
-        });
-        createdTutorial.tags.push(createdTag._id);
-        await createdTutorial.save();
-      }
+    if (!tags.length) {
+      return;
     }
-    res.json(createdTutorial);
+    for (const tag of tags) {
+      const foundTag = await TutorialTag.findOne({ label: tag });
+      if (foundTag) {
+        foundTag.tutorials.push(createdTutorial._id);
+        createdTutorial.tags.push(foundTag._id);
+        await foundTag.save();
+        continue;
+      }
+      const createdTag = await TutorialTag.create({
+        label: tag,
+        tutorials: [createdTutorial._id],
+      });
+      createdTutorial.tags.push(createdTag._id);
+    }
+    await createdTutorial.save();
+    res.json({ created: true });
   } catch (error) {
     mongoInputError(error, req, res);
   }
@@ -49,10 +51,9 @@ tutorialsRouter.post("/", isAuthenticated, async (req, res, next) => {
 tutorialsRouter.get("/:slug", async (req, res, next) => {
   const { slug } = req.params;
   try {
-    const foundTutorial = await Tutorial.findOne({ slug }).populate(
-      "author tags",
-      "username label slug"
-    );
+    const foundTutorial = await Tutorial.findOne({ slug })
+      .populate("tags author")
+      .exec();
     if (!foundTutorial) {
       res.json("error finding tutorial");
       return;
@@ -66,20 +67,14 @@ tutorialsRouter.get("/:slug", async (req, res, next) => {
 tutorialsRouter.put("/:slug", async (req, res, next) => {
   const { slug } = req.params;
   const { tags: newTags, ...reqBody } = req.body;
-
   try {
     const updatedTutorial = await Tutorial.findOneAndUpdate({ slug }, reqBody, {
       new: true,
       runValidators: true,
       upsert: true,
-      populate: { path: "tags" },
-    });
-
-    if (!updatedTutorial) {
-      res.status(500).json("error updating tutorial");
-      return;
-    }
-
+    }).populate("tags");
+    console.log(updatedTutorial);
+    // return;
     const [tagsToRemove, clearRemovedTags, createTags] = [[], [], []];
     for (const tag of updatedTutorial.tags) {
       if (tag && !newTags.includes(tag.label)) {
@@ -102,8 +97,10 @@ tutorialsRouter.put("/:slug", async (req, res, next) => {
       if (!updatedTutorial.tags.find((t) => t.label === tag)) {
         const foundTag = await TutorialTag.findOne({ label: tag });
         if (foundTag) {
-          foundTag.tutorials.push(updatedTutorial._id);
-          createTags.push(foundTag.save());
+          if (!foundTag.tutorials.includes(updatedTutorial._id)) {
+            foundTag.tutorials.push(updatedTutorial._id);
+            createTags.push(foundTag.save());
+          }
           updatedTutorial.tags.push(foundTag._id);
           continue;
         }
