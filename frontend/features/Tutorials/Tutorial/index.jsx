@@ -25,7 +25,6 @@ export default function Tutorial() {
   const isOwner =
     JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
 
-  console.log(tutorial);
   return (
     <Box
       sx={{
@@ -78,6 +77,9 @@ export default function Tutorial() {
         </Typography>
         <Typography variant="subtitle2">
           <b>by:</b> {tutorial.author.username}
+        </Typography>
+        <Typography variant="subtitle2">
+          <b>Read Time:</b> {tutorial.estimatedReadingTime} min
         </Typography>
       </Box>
 

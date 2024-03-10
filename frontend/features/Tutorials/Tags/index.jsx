@@ -12,7 +12,7 @@ export default function TutorialsTags() {
   console.log(tags);
   return (
     <div>
-      {tags.map((tag) => (
+      {tags?.map((tag) => (
         <Link key={tag.slug} to={`/tutorials/tags/${tag.slug}`}>
           {tag.label}
         </Link>
