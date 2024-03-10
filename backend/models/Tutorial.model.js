@@ -73,11 +73,21 @@ const tutorialSchema = new Schema(
         },
       },
     ],
+    estimatedReadingTime: {
+      type: Number,
+      default: 0,
+    },
   },
+
   {
     timestamps: true,
   }
 );
+
+tutorialSchema.pre("save", function (next) {
+  this.estimatedReadingTime = Math.ceil(this.content.length / 5 / 200);
+  next();
+});
 
 tutorialSchema.pre("save", async function (next) {
   if (!this.isModified("title")) {
