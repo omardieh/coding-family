@@ -1,11 +1,10 @@
+import { Box, Button, Chip, Typography } from "@mui/material";
+import MDEditor from "@uiw/react-md-editor";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import useTutorialsHook from "../hook";
-import Loading from "/features/Loading";
-import React, { useEffect } from "react";
-import { Box, Chip, Typography } from "@mui/material";
-import MDEditor from "@uiw/react-md-editor";
 import { useAuthContext } from "/common/contexts/AuthContext";
-import { Button } from "@mui/material";
+import Loading from "/features/Loading";
 
 export default function Tutorial() {
   const { slug } = useParams();
@@ -24,7 +23,7 @@ export default function Tutorial() {
   if (loading || !tutorial) return <Loading />;
   const isOwner =
     JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
-
+  console.log(tutorial);
   return (
     <Box
       sx={{
@@ -57,7 +56,7 @@ export default function Tutorial() {
           component="fieldset"
         >
           <legend style={{ padding: "0 1em" }}> Tags </legend>
-          {tutorial.tags.map(({ _id, label, slug }) => (
+          {tutorial.tags?.map(({ _id, label, slug }) => (
             <React.Fragment key={_id}>
               <Link to={"/tutorials/tags/" + slug}>
                 <Chip
