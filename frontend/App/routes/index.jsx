@@ -1,21 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-import IsPrivate from "./IsPrivate";
 import IsAnon from "./IsAnon";
-import Notification from "/features/Notification";
-import Register from "/features/Register";
+import IsPrivate from "./IsPrivate";
+import Dashboard from "/features/Dashboard";
 import Login from "/features/Login";
-import Welcome from "/features/Welcome";
 import GithubAuth from "/features/Login/GithubAuth";
 import GoogleAuth from "/features/Login/GoogleAuth";
-import Dashboard from "/features/Dashboard";
+import Notification from "/features/Notification";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
-import Tutorials from "/features/Tutorials";
+import Register from "/features/Register";
 import TutorialsCreate from "/features/Tutorials/Create";
-import Tutorial from "/features/Tutorials/Tutorial";
-import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
 import TutorialsTags from "/features/Tutorials/Tags";
 import TutorialsTagsTag from "/features/Tutorials/Tags/Tag";
+import Tutorial from "/features/Tutorials/Tutorial";
+import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
+import Tutorials from "/features/Tutorials/page";
+import Welcome from "/features/Welcome";
 
 export default function RenderRoutes() {
   const renderRoutesRecursively = (routes) => {
