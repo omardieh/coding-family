@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { useAuthContext } from "/common/contexts/AuthContext";
 
 export default function GithubAuth() {
@@ -13,7 +13,7 @@ export default function GithubAuth() {
       axios
         .post(`${import.meta.env.VITE_SERVER_URL}/auth/github`, { code })
         .then((response) => {
-          storeToken(response.data.authToken);
+          storeToken(response.headers.accessToken);
           authenticateUser();
         })
         .catch((error) => {

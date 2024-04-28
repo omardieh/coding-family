@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuthContext } from "/common/contexts/AuthContext";
-import axios from "axios";
 
 export default function GoogleAuth() {
   const { storeToken, authenticateUser } = useAuthContext();
@@ -13,7 +13,7 @@ export default function GoogleAuth() {
       axios
         .post(`${import.meta.env.VITE_SERVER_URL}/auth/google`, { code })
         .then((response) => {
-          storeToken(response.data.authToken);
+          storeToken(response.headers.accessToken);
           authenticateUser();
         })
         .catch((error) => {
