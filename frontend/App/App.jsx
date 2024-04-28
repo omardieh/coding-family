@@ -1,17 +1,16 @@
-import Layout from "/features/Layout";
 import RenderRoutes from "./routes";
+import Theme from "/features/Theme";
 
 function App() {
-  console.log(import.meta.env.DEV);
   return (
     <>
-      <Layout
+      <Theme
         title="Coding Family - Where Innovation is Home"
         description="Where Innovation is Home."
         logo="Coding Family"
       >
         <RenderRoutes />
-      </Layout>
+      </Theme>
     </>
   );
 }

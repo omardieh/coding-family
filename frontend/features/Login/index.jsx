@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import validator from "validator";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Paper } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
+import validator from "validator";
+import LoginForm from "./LoginForm";
+import SocialLoginLink from "./SocialLoginLink";
 import { useAuthContext } from "/common/contexts/AuthContext";
 import { useCaptchaContext } from "/common/contexts/CaptchaContext";
 import AuthService from "/common/services/AuthService";
-import LoginForm from "./LoginForm";
-import SocialLoginLink from "./SocialLoginLink";
 import Loading from "/features/Loading";
 
 export default function Login() {
@@ -60,7 +60,8 @@ export default function Login() {
 
     AuthService.login({ email, password })
       .then((response) => {
-        storeToken(response.data.authToken);
+        const accessToken = response.headers.authorization.split(" ")[1];
+        storeToken(accessToken);
         authenticateUser();
         navigate("/");
       })

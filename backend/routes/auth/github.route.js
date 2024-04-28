@@ -43,11 +43,11 @@ githubRouter.post("/", async (req, res) => {
     if (foundUser) {
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
-      const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
+      const accessToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
         algorithm: "HS256",
         expiresIn: "6h",
       });
-      res.status(200).json({ authToken: authToken });
+      res.status(200).json({ accessToken });
       return;
     }
     const createdUser = await User.create({
@@ -61,11 +61,11 @@ githubRouter.post("/", async (req, res) => {
 
     const { _id, username, fullName, avatar } = createdUser;
     const payload = { _id, username, fullName, avatar };
-    const authToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
+    const accessTokenJWT = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
       algorithm: "HS256",
       expiresIn: "6h",
     });
-    res.status(200).json({ authToken: authToken });
+    res.status(200).json({ accessToken: accessTokenJWT });
   } catch (error) {
     console.error(error);
     res.status(500).json(error);

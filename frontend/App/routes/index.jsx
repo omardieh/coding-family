@@ -9,12 +9,12 @@ import Notification from "/features/Notification";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
 import Register from "/features/Register";
+import Tutorials from "/features/Tutorials";
 import TutorialsCreate from "/features/Tutorials/Create";
 import TutorialsTags from "/features/Tutorials/Tags";
 import TutorialsTagsTag from "/features/Tutorials/Tags/Tag";
 import Tutorial from "/features/Tutorials/Tutorial";
 import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
-import Tutorials from "/features/Tutorials/page";
 import Welcome from "/features/Welcome";
 
 export default function RenderRoutes() {
