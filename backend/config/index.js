@@ -1,16 +1,18 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
+const express = require("express"),
+  logger = require("morgan"),
+  cors = require("cors"),
+  cookies = require("cookie-parser");
 
 module.exports = (app) => {
-  app.use(cors());
+  app.use(logger("dev"));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookies());
   app.use(
     cors({
       origin: [process.env.CLIENT_URL],
       credentials: true,
+      exposedHeaders: ["Authorization"],
     })
   );
-  app.use(logger("dev"));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
 };

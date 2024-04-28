@@ -21,7 +21,6 @@ const jwt = require("jsonwebtoken");
 function isAuthenticated(req, res, next) {
   const accessToken = req.headers["authorization"];
   const refreshToken = req.cookies["refreshToken"];
-
   if (!accessToken && !refreshToken) {
     return res.status(401).send("Access Denied. No token provided.");
   }
