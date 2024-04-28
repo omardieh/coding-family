@@ -31,7 +31,7 @@ loginRouter.post("/", async (req, res, next) => {
     }
     const { _id, email: foundEmail, username, avatar } = foundUser;
     const accessToken = jwt.sign(
-      { user: { _id, email: foundEmail, username, avatar } },
+      { _id, email: foundEmail, username, avatar },
       process.env.JWT_TOKEN_SECRET,
       {
         algorithm: "HS256",
@@ -39,7 +39,7 @@ loginRouter.post("/", async (req, res, next) => {
       }
     );
     const refreshToken = jwt.sign(
-      { user: { _id, email, username, avatar } },
+      { _id, email, username, avatar },
       process.env.JWT_TOKEN_SECRET,
       {
         algorithm: "HS256",
