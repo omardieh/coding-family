@@ -7,6 +7,7 @@ import "/common/assets/fonts/MontserratAlt1-Light.ttf";
 import { AuthProvider } from "/common/contexts/AuthContext";
 import { CaptchaProvider } from "/common/contexts/CaptchaContext";
 import { SocketProvider } from "/common/contexts/SocketContext";
+import TutorialsProvider from "/features/Tutorials/context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -16,7 +17,9 @@ root.render(
       <CaptchaProvider>
         <AuthProvider>
           <SocketProvider>
-            <App />
+            <TutorialsProvider>
+              <App />
+            </TutorialsProvider>
           </SocketProvider>
         </AuthProvider>
       </CaptchaProvider>

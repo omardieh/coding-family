@@ -7,15 +7,20 @@ export default function useFetch(baseURL) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["Access-Control-Allow-Headers"] =
+      "Authorization";
     const accessToken = localStorage.getItem("accessToken");
     const requestInterceptor = axios.interceptors.request.use((config) => {
       if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+        config.headers.Authorization = `${accessToken}`;
       }
       return config;
     });
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
+      axios.defaults.withCredentials = false;
+      delete axios.defaults.headers.common["Access-Control-Allow-Headers"];
     };
   }, []);
 

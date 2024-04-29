@@ -6,6 +6,13 @@ export const useTutorialsContext = () => useContext(TutorialsContext);
 
 export default function TutorialsProvider({ children }) {
   const [tutorials, setTutorials] = useState([]);
+  const [quickFilter, setQuickFilter] = useState({});
 
-  return <TutorialsContext.Provider>{children}</TutorialsContext.Provider>;
+  return (
+    <TutorialsContext.Provider
+      value={{ tutorials, setTutorials, quickFilter, setQuickFilter }}
+    >
+      {children}
+    </TutorialsContext.Provider>
+  );
 }

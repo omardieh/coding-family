@@ -119,13 +119,11 @@ const MAIN = styled.main`
   background: ${colors.white.bg.mid};
   min-height: 88%;
   max-width: 100%;
-  background: yellow;
   width: 100%;
   overflow-y: scroll;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 6em 2em;
   padding-bottom: 10em;
   row-gap: 2em;
   position: relative;

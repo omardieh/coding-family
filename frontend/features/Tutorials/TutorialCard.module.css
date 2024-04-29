@@ -1,5 +1,5 @@
 .card {
-  max-width: 400px;
+  width: 80%;
   margin: auto;
   margin-bottom: 20px;
   text-decoration: none; /* Remove default underline from Link */
