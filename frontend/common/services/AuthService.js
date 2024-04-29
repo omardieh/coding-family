@@ -10,7 +10,6 @@ class AuthService {
       "Authorization";
     this.api.interceptors.request.use((config) => {
       const token = localStorage.getItem("accessToken");
-      console.log(token);
       if (token) {
         config.headers.Authorization = token;
       }
