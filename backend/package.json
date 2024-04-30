@@ -10,7 +10,6 @@
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.0.1",
-    "coding-family-full-stack": "file:..",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
