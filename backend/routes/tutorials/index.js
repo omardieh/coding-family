@@ -73,7 +73,6 @@ tutorialsRouter.put("/:slug", async (req, res, next) => {
       runValidators: true,
       upsert: true,
     }).populate("tags");
-    console.log(updatedTutorial);
     // return;
     const [tagsToRemove, clearRemovedTags, createTags] = [[], [], []];
     for (const tag of updatedTutorial.tags) {

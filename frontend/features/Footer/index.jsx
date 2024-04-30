@@ -1,16 +1,16 @@
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 const Footer = () => {
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.primary.main,
-        color: (theme) => theme.palette.primary.contrastText,
+        backgroundColor: ({ colors: { blue } }) => blue.mid,
+        color: ({ colors: { white } }) => white.light,
         padding: "1em 2em",
         textAlign: "center",
         width: "100%",
@@ -33,7 +33,7 @@ const Footer = () => {
       }}
     >
       <Typography variant="body2" sx={{}}>
-        © 2024 Your Website. All rights reserved.
+        © 2024 {document.title}. All rights reserved.
       </Typography>
       <Box
         sx={{

@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "/common/services/AuthService";
 import Loading from "/features/Loading";
 
@@ -17,11 +17,11 @@ function AuthProvider(props) {
   }, []);
 
   const storeToken = (token) => {
-    localStorage.setItem("authToken", token);
+    localStorage.setItem("accessToken", token);
   };
 
   const authenticateUser = () => {
-    const storedToken = localStorage.getItem("authToken");
+    const storedToken = localStorage.getItem("accessToken");
     if (storedToken) {
       setIsLoggedIn(true);
       AuthService.verifyToken()
@@ -47,7 +47,7 @@ function AuthProvider(props) {
   };
 
   const logOutUser = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("accessToken");
     authenticateUser();
   };
 

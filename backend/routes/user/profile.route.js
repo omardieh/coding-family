@@ -7,6 +7,7 @@ profileRouter.get("/", (req, res) => {
     .then((foundUser) => {
       if (!foundUser) {
         res.status(404).json("User not found");
+        return;
       }
       const {
         _id,

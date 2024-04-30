@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useMemo, useState } from "react";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);
@@ -7,15 +7,20 @@ export default function useFetch(baseURL) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken");
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["Access-Control-Allow-Headers"] =
+      "Authorization";
+    const accessToken = localStorage.getItem("accessToken");
     const requestInterceptor = axios.interceptors.request.use((config) => {
-      if (authToken) {
-        config.headers.Authorization = `Bearer ${authToken}`;
+      if (accessToken) {
+        config.headers.Authorization = `${accessToken}`;
       }
       return config;
     });
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
+      axios.defaults.withCredentials = false;
+      delete axios.defaults.headers.common["Access-Control-Allow-Headers"];
     };
   }, []);
 

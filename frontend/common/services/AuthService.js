@@ -5,11 +5,13 @@ class AuthService {
     this.api = axios.create({
       baseURL: import.meta.env.VITE_SERVER_URL,
     });
-
+    this.api.defaults.withCredentials = true;
+    this.api.defaults.headers.common["Access-Control-Allow-Headers"] =
+      "Authorization";
     this.api.interceptors.request.use((config) => {
-      const storedToken = localStorage.getItem("authToken");
-      if (storedToken) {
-        config.headers = { Authorization: `Bearer ${storedToken}` };
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        config.headers.Authorization = token;
       }
       return config;
     });
@@ -24,7 +26,7 @@ class AuthService {
   };
 
   verifyToken = () => {
-    return this.api.get("/auth/verify/token");
+    return this.api.get("/auth/token/verify");
   };
 
   verifyEmail = ({ userID, token, code }) => {

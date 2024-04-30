@@ -85,7 +85,7 @@ const tutorialSchema = new Schema(
 );
 
 tutorialSchema.pre("save", function (next) {
-  this.estimatedReadingTime = Math.ceil(this.content.length / 5 / 200);
+  this.estimatedReadingTime = Math.ceil(this.content.length / 5 / 200) || 1;
   next();
 });
 

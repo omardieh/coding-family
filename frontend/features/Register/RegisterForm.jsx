@@ -1,5 +1,5 @@
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
   Alert,
   Box,
@@ -87,7 +87,11 @@ export default function RegisterForm({
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{
+            mt: 3,
+            mb: 2,
+            background: (theme) => theme.colors.blue.bg.mid,
+          }}
           style={{ padding: "1em 0" }}
           disabled={disabled}
         >
