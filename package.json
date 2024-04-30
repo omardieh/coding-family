@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "fullstack-prod": "NODE_ENV=prod concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
-    "fullstack-dev": "set NODE_ENV=dev&&concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\""
+    "fullstack-dev": "set NODE_ENV=dev&&concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
+    "fullstack-install": "npm install && npm --prefix ./backend install && npm --prefix ./frontend install"
   },
   "keywords": [],
   "author": "",
