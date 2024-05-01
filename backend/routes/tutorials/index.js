@@ -2,11 +2,15 @@ const tutorialsRouter = require("express").Router();
 const { isAuthenticated } = require("../../middleware/jwt.middleware");
 const Tutorial = require("../../models/Tutorial.model");
 const TutorialTag = require("../../models/TutorialTag.model");
+const User = require("../../models/User.model");
 const mongoInputError = require("../../middleware/mongoInputsError.middleware");
 
 tutorialsRouter.get("/", async (req, res, next) => {
   try {
-    const foundTutorials = await Tutorial.find().populate("tags");
+    const foundTutorials = await Tutorial.find().populate(
+      "tags author",
+      "avatar username label tutorials"
+    );
     res.json(foundTutorials);
   } catch (error) {
     next(error);
@@ -23,6 +27,9 @@ tutorialsRouter.post("/", isAuthenticated, async (req, res, next) => {
       description,
       tags: [],
       content,
+    });
+    await User.findByIdAndUpdate(authorID, {
+      $push: { tutorials: createdTutorial._id },
     });
     if (!tags.length) {
       return;

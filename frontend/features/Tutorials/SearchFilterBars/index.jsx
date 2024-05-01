@@ -11,7 +11,13 @@ export default function SearchFilterBars() {
       <AppBar position="static">
         <Toolbar>
           <QuickFiltersGrid
-            fields={["title", "rating", "views", "popularity"]}
+            fields={[
+              { title: "sort alphabetically", field: "title" },
+              { title: "rating score", field: "rating" },
+              { title: "views count", field: "views" },
+              { title: "date created", field: "date" },
+              { title: "popularity", field: "popularity" },
+            ]}
           />
           <SearchInput />
         </Toolbar>
