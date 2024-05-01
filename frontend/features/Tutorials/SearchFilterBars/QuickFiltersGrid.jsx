@@ -1,11 +1,13 @@
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Box from "@mui/material/Box";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useTutorialsContext } from "./../context";
 
 export default function QuickFiltersGrid({ fields }) {
   const { quickFilter, setQuickFilter } = useTutorialsContext();
   useEffect(() => {
-    setQuickFilter({ activeField: fields[0], isAscending: true });
+    setQuickFilter({ activeField: fields[0].field, isAscending: true });
   }, []);
 
   function handleFilterClick(field, currentField) {
@@ -17,17 +19,27 @@ export default function QuickFiltersGrid({ fields }) {
   }
 
   return (
-    <Box
-      sx={{ width: 1, display: "flex", flexWrap: "wrap", columnGap: ".5em" }}
-    >
-      {fields.map((field, index) => (
-        <Box
-          onClick={() => handleFilterClick(field, quickFilter.activeField)}
-          component="span"
-          key={index + field}
-        >
-          {quickFilter.activeField === field ? <b>{field}</b> : field}
-        </Box>
+    <Box sx={{ width: 1, display: "flex", flexWrap: "wrap", columnGap: "1em" }}>
+      {fields.map(({ title, field }, index) => (
+        <Fragment key={index + field}>
+          <Box
+            onClick={() => handleFilterClick(field, quickFilter.activeField)}
+            component="span"
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            {quickFilter.activeField === field ? <b>{title}</b> : title}{" "}
+            {quickFilter.activeField === field ? (
+              quickFilter.isAscending ? (
+                <KeyboardArrowDownIcon />
+              ) : (
+                <KeyboardArrowUpIcon />
+              )
+            ) : (
+              ""
+            )}
+          </Box>
+          {index !== fields.length - 1 && <span>|</span>}
+        </Fragment>
       ))}
     </Box>
   );

@@ -2,6 +2,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { alpha, styled } from "@mui/material/styles";
 import * as React from "react";
+import { useTutorialsContext } from "../context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -46,6 +47,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchInput() {
+  const { searchInput, setSearchInput } = useTutorialsContext();
+
   return (
     <Search>
       <SearchIconWrapper>
@@ -54,6 +57,7 @@ export default function SearchInput() {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        onChange={(e) => setSearchInput(e.target.value)}
       />
     </Search>
   );
