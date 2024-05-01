@@ -7,10 +7,18 @@ export const useTutorialsContext = () => useContext(TutorialsContext);
 export default function TutorialsProvider({ children }) {
   const [tutorials, setTutorials] = useState([]);
   const [quickFilter, setQuickFilter] = useState({});
+  const [searchInput, setSearchInput] = useState("");
 
   return (
     <TutorialsContext.Provider
-      value={{ tutorials, setTutorials, quickFilter, setQuickFilter }}
+      value={{
+        tutorials,
+        setTutorials,
+        quickFilter,
+        setQuickFilter,
+        searchInput,
+        setSearchInput,
+      }}
     >
       {children}
     </TutorialsContext.Provider>
