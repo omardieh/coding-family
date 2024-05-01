@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SearchFilterBars from "./SearchFilterBars/index";
 import TutorialCard from "./TutorialCard";
 import { useTutorialsContext } from "./context";
@@ -9,31 +9,25 @@ import "./styles.css";
 import Loading from "/features/Loading";
 
 export default function Tutorials() {
-  const [tutorials, setTutorials] = useState([]);
-  const { data, error, loading, getAllTutorials } = useTutorialsHook();
+  const {
+    data: tutorials,
+    error,
+    loading,
+    getAllTutorials,
+  } = useTutorialsHook();
+
   const {
     quickFilter: { activeField, isAscending },
   } = useTutorialsContext();
 
-  async function filterTutorials() {
-    setTutorials(
-      [...data].sort((a, b) =>
-        isAscending
-          ? a[activeField].localeCompare(b[activeField])
-          : b[activeField].localeCompare(a[activeField])
-      )
-    );
-  }
   useEffect(() => {
-    getAllTutorials();
-  }, []);
+    getAllTutorials({
+      filter: activeField,
+      sort: isAscending ? "asc" : "desc",
+    });
+  }, [activeField, isAscending]);
 
-  useEffect(() => {
-    data && filterTutorials();
-  }, [data, activeField, isAscending]);
-
-  if (loading && !tutorials) return <Loading />;
-  console.log(tutorials[0]);
+  if (loading || !tutorials) return <Loading />;
   return (
     <>
       <Box
