@@ -1,14 +1,11 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Box from "@mui/material/Box";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useTutorialsContext } from "./../context";
 
 export default function QuickFiltersGrid({ fields }) {
   const { quickFilter, setQuickFilter } = useTutorialsContext();
-  useEffect(() => {
-    setQuickFilter({ activeField: fields[0].field, isAscending: true });
-  }, []);
 
   function handleFilterClick(field, currentField) {
     setQuickFilter((prevState) => ({

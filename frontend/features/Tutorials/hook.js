@@ -13,9 +13,19 @@ export default function useTutorialsHook() {
     });
   };
 
-  const getAllTutorials = async () => {
+  const getAllTutorials = async (reqQuery = {}) => {
+    const queryKeys = Object.keys(reqQuery);
+    let endPointQuery = "";
+    if (queryKeys.length) {
+      const [first, last] = [queryKeys[0], queryKeys[queryKeys.length - 1]];
+      for (const query in reqQuery) {
+        if (query === first) endPointQuery += "?";
+        endPointQuery += `${query}=${reqQuery[query]}`;
+        if (query !== last) endPointQuery += "&";
+      }
+    }
     await fetcher({
-      endPoint: "/tutorials",
+      endPoint: "/tutorials" + endPointQuery,
     });
   };
 

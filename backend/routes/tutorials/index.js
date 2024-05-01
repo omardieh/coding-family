@@ -6,11 +6,16 @@ const User = require("../../models/User.model");
 const mongoInputError = require("../../middleware/mongoInputsError.middleware");
 
 tutorialsRouter.get("/", async (req, res, next) => {
+  const { sort, filter } = req.query;
+  const sortQuery = {};
+  if (sort && ["asc", "desc"].includes(sort)) {
+    sortQuery[filter] = sort === "asc" ? 1 : -1;
+  }
   try {
-    const foundTutorials = await Tutorial.find().populate(
-      "tags author",
-      "avatar username label tutorials"
-    );
+    const foundTutorials = await Tutorial.find()
+      .sort(sortQuery)
+      .collation({ locale: "en" })
+      .populate("tags author", "avatar username label tutorials slug");
     res.json(foundTutorials);
   } catch (error) {
     next(error);
@@ -65,6 +70,8 @@ tutorialsRouter.get("/:slug", async (req, res, next) => {
       res.json("error finding tutorial");
       return;
     }
+    foundTutorial.views += 1;
+    await foundTutorial.save();
     res.json(foundTutorial);
   } catch (error) {
     res.json(error.message);
