@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SearchFilterBars from "./SearchFilterBars/index";
 import TutorialCard from "./TutorialCard";
 import { useTutorialsContext } from "./context";
@@ -20,12 +21,22 @@ export default function Tutorials() {
     quickFilter: { activeField, isAscending },
   } = useTutorialsContext();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filter, sort] = [searchParams.get("filter"), searchParams.get("sort")];
+
   useEffect(() => {
-    getAllTutorials({
+    setSearchParams({
       filter: activeField,
       sort: isAscending ? "asc" : "desc",
     });
   }, [activeField, isAscending]);
+
+  useEffect(() => {
+    getAllTutorials({
+      filter: filter,
+      sort: sort,
+    });
+  }, [filter, sort]);
 
   if (loading || !tutorials) return <Loading />;
   return (
