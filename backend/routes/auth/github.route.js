@@ -39,7 +39,6 @@ githubRouter.post("/", async (req, res) => {
     });
     const { login, id, avatar_url, name } = getUserInfo.data;
     const foundUser = await User.findOne({ githubID: id });
-    // console.log(foundUser);
     if (foundUser) {
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
@@ -47,7 +46,7 @@ githubRouter.post("/", async (req, res) => {
         algorithm: "HS256",
         expiresIn: "6h",
       });
-      res.status(200).json({ accessToken });
+      res.header("Authorization", `Bearer ${accessToken}`).status(200);
       return;
     }
     const createdUser = await User.create({
@@ -65,9 +64,9 @@ githubRouter.post("/", async (req, res) => {
       algorithm: "HS256",
       expiresIn: "6h",
     });
-    res.status(200).json({ accessToken: accessTokenJWT });
+    res.header("Authorization", `Bearer ${accessTokenJWT}`).status(200);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     res.status(500).json(error);
   }
 });
