@@ -9,7 +9,7 @@ import {
 import { useAuthContext } from "/common/contexts/AuthContext";
 
 export default function Header() {
-  const { isLoggedIn, logOutUser } = useAuthContext();
+  const { isLoggedIn, logUserOut } = useAuthContext();
 
   return (
     <AppBar
@@ -19,7 +19,7 @@ export default function Header() {
       <Toolbar>
         <Navbar navLinks={isLoggedIn ? userLinks : guestLinks}>
           {isLoggedIn && (
-            <AvatarMenu navLinks={userAvatarLinks} handleClick={logOutUser} />
+            <AvatarMenu navLinks={userAvatarLinks} handleClick={logUserOut} />
           )}
         </Navbar>
       </Toolbar>

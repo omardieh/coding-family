@@ -5,10 +5,12 @@ const { githubRouter } = require("./github.route");
 const { googleRouter } = require("./google.route");
 const { captchaRouter } = require("./captcha.route");
 const { tokenRouter } = require("./token.route");
+const { logoutRouter } = require("./logout.route");
 
 module.exports = (app) => {
   app.use("/auth/signup", signupRouter);
   app.use("/auth/login", loginRouter);
+  app.use("/auth/logout", logoutRouter);
   app.use("/auth/verify", verifyRouter);
   app.use("/auth/github", githubRouter);
   app.use("/auth/google", googleRouter);

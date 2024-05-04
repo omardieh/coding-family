@@ -5,7 +5,6 @@ const { isAuthenticated } = require("../../middleware/jwt.middleware");
 const tokenRouter = express.Router();
 
 tokenRouter.get("/verify", isAuthenticated, (req, res) => {
-  console.log(req.payload);
   res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
   res.status(200).json(req.payload);
 });

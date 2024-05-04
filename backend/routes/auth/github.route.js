@@ -17,7 +17,7 @@ githubRouter.post("/", async (req, res) => {
     return;
   }
   try {
-    const getAccessToken = await axios.post(
+    const getGithubAccessToken = await axios.post(
       "https://github.com/login/oauth/access_token",
       {
         code: code,
@@ -31,23 +31,34 @@ githubRouter.post("/", async (req, res) => {
         },
       }
     );
-    const accessToken = getAccessToken.data.access_token;
+    const githubAccessToken = getGithubAccessToken.data.access_token;
+    if (!githubAccessToken) return;
     const getUserInfo = await axios.get("https://api.github.com/user", {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${githubAccessToken}`,
       },
     });
     const { login, id, avatar_url, name } = getUserInfo.data;
     const foundUser = await User.findOne({ githubID: id });
-    // console.log(foundUser);
+    const generateJWT = (payload, refresh = false) =>
+      jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
+        algorithm: "HS256",
+        expiresIn: refresh ? "1d" : "1h",
+      });
+
     if (foundUser) {
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
-      const accessToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
-        algorithm: "HS256",
-        expiresIn: "6h",
-      });
-      res.status(200).json({ accessToken });
+      const refreshToken = generateJWT(payload, true);
+      const accessToken = generateJWT(payload);
+      res
+        .cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          sameSite: "strict",
+        })
+        .set("Access-Control-Expose-Headers", "Authorization")
+        .header("Authorization", `Bearer ${accessToken}`)
+        .json(payload);
       return;
     }
     const createdUser = await User.create({
@@ -58,14 +69,18 @@ githubRouter.post("/", async (req, res) => {
       isEmailVerified: true,
       emailVerifyCode: "verified",
     });
-
     const { _id, username, fullName, avatar } = createdUser;
     const payload = { _id, username, fullName, avatar };
-    const accessTokenJWT = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
-      algorithm: "HS256",
-      expiresIn: "6h",
-    });
-    res.status(200).json({ accessToken: accessTokenJWT });
+    const refreshToken = generateJWT(payload, { refresh: true });
+    const accessToken = generateJWT(payload);
+    res
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+      })
+      .set("Access-Control-Expose-Headers", "Authorization")
+      .header("Authorization", `Bearer ${accessToken}`)
+      .json(payload);
   } catch (error) {
     console.error(error);
     res.status(500).json(error);

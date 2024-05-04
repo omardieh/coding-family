@@ -20,41 +20,62 @@ function AuthProvider(props) {
     localStorage.setItem("accessToken", token);
   };
 
-  const authenticateUser = () => {
+  const authenticateUser = async () => {
     const storedToken = localStorage.getItem("accessToken");
-    if (storedToken) {
-      setIsLoggedIn(true);
-      AuthService.verifyToken()
-        .then((response) => {
-          if (response.statusText === "OK") return AuthService.getUserInfo();
-        })
-        .then((foundUser) => {
-          setUser(foundUser.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoggedIn(false);
-          setIsLoading(false);
-          setUser(null);
-          console.error("authenticateUser", error.message);
-          setErrorMessage(error.response.data);
-        });
-    } else {
+    if (!storedToken) {
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
+      return;
+    }
+    try {
+      const responseVerify = await AuthService.verifyToken();
+      if (responseVerify.status === 200) {
+        const userInfo = await AuthService.getUserInfo();
+        setUser(userInfo.data);
+        setIsLoggedIn(true);
+        setIsLoading(false);
+      } else if (
+        responseVerify.status === 401 &&
+        responseVerify.data === "Access Denied. Token expired"
+      ) {
+        await refreshTokenAndRetry();
+      } else {
+        handleUnexpectedError();
+      }
+    } catch (error) {
+      handleUnexpectedError();
+    }
+
+    async function refreshTokenAndRetry() {
+      try {
+        const responseRefresh = await AuthService.refreshToken();
+        if (responseRefresh.status === 200) {
+          const userInfo = await AuthService.getUserInfo();
+          setUser(userInfo.data);
+          setIsLoggedIn(true);
+          setIsLoading(false);
+        } else {
+          handleUnexpectedError();
+        }
+      } catch (error) {
+        handleUnexpectedError();
+      }
+    }
+
+    function handleUnexpectedError() {
+      setIsLoggedIn(false);
+      setIsLoading(false);
+      setUser(null);
+      console.error("Unexpected error occurred during authentication.");
+      setErrorMessage("An unexpected error occurred. Please try again later.");
     }
   };
 
-  const logOutUser = () => {
+  const logUserOut = async () => {
+    await AuthService.logout();
     localStorage.removeItem("accessToken");
     authenticateUser();
-  };
-
-  const getUserInfo = () => {
-    AuthService.getUserInfo().then((foundUser) => {
-      setUser(foundUser.data);
-    });
   };
 
   const updateUserInfo = (reqBody) => {
@@ -75,8 +96,7 @@ function AuthProvider(props) {
         user,
         storeToken,
         authenticateUser,
-        logOutUser,
-        getUserInfo,
+        logUserOut,
         updateUserInfo,
         errorMessage,
         setErrorMessage,

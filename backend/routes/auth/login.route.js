@@ -53,9 +53,9 @@ loginRouter.post("/", async (req, res, next) => {
       })
       .set("Access-Control-Expose-Headers", "Authorization")
       .header("Authorization", `Bearer ${accessToken}`)
-      .send({ _id, email, username, avatar });
+      .json({ _id, email, username, avatar });
   } catch (error) {
-    res.status(500).json("Internal Server Error");
+    res.status(500).json({ "Internal Server Error": error });
     next(error);
   }
 });

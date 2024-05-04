@@ -25,8 +25,16 @@ class AuthService {
     return this.api.post("/auth/signup", requestBody);
   };
 
+  logout = () => {
+    return this.api.get("/auth/logout");
+  };
+
   verifyToken = () => {
     return this.api.get("/auth/token/verify");
+  };
+
+  refreshToken = () => {
+    return this.api.get("/auth/token/refresh");
   };
 
   verifyEmail = ({ userID, token, code }) => {

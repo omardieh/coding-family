@@ -5,6 +5,7 @@ import Dashboard from "/features/Dashboard";
 import Login from "/features/Login";
 import GithubAuth from "/features/Login/GithubAuth";
 import GoogleAuth from "/features/Login/GoogleAuth";
+import Logout from "/features/Logout";
 import Notification from "/features/Notification";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
@@ -73,6 +74,14 @@ const routes = [
         ),
       },
     ],
+  },
+  {
+    path: "/logout",
+    element: (
+      <IsPrivate>
+        <Logout />
+      </IsPrivate>
+    ),
   },
   {
     path: "/notification",

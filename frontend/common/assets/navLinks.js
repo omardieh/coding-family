@@ -20,5 +20,5 @@ export const userAvatarLinks = [
   { id: uuid(), title: "Dashboard", path: "/dashboard" },
   { id: uuid(), title: "Profile", path: "/profile" },
   { id: uuid(), title: "settings", path: "/settings" },
-  { id: uuid(), title: "Logout", path: "#", logout: true },
+  { id: uuid(), title: "Logout", path: "/logout" },
 ];
