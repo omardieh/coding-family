@@ -1,9 +1,9 @@
-import { useAuthContext } from "/common/contexts/AuthContext";
 import { styled } from "styled-components";
+import { useAuthContext } from "/common/contexts/AuthContext";
 
 export default function Dashboard() {
   const { user } = useAuthContext();
-
+  if (!user) return "loading...";
   return (
     <DIV>
       <P> {user.username} </P>

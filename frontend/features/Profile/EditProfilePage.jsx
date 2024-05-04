@@ -1,27 +1,32 @@
-import { useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  Box,
-  Avatar,
-  Typography,
-  Input,
-  IconButton,
-} from "@mui/material";
-import { useAuthContext } from "/common/contexts/AuthContext";
-import Autocomplete from "@mui/material/Autocomplete";
-import countries from "/common/assets/countries.json";
-import { Alert } from "@mui/material";
-import validator from "validator";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Input,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import validator from "validator";
+import countries from "/common/assets/countries.json";
+import { useAuthContext } from "/common/contexts/AuthContext";
 
 export default function EditProfilePage() {
-  const { user, getUserInfo, updateUserInfo, errorMessage, setErrorMessage } =
-    useAuthContext();
+  const {
+    user,
+    authenticateUser,
+    updateUserInfo,
+    errorMessage,
+    setErrorMessage,
+  } = useAuthContext();
 
   useEffect(() => {
-    getUserInfo();
+    authenticateUser();
   }, []);
 
   const [formData, setFormData] = useState({
@@ -137,6 +142,7 @@ export default function EditProfilePage() {
     updateUserInfo(formData);
   };
 
+  if (!user) return "loading...";
   return (
     <Box
       component="form"

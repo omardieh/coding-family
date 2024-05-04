@@ -1,20 +1,21 @@
-import { useEffect } from "react";
-import { Button, Box, Typography, Link } from "@mui/material";
-import { useAuthContext } from "/common/contexts/AuthContext";
-import { NavLink } from "react-router-dom";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import LanguageIcon from "@mui/icons-material/Language";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import LanguageIcon from "@mui/icons-material/Language";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import { Box, Button, Link, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { useAuthContext } from "/common/contexts/AuthContext";
 
 export default function Profile() {
-  const { user, getUserInfo } = useAuthContext();
+  const { user, authenticateUser } = useAuthContext();
 
   useEffect(() => {
-    getUserInfo();
+    authenticateUser();
   }, []);
+
   const {
     username,
     email,
