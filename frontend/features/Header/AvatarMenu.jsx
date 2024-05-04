@@ -43,14 +43,14 @@ function AvatarMenu({ navLinks, handleClick }) {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {navLinks.map(({ id, title, path, logout }) => (
+        {navLinks.map(({ id, title, path }) => (
           <NavLink
             key={id}
             to={path}
             style={{ all: "unset" }}
             onClick={handleCloseUserMenu}
           >
-            <MenuItem onClick={logout ? handleClick : undefined}>
+            <MenuItem>
               <Typography textAlign="center">{title}</Typography>
             </MenuItem>
           </NavLink>

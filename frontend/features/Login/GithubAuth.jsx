@@ -13,7 +13,8 @@ export default function GithubAuth() {
       axios
         .post(`${import.meta.env.VITE_SERVER_URL}/auth/github`, { code })
         .then((response) => {
-          storeToken(response.headers.accessToken);
+          const accessToken = response.headers.authorization.split(" ")[1];
+          storeToken(accessToken);
           authenticateUser();
         })
         .catch((error) => {
