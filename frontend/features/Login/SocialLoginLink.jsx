@@ -9,12 +9,12 @@ export default function SocialLoginLink({
 }) {
   return (
     <>
-      <Link to={to} style={{ ...styleLink }}>
+      <Link to={to} style={{ ...styleLink, padding: "0 1em" }}>
         <Button
           fullWidth
           variant="contained"
+          sx={{ background: (theme) => theme.colors.black.bg.mid }}
           style={{ ...styleButton }}
-          sx={{ background: (theme) => theme.colors.blue.bg.mid }}
         >
           {children}
         </Button>

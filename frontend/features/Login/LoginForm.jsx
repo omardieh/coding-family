@@ -65,7 +65,11 @@ export default function LoginForm({
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2, background: (theme) => theme.colors.blue.bg.mid }}
+          sx={{
+            mt: 3,
+            mb: 2,
+            background: (theme) => theme.colors.black.bg.mid,
+          }}
           style={{ padding: "1em 0" }}
           disabled={disabled}
         >
