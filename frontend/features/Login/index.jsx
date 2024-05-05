@@ -118,7 +118,7 @@ export default function Login() {
           </>
           <>
             <SocialLoginLink
-              to={`${import.meta.env.VITE_SERVER_URL}/auth/github`}
+              to={`/login/github`}
               styleLink={{ width: "100%" }}
               styleButton={{ padding: "1em 0", marginTop: "2em" }}
             >
@@ -126,7 +126,7 @@ export default function Login() {
               <FaGithub style={{ fontSize: "2em", marginLeft: ".5em" }} />
             </SocialLoginLink>
             <SocialLoginLink
-              to={`${import.meta.env.VITE_SERVER_URL}/auth/google`}
+              to={`/login/google`}
               styleLink={{ width: "100%" }}
               styleButton={{ padding: "1em 0", marginTop: "2em" }}
             >
