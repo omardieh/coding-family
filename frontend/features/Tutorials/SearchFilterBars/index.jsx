@@ -8,7 +8,13 @@ import SearchInput from "./SearchInput";
 export default function SearchFilterBars() {
   return (
     <Box sx={{ flexGrow: 1, width: "100%", position: "fixed" }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{
+          background: (theme) => theme.colors.black.light,
+          zIndex: 1,
+        }}
+      >
         <Toolbar>
           <QuickFiltersGrid
             fields={[
