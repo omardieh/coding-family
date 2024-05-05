@@ -1,22 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-// const isAuthenticated = jwt({
-//   secret: process.env.JWT_TOKEN_SECRET,
-//   algorithms: ["HS256"],
-//   requestProperty: "payload",
-//   getToken: getTokenFromHeaders,
-// });
+const generateJWT = ({ exp, iat, ...payload }, state) =>
+  jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
+    algorithm: "HS256",
+    expiresIn: state?.refresh ? "1d" : "5m",
+  });
 
-// function getTokenFromHeaders(req) {
-//   if (
-//     req.headers.authorization &&
-//     req.headers.authorization.split(" ")[0] === "Bearer"
-//   ) {
-//     const token = req.headers.authorization.split(" ")[1];
-//     return token;
-//   }
-//   return null;
-// }
+const verifyJWT = (token) => jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
 function isAuthenticated(req, res, next) {
   const accessToken = req.headers["authorization"];
@@ -25,31 +15,34 @@ function isAuthenticated(req, res, next) {
     return res.status(401).send("Access Denied. No token provided.");
   }
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_TOKEN_SECRET);
-    req.payload = decoded;
+    const payload = verifyJWT(accessToken);
+    req.payload = payload;
     next();
   } catch (error) {
     if (!refreshToken) {
-      return res.status(401).send("Access Denied. No refresh token provided.");
+      res.status(401).send("Access Denied. No refresh token provided.");
+      next(error);
+      return;
     }
     try {
-      const decoded = jwt.verify(refreshToken, process.env.JWT_TOKEN_SECRET);
-      const accessToken = jwt.sign(decoded, process.env.JWT_TOKEN_SECRET, {
-        expiresIn: "1h",
-      });
+      const payload = verifyJWT(refreshToken);
+      const accessToken = generateJWT(payload);
       res
         .cookie("refreshToken", refreshToken, {
           httpOnly: true,
           sameSite: "strict",
         })
         .header("Authorization", accessToken)
-        .send(decoded);
+        .send(payload);
     } catch (error) {
-      return res.status(400).send("Invalid Token.");
+      res.status(400).send("Invalid Token.");
+      next(error);
     }
   }
 }
 
 module.exports = {
   isAuthenticated,
+  generateJWT,
+  verifyJWT,
 };

@@ -35,39 +35,12 @@ function AuthProvider(props) {
         setUser(userInfo.data);
         setIsLoggedIn(true);
         setIsLoading(false);
-      } else if (
-        responseVerify.status === 401 &&
-        responseVerify.data === "Access Denied. Token expired"
-      ) {
-        await refreshTokenAndRetry();
-      } else {
-        handleUnexpectedError();
       }
     } catch (error) {
-      handleUnexpectedError();
-    }
-
-    async function refreshTokenAndRetry() {
-      try {
-        const responseRefresh = await AuthService.refreshToken();
-        if (responseRefresh.status === 200) {
-          const userInfo = await AuthService.getUserInfo();
-          setUser(userInfo.data);
-          setIsLoggedIn(true);
-          setIsLoading(false);
-        } else {
-          handleUnexpectedError();
-        }
-      } catch (error) {
-        handleUnexpectedError();
-      }
-    }
-
-    function handleUnexpectedError() {
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
-      console.error("Unexpected error occurred during authentication.");
+      console.error(error, "Unexpected error occurred during authentication.");
       setErrorMessage("An unexpected error occurred. Please try again later.");
     }
   };
