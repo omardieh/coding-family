@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuthContext } from "/common/contexts/AuthContext";
+import AuthService from "/common/services/AuthService";
 
 export default function GoogleAuth() {
   const { storeToken, authenticateUser } = useAuthContext();
@@ -10,19 +10,20 @@ export default function GoogleAuth() {
 
   useEffect(() => {
     if (code) {
-      axios
-        .post(`${import.meta.env.VITE_SERVER_URL}/auth/google`, { code })
+      AuthService.loginGoogle(code)
         .then((response) => {
-          storeToken(response.headers.accessToken);
+          const accessToken = response.headers.authorization.split(" ")[1];
+          storeToken(accessToken);
           authenticateUser();
         })
         .catch((error) => {
-          console.error("GoogleAuth : ", error);
+          console.error("GoogleAuth:", error);
         });
-    } else {
-      console.error("Missing access code in the URL.");
+      return;
     }
+    window.location.replace(`${import.meta.env.VITE_SERVER_URL}/auth/google`);
   }, [code, authenticateUser, storeToken]);
+
   return (
     <div>
       <p>Loading...</p>

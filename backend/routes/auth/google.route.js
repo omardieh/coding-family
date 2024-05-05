@@ -1,8 +1,8 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const User = require("../../models/User.model");
 const qs = require("qs");
+const { generateJWT } = require("../../middleware/jwt.middleware");
 
 const googleRouter = express.Router();
 
@@ -55,11 +55,17 @@ googleRouter.post("/", async (req, res) => {
       const [foundUser] = foundUsers;
       const { _id, fullName, avatar, username } = foundUser;
       const payload = { _id, username, fullName, avatar };
-      const accessToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
-        algorithm: "HS256",
-        expiresIn: "6h",
-      });
-      res.status(200).json({ accessToken });
+      const refreshToken = generateJWT(payload, { refresh: true });
+      const accessToken = generateJWT(payload);
+
+      res
+        .cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          sameSite: "strict",
+        })
+        .set("Access-Control-Expose-Headers", "Authorization")
+        .header("Authorization", `Bearer ${accessToken}`)
+        .json(payload);
       return;
     }
     const createdUser = await User.create({
@@ -73,11 +79,16 @@ googleRouter.post("/", async (req, res) => {
     });
     const { _id, username, fullName, avatar } = createdUser;
     const payload = { _id, username, fullName, avatar };
-    const accessToken = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
-      algorithm: "HS256",
-      expiresIn: "6h",
-    });
-    res.status(200).json({ accessToken });
+    const refreshToken = generateJWT(payload, { refresh: true });
+    const accessToken = generateJWT(payload);
+    res
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+      })
+      .set("Access-Control-Expose-Headers", "Authorization")
+      .header("Authorization", `Bearer ${accessToken}`)
+      .json(payload);
   } catch (error) {
     console.error("google auth error: ", error);
     res.status(500).json(error);

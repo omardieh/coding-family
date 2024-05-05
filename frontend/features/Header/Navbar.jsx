@@ -1,8 +1,7 @@
-import { NavLink } from "react-router-dom";
-import { Box } from "@mui/material";
-import { useState } from "react";
-import { Button, IconButton, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import MobSideMenu from "./MobSideMenu";
 
 export default function Navbar({ navLinks, children }) {
@@ -19,6 +18,9 @@ export default function Navbar({ navLinks, children }) {
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
+        "& *": {
+          color: (theme) => theme.colors.black.dark,
+        },
       }}
     >
       <IconButton
