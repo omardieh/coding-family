@@ -21,6 +21,18 @@ class AuthService {
     return this.api.post("/auth/login", requestBody);
   };
 
+  loginGithub = (code) => {
+    return this.api.post(`${import.meta.env.VITE_SERVER_URL}/auth/github`, {
+      code,
+    });
+  };
+
+  loginGoogle = (code) => {
+    return this.api.post(`${import.meta.env.VITE_SERVER_URL}/auth/google`, {
+      code,
+    });
+  };
+
   signup = (requestBody) => {
     return this.api.post("/auth/signup", requestBody);
   };

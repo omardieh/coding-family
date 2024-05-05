@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuthContext } from "/common/contexts/AuthContext";
+import AuthService from "/common/services/AuthService";
 
 export default function GithubAuth() {
   const { storeToken, authenticateUser } = useAuthContext();
@@ -10,8 +10,7 @@ export default function GithubAuth() {
 
   useEffect(() => {
     if (code) {
-      axios
-        .post(`${import.meta.env.VITE_SERVER_URL}/auth/github`, { code })
+      AuthService.loginGithub(code)
         .then((response) => {
           const accessToken = response.headers.authorization.split(" ")[1];
           storeToken(accessToken);
@@ -20,9 +19,9 @@ export default function GithubAuth() {
         .catch((error) => {
           console.error("GithubAuth : ", error);
         });
-    } else {
-      console.error("Missing [access code] in the URL.");
+      return;
     }
+    window.location.replace(`${import.meta.env.VITE_SERVER_URL}/auth/github`);
   }, [code, authenticateUser, storeToken]);
 
   return (
