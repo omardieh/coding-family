@@ -33,10 +33,6 @@ class AuthService {
     return this.api.get("/auth/token/verify");
   };
 
-  refreshToken = () => {
-    return this.api.get("/auth/token/refresh");
-  };
-
   verifyEmail = ({ userID, token, code }) => {
     const requestHeaders = {
       headers: {

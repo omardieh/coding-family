@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User.model");
+const { generateJWT } = require("../../middleware/jwt.middleware");
 
 const loginRouter = express.Router();
 
@@ -30,22 +31,9 @@ loginRouter.post("/", async (req, res, next) => {
       return;
     }
     const { _id, email: foundEmail, username, avatar } = foundUser;
-    const accessToken = jwt.sign(
-      { _id, email: foundEmail, username, avatar },
-      process.env.JWT_TOKEN_SECRET,
-      {
-        algorithm: "HS256",
-        expiresIn: "1h",
-      }
-    );
-    const refreshToken = jwt.sign(
-      { _id, email, username, avatar },
-      process.env.JWT_TOKEN_SECRET,
-      {
-        algorithm: "HS256",
-        expiresIn: "1d",
-      }
-    );
+    const payload = { _id, email: foundEmail, username, avatar };
+    const refreshToken = generateJWT(payload, { refresh: true });
+    const accessToken = generateJWT(payload);
     res
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
