@@ -3,9 +3,11 @@ import styled, { keyframes } from "styled-components";
 
 export default function Loading() {
   return (
-    <SVG viewBox="0 0 50 50">
-      <CIRCLE cx="25" cy="25" r="20" fill="none" strokeWidth="5" />
-    </SVG>
+    <CONTIANER>
+      <SVG viewBox="0 0 50 50">
+        <CIRCLE cx="25" cy="25" r="20" fill="none" strokeWidth="5" />
+      </SVG>
+    </CONTIANER>
   );
 }
 
@@ -45,4 +47,10 @@ const CIRCLE = styled.circle`
   stroke: #cccccc;
   stroke-linecap: round;
   animation: ${dashAnimation} 1.5s ease-in-out infinite;
+`;
+
+const CONTIANER = styled.div`
+  stroke-linecap: round;
+  width: 100%;
+  height: 100vh;
 `;

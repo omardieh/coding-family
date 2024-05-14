@@ -18,8 +18,9 @@ export default function Navbar({ navLinks, children }) {
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
+        color: (theme) => theme.colors.black.dark + "!important",
         "& *": {
-          color: (theme) => theme.colors.black.dark,
+          color: (theme) => theme.colors.black.dark + "!important",
         },
       }}
     >
