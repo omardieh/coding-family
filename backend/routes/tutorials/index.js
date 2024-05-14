@@ -6,17 +6,27 @@ const User = require("../../models/User.model");
 const mongoInputError = require("../../middleware/mongoInputsError.middleware");
 
 tutorialsRouter.get("/", async (req, res, next) => {
-  const { sort, filter } = req.query;
+  const { page = 1, perPage = 12, sort, filter } = req.query;
   const sortQuery = {};
   if (sort && ["asc", "desc"].includes(sort)) {
     sortQuery[filter] = sort === "asc" ? 1 : -1;
   }
   try {
+    const totalTutorialsCount = await Tutorial.countDocuments();
+    const skip = (page - 1) * perPage;
     const foundTutorials = await Tutorial.find()
       .sort(sortQuery)
+      .skip(skip)
+      .limit(perPage)
       .collation({ locale: "en" })
       .populate("tags author", "avatar username label tutorials slug");
-    res.json(foundTutorials);
+    res.json({
+      tutorials: foundTutorials,
+      current_page: +page,
+      per_page: +perPage,
+      total_pages: Math.ceil(totalTutorialsCount / perPage),
+      total_tutorials: totalTutorialsCount,
+    });
   } catch (error) {
     next(error);
   }

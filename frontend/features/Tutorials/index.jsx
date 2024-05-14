@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import SearchFilterBars from "./SearchFilterBars/index";
+import SearchFilterBars from "./SearchFilterBars";
 import TutorialCard from "./TutorialCard";
 import { useTutorialsContext } from "./context";
 import useTutorialsHook from "./hook";
@@ -10,12 +10,7 @@ import "./styles.css";
 import Loading from "/features/Loading";
 
 export default function Tutorials() {
-  const {
-    data: tutorials,
-    error,
-    loading,
-    getAllTutorials,
-  } = useTutorialsHook();
+  const { data, error, loading, getAllTutorials } = useTutorialsHook();
 
   const {
     quickFilter: { activeField, isAscending },
@@ -37,8 +32,7 @@ export default function Tutorials() {
       sort: sort,
     });
   }, [filter, sort]);
-
-  if (loading || !tutorials) return <Loading />;
+  console.log(data);
   return (
     <>
       <Box
@@ -49,19 +43,23 @@ export default function Tutorials() {
         }}
       >
         <SearchFilterBars />
-        <Box
-          className={classes.box}
-          sx={{
-            background: (theme) => theme.colors.white.mid,
-            margin: "auto",
-            marginTop: "6em",
-            maxWidth: "1200px",
-          }}
-        >
-          {tutorials?.map((tutorial) => (
-            <TutorialCard key={tutorial._id} tutorial={tutorial} />
-          ))}
-        </Box>
+        {!data?.tutorials || loading ? (
+          <Loading />
+        ) : (
+          <Box
+            className={classes.box}
+            sx={{
+              background: (theme) => theme.colors.white.mid,
+              margin: "auto",
+              marginTop: "6em",
+              maxWidth: "1200px",
+            }}
+          >
+            {data.tutorials?.map((tutorial) => (
+              <TutorialCard key={tutorial._id} tutorial={tutorial} />
+            ))}
+          </Box>
+        )}
       </Box>
     </>
   );

@@ -120,11 +120,12 @@ const MAIN = styled.main`
   min-height: 88%;
   max-width: 100%;
   width: 100%;
+  height: 100%;
   overflow-y: scroll;
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 10em;
+  /* padding-bottom: 10em; */
   row-gap: 2em;
   position: relative;
   @media ${mob}, ${tab} {

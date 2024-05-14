@@ -22,11 +22,13 @@ export default function Profile() {
     avatar,
     country,
     bio,
-    socialMedia: { facebook, linkedin, twitter },
+    socialMedia,
     website,
     following,
     followers,
   } = user;
+
+  const { facebook, linkedin, twitter } = socialMedia || {};
 
   return (
     <Box
