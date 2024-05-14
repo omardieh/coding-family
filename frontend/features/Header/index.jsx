@@ -16,10 +16,6 @@ export default function Header() {
       sx={{
         width: "100%",
         background: (theme) => theme.colors.white.bg.dark,
-        color: (theme) => theme.colors.black.dark,
-        "& *": {
-          color: (theme) => theme.colors.black.dark,
-        },
       }}
       component="header"
     >
