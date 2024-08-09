@@ -11,6 +11,7 @@ const verifyJWT = (token) => jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 function isAuthenticated(req, res, next) {
   const accessToken = req.headers["authorization"];
   const refreshToken = req.cookies["refreshToken"];
+  console.log(accessToken, "sep", refreshToken);
   if (!accessToken && !refreshToken) {
     return res.status(401).send("Access Denied. No token provided.");
   }
@@ -27,13 +28,13 @@ function isAuthenticated(req, res, next) {
     try {
       const payload = verifyJWT(refreshToken);
       const accessToken = generateJWT(payload);
-      res
-        .cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          sameSite: "strict",
-        })
-        .header("Authorization", accessToken)
-        .send(payload);
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+      });
+      res.header("Authorization", accessToken);
+      req.payload = payload;
+      next();
     } catch (error) {
       res.status(400).send("Invalid Token.");
       next(error);

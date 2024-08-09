@@ -7,8 +7,10 @@ export const useTutorialsContext = () => useContext(TutorialsContext);
 export default function TutorialsProvider({ children }) {
   const [tutorials, setTutorials] = useState([]);
   const [quickFilter, setQuickFilter] = useState({
-    activeField: "title",
-    isAscending: true,
+    field: "title",
+    sort: "asc",
+    page: 1,
+    per_page: 12,
   });
   const [searchInput, setSearchInput] = useState("");
 
