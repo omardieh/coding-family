@@ -3,7 +3,7 @@ require("dotenv").config({
   path: path.resolve(__dirname, `.env.${process.env.NODE_ENV}`),
 });
 
-const app = require("./app");
+const app = require("../app");
 const { connectDB } = require("./config/database.config");
 const { useSocketIO } = require("./config/socket.config");
 
