@@ -69,7 +69,7 @@ tutorialsRouter.post("/", isAuthenticated, async (req, res, next) => {
       createdTutorial.tags.push(createdTag._id);
     }
     await createdTutorial.save();
-    res.status(201).json({ created: true });
+    res.status(201).json({ tutorial: createdTutorial, created: true });
   } catch (error) {
     mongoInputError(error, req, res);
   }
