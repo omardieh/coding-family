@@ -11,6 +11,7 @@
     "dev": "set NODE_ENV=development&&nodemon src/index.ts"
   },
   "dependencies": {
+    "@types/nodemailer": "^6.4.15",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.0.1",
