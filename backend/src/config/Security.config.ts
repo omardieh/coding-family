@@ -1,7 +1,7 @@
-import cors from "cors";
-import { Application } from "express";
-import rateLimit from "express-rate-limit";
-import helmet from "helmet";
+import cors from 'cors';
+import { Application } from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 
 export class SecurityConfig {
   constructor(private app: Application) {
@@ -25,13 +25,13 @@ export class SecurityConfig {
           },
         },
         dnsPrefetchControl: false,
-        frameguard: { action: "sameorigin" },
+        frameguard: { action: 'sameorigin' },
         hsts: { maxAge: 31536000, includeSubDomains: true },
         ieNoOpen: true,
         noSniff: true,
-        referrerPolicy: { policy: "no-referrer" },
+        referrerPolicy: { policy: 'no-referrer' },
         xssFilter: true,
-      })
+      }),
     );
   }
 
@@ -40,13 +40,13 @@ export class SecurityConfig {
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
-    const isDevEnv = process.env.NODE_ENV === "development";
+    const isDevEnv = process.env.NODE_ENV === 'development';
     this.app.use(
       isDevEnv
         ? cors()
         : cors({
             origin: [`${process.env.CLIENT_URL}`],
-          })
+          }),
     );
   }
 
