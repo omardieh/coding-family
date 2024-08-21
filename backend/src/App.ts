@@ -1,6 +1,7 @@
 // import { InitiateIndexRoutes, InitiateMapRoutes, InitiateUserRoutes } from '@/routes';
+import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '@/config';
+import { InitiateUserRoutes } from '@/routes';
 import express from 'express';
-import { EnvironmentConfig, LoggingConfig, SecurityConfig } from '@/config';
 
 class App {
   public app;
@@ -8,6 +9,7 @@ class App {
     this.app = express();
     this.initializeConfigs();
     this.setRoutes();
+    this.handleErrors();
   }
 
   private initializeConfigs(): void {
@@ -18,8 +20,11 @@ class App {
 
   private setRoutes(): void {
     // new InitiateIndexRoutes(this.app);
-    // new InitiateUserRoutes(this.app);
+    new InitiateUserRoutes(this.app);
     // new InitiateMapRoutes(this.app);
+  }
+  private handleErrors(): void {
+    new ErrorsConfig(this.app);
   }
 }
 

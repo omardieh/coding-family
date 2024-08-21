@@ -1,6 +1,6 @@
+import { IUser } from '@/types';
 import bcrypt from 'bcryptjs';
 import { Schema, model } from 'mongoose';
-import { IUser } from '@/types';
 
 // Define the schema
 const userSchema = new Schema<IUser>(
@@ -123,5 +123,4 @@ userSchema.methods.compareEmail = function (verificationCode: string): Promise<b
   return bcrypt.compare(verificationCode, this.emailVerifyCode);
 };
 
-const User = model<IUser>('User', userSchema);
-export default User;
+export const UserModel = model<IUser>('User', userSchema);
