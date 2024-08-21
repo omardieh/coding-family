@@ -22,18 +22,20 @@ export const CaptchaProvider = ({ children }) => {
           .execute(import.meta.env.VITE_GOOGLE_CAPTCHA_KEY, {
             action: "submit",
           })
-          .then((token) => {
-            axios
-              .post(`${import.meta.env.VITE_SERVER_URL}/auth/captcha`, {
-                token,
-              })
-              .then((response) => {
-                setIsVerified(response.data.verified);
-              })
-              .catch((error) => {
-                console.error("error captcha:", error);
-              })
-              .finally(() => setIsLoading(false));
+          .then(async (token) => {
+            try {
+              const response = await axios.post(
+                `${import.meta.env.VITE_SERVER_URL}/auth/captcha`,
+                {
+                  token,
+                }
+              );
+              setIsVerified(response.data.verified);
+            } catch (error) {
+              console.error("error captcha:", error);
+            } finally {
+              setIsLoading(false);
+            }
           });
       });
     };

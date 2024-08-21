@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from "@mui/material";
 import AvatarMenu from "./AvatarMenu";
 import Navbar from "./Navbar";
+import ThemeToggle from "./ThemeToggle";
 import {
   guestLinks,
   userAvatarLinks,
@@ -8,7 +9,7 @@ import {
 } from "/common/assets/navLinks";
 import { useAuthContext } from "/common/contexts/AuthContext";
 
-export default function Header() {
+export default function Header({ mode, setMode }) {
   const { isLoggedIn, logUserOut } = useAuthContext();
 
   return (
@@ -24,6 +25,10 @@ export default function Header() {
           {isLoggedIn && (
             <AvatarMenu navLinks={userAvatarLinks} handleClick={logUserOut} />
           )}
+          <ThemeToggle
+            onChange={() => setMode(mode === "light" ? "dark" : "light")}
+            label={mode}
+          />
         </Navbar>
       </Toolbar>
     </AppBar>

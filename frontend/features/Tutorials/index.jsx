@@ -11,28 +11,25 @@ import Loading from "/features/Loading";
 
 export default function Tutorials() {
   const { data, error, loading, getAllTutorials } = useTutorialsHook();
+  const { quickFilter } = useTutorialsContext();
+  const [searchParams] = useSearchParams();
 
-  const {
-    quickFilter: { activeField, isAscending },
-  } = useTutorialsContext();
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [filter, sort] = [searchParams.get("filter"), searchParams.get("sort")];
-
-  useEffect(() => {
-    setSearchParams({
-      filter: activeField,
-      sort: isAscending ? "asc" : "desc",
-    });
-  }, [activeField, isAscending]);
+  const [field, sort, page, per_page] = [
+    searchParams.get("field") || quickFilter.field,
+    searchParams.get("sort") || quickFilter.sort,
+    searchParams.get("page") || quickFilter.page,
+    searchParams.get("per_page") || quickFilter.per_page,
+  ];
 
   useEffect(() => {
     getAllTutorials({
-      filter: filter,
-      sort: sort,
+      ...(field && { field: field }),
+      ...(sort && { sort: sort }),
+      ...(page && { page: page }),
+      ...(per_page && { per_page: per_page }),
     });
-  }, [filter, sort]);
-  console.log(data);
+  }, [field, sort, page, per_page]);
+
   return (
     <>
       <Box
