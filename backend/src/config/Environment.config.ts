@@ -1,7 +1,7 @@
+import { setEnv } from '@/utils';
+import cookies from 'cookie-parser';
 import express, { Application } from 'express';
 import path from 'path';
-import cookies from 'cookie-parser';
-import dotenv from 'dotenv';
 
 export class EnvironmentConfig {
   constructor(private app: Application) {
@@ -12,9 +12,10 @@ export class EnvironmentConfig {
   }
 
   private configureEnvVars(): void {
-    dotenv.config({
-      path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
-    });
+    // dotenv.config({
+    //   path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
+    // });
+    setEnv();
   }
 
   private configureExpress(): void {

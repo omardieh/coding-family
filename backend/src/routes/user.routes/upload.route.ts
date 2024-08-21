@@ -3,12 +3,12 @@ import { BaseRouter } from '@/routes';
 import { CloudinaryService } from '@/services';
 import { NextFunction, Request, Response } from 'express';
 
-class UploadsRoutes extends BaseRouter {
+class UploadRoutes extends BaseRouter {
   private cloudinary;
   constructor() {
     super();
     this.cloudinary = new CloudinaryService();
-    this.router.post('/upload', this.cloudinary.getMulterInstance().single('user-avatar'), this.uploadUserAvatar);
+    this.router.patch('/user/upload', this.cloudinary.getMulterInstance().single('user-avatar'), this.uploadUserAvatar);
   }
 
   async uploadUserAvatar(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -23,4 +23,4 @@ class UploadsRoutes extends BaseRouter {
   }
 }
 
-export const { router } = new UploadsRoutes();
+export const { router: uploadRoutes } = new UploadRoutes();

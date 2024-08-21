@@ -17,4 +17,4 @@ class UserRoutes extends BaseRouter {
   }
 }
 
-export const { router } = new UserRoutes();
+export const { router: userRoutes } = new UserRoutes();
