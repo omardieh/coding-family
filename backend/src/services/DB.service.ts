@@ -1,6 +1,7 @@
 import { IDBService } from '@/types';
 import colors from 'colors';
-import mongoose from 'mongoose';
+import { Request, Response } from 'express';
+import mongoose, { Error } from 'mongoose';
 
 export class DBService implements IDBService {
   public async connectDB() {
@@ -26,6 +27,18 @@ export class DBService implements IDBService {
     } catch (error) {
       console.error('Failed to close MongoDB connection', error);
       process.exit(1);
+    }
+  }
+  public logMongooseError(error: Error.ValidationError, req: Request, res: Response) {
+    if (error.name === 'ValidationError') {
+      let key: string | undefined;
+      Object.keys(req.body).forEach((field) => {
+        if (error.errors[field]) {
+          key = field;
+        }
+      });
+      const errorMessage = key ? error.errors[key].message : 'Unknown error';
+      res.status(400).json({ error: errorMessage });
     }
   }
 }
