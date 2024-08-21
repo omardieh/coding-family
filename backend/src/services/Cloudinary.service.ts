@@ -1,15 +1,15 @@
+import { setEnv } from '@/utils';
 import { v2 as cloudinary, ConfigOptions } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer, { Multer } from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
+setEnv();
 export class CloudinaryService {
   private cloudinaryConfig: ConfigOptions;
-
   constructor() {
     this.cloudinaryConfig = this.validateConfig();
     cloudinary.config(this.cloudinaryConfig);
   }
-
   private validateConfig(): ConfigOptions {
     const cloudinaryConfig: ConfigOptions = {
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
@@ -20,7 +20,6 @@ export class CloudinaryService {
     if (!cloudinaryConfig.cloud_name || !cloudinaryConfig.api_key || !cloudinaryConfig.api_secret) {
       throw new Error('Cloudinary configuration variables are missing.');
     }
-
     return cloudinaryConfig;
   }
 
@@ -33,7 +32,6 @@ export class CloudinaryService {
         public_id: file.originalname.split('.')[0],
       }),
     });
-
     return multer({ storage });
   }
 }
