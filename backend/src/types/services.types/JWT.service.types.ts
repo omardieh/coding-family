@@ -6,7 +6,7 @@ export interface JwtPayloadWithIatExp extends JwtPayload {
   [key: string]: any;
 }
 
-export interface JWTServiceOptions {
+export interface IJWTServiceOptions {
   secret: string;
   accessTokenExpiresIn: string;
   refreshTokenExpiresIn: string;

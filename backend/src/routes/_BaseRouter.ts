@@ -2,7 +2,7 @@ import { DBService, JWTService } from '@/services';
 import { Router } from 'express';
 
 export class BaseRouter {
-  public router: Router;
+  public router;
   public db;
   public JWTService;
   constructor() {

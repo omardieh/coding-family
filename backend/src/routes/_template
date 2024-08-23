@@ -1,0 +1,12 @@
+import { BaseRouter } from '@/routes';
+
+class LogoutRoute extends BaseRouter {
+  constructor() {
+    super();
+    this.router.get('/', getSomething);
+  }
+
+  async getSomething(req: Request, res: Response, next: NextFunction): Promise<void> {}
+}
+
+export const { router: LogoutRoute } = new LogoutRoute();
