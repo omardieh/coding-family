@@ -1,11 +1,11 @@
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const { isAuthenticated } = require("../../middleware/jwt.middleware");
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const { isAuthenticated } = require('../../middleware/jwt.middleware');
 
 const tokenRouter = express.Router();
 
-tokenRouter.get("/verify", isAuthenticated, (req, res) => {
-  res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+tokenRouter.get('/verify', isAuthenticated, (req, res) => {
+  res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL);
   res.status(200).json(req.payload);
 });
 

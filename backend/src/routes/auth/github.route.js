@@ -1,24 +1,24 @@
-const express = require("express");
-const axios = require("axios");
-const User = require("../../models/User.model");
-const { generateJWT } = require("../../middleware/jwt.middleware");
+const express = require('express');
+const axios = require('axios');
+const User = require('../../models/User.model');
+const { generateJWT } = require('../../middleware/jwt.middleware');
 
 const githubRouter = express.Router();
 
-githubRouter.get("/", (req, res) => {
+githubRouter.get('/', (req, res) => {
   const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URI}&scope=read:user`;
   res.redirect(githubAuthURL);
 });
 
-githubRouter.post("/", async (req, res) => {
+githubRouter.post('/', async (req, res) => {
   const { code } = req.body;
   if (!code) {
-    res.status(404).json("code not found");
+    res.status(404).json('code not found');
     return;
   }
   try {
     const getGithubAccessToken = await axios.post(
-      "https://github.com/login/oauth/access_token",
+      'https://github.com/login/oauth/access_token',
       {
         code: code,
         client_id: process.env.GITHUB_CLIENT_ID,
@@ -27,13 +27,13 @@ githubRouter.post("/", async (req, res) => {
       },
       {
         headers: {
-          Accept: "application/json",
+          Accept: 'application/json',
         },
-      }
+      },
     );
     const githubAccessToken = getGithubAccessToken.data.access_token;
     if (!githubAccessToken) return;
-    const getUserInfo = await axios.get("https://api.github.com/user", {
+    const getUserInfo = await axios.get('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${githubAccessToken}`,
       },
@@ -47,12 +47,12 @@ githubRouter.post("/", async (req, res) => {
       const refreshToken = generateJWT(payload, { refresh: true });
       const accessToken = generateJWT(payload);
       res
-        .cookie("refreshToken", refreshToken, {
+        .cookie('refreshToken', refreshToken, {
           httpOnly: true,
-          sameSite: "strict",
+          sameSite: 'strict',
         })
-        .set("Access-Control-Expose-Headers", "Authorization")
-        .header("Authorization", `Bearer ${accessToken}`)
+        .set('Access-Control-Expose-Headers', 'Authorization')
+        .header('Authorization', `Bearer ${accessToken}`)
         .json(payload);
       return;
     }
@@ -62,19 +62,19 @@ githubRouter.post("/", async (req, res) => {
       fullName: name,
       avatar: avatar_url,
       isEmailVerified: true,
-      emailVerifyCode: "verified",
+      emailVerifyCode: 'verified',
     });
     const { _id, username, fullName, avatar } = createdUser;
     const payload = { _id, username, fullName, avatar };
     const refreshToken = generateJWT(payload, { refresh: true });
     const accessToken = generateJWT(payload);
     res
-      .cookie("refreshToken", refreshToken, {
+      .cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: 'strict',
       })
-      .set("Access-Control-Expose-Headers", "Authorization")
-      .header("Authorization", `Bearer ${accessToken}`)
+      .set('Access-Control-Expose-Headers', 'Authorization')
+      .header('Authorization', `Bearer ${accessToken}`)
       .json(payload);
   } catch (error) {
     console.error(error);
