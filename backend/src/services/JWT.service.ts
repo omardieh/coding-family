@@ -1,24 +1,28 @@
-import { JwtPayloadWithIatExp, JWTServiceOptions } from '@/types';
+import { JwtPayloadWithIatExp } from '@/types';
 import { NextFunction, Request, Response } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
 
 export class JWTService {
   private readonly secret: string;
   private readonly accessTokenExpiresIn: string;
   private readonly refreshTokenExpiresIn: string;
 
-  constructor(options: JWTServiceOptions) {
-    this.secret = options.secret;
-    this.accessTokenExpiresIn = options.accessTokenExpiresIn || '5m';
-    this.refreshTokenExpiresIn = options.refreshTokenExpiresIn || '1d';
+  constructor() {
+    this.secret = process.env.JWT_SECRET || '';
+    this.accessTokenExpiresIn = '5m';
+    this.refreshTokenExpiresIn = '1d';
   }
 
   public generateJWT(payload: JwtPayloadWithIatExp, isRefresh: boolean = false): string {
     const expiresIn = isRefresh ? this.refreshTokenExpiresIn : this.accessTokenExpiresIn;
-    return jwt.sign(payload, this.secret, {
+    const secret = this.secret;
+    if (!secret) {
+      throw new Error('JWT secret is not defined.');
+    }
+    return jwt.sign(payload, secret, {
       algorithm: 'HS256',
       expiresIn,
-    });
+    } as SignOptions);
   }
 
   public verifyJWT(token: string): JwtPayloadWithIatExp {

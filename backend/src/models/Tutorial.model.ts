@@ -1,8 +1,8 @@
-import { Model, Schema, model } from 'mongoose';
-import { ITutorial } from '@/types';
+import { ITutorialModel } from '@/types';
 import { slugify } from '@/utils';
+import { Model, Schema, model } from 'mongoose';
 
-const tutorialSchema = new Schema<ITutorial>(
+const tutorialSchema = new Schema<ITutorialModel>(
   {
     isPublic: {
       type: Boolean,
@@ -85,22 +85,22 @@ const tutorialSchema = new Schema<ITutorial>(
   },
 );
 
-tutorialSchema.pre<ITutorial>('save', function (next) {
+tutorialSchema.pre<ITutorialModel>('save', function (next) {
   this.estimatedReadingTime = Math.ceil(this.content.length / 5 / 200) || 1;
   next();
 });
 
-tutorialSchema.pre<ITutorial>('save', async function (next) {
+tutorialSchema.pre<ITutorialModel>('save', async function (next) {
   if (!this.isModified('title')) {
     return next();
   }
 
   this.slug = slugify(this.title);
-  const existingTutorial = await (this.constructor as Model<ITutorial>).findOne({ slug: this.slug });
+  const existingTutorial = await (this.constructor as Model<ITutorialModel>).findOne({ slug: this.slug });
 
   if (existingTutorial) {
     let suffix = 1;
-    while (await (this.constructor as Model<ITutorial>).findOne({ slug: `${this.slug}${suffix}` })) {
+    while (await (this.constructor as Model<ITutorialModel>).findOne({ slug: `${this.slug}${suffix}` })) {
       suffix++;
     }
     this.slug = `${this.slug}${suffix}`;
@@ -108,4 +108,4 @@ tutorialSchema.pre<ITutorial>('save', async function (next) {
   next();
 });
 
-export const Tutorial = model('Tutorial', tutorialSchema);
+export const TutorialModel = model<ITutorialModel>('Tutorial', tutorialSchema);

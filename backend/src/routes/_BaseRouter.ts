@@ -1,8 +1,13 @@
-import express, { Router } from 'express';
+import { DBService, JWTService } from '@/services';
+import { Router } from 'express';
 
 export class BaseRouter {
   public router: Router;
+  public db;
+  public JWTService;
   constructor() {
-    this.router = express.Router();
+    this.router = Router();
+    this.db = new DBService();
+    this.JWTService = new JWTService();
   }
 }
