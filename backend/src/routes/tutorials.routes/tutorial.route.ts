@@ -108,7 +108,7 @@ class TutorialRoutes extends BaseRouter {
         throw new Error('Tutorial not found');
       }
       const tutorialTags = updatedTutorial.tags as ITutorialTagModel[];
-      const clearRemovedTags: Promise<Document<unknown, {}, ITutorialTagModel> | null>[] = [];
+      const clearRemovedTags: Promise<Document<unknown, object, ITutorialTagModel> | null>[] = [];
       const tagsToRemove: Types.ObjectId[] = [];
       const createTags: Promise<ITutorialTagModel>[] = [];
       for (const tag of tutorialTags) {

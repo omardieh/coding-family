@@ -29,6 +29,7 @@ export class JWTService {
     try {
       return jwt.verify(token, this.secret) as JwtPayloadWithIatExp;
     } catch (error) {
+      console.error(error);
       throw new Error('Invalid Token.');
     }
   }

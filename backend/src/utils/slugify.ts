@@ -4,7 +4,7 @@ export const slugify = (str: string): string => {
     .replace(/[\u0300-\u036f]/g, '') // Remove diacritical marks
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-');
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/[^\w-]+/g, '') // Remove all non-word characters except hyphens
+    .replace(/--+/g, '-'); // Replace multiple hyphens with a single one
 };
