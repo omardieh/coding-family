@@ -1,8 +1,8 @@
-import express, { Application } from 'express';
+import { Application } from 'express';
 
 export class InitiateRoutes {
   public app: Application;
-  constructor() {
-    this.app = express();
+  constructor(app: Application) {
+    this.app = app;
   }
 }
