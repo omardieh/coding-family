@@ -6,8 +6,8 @@ import { RequestWithPayload } from '@/types';
 class VerifyRoute extends BaseRouter {
   constructor() {
     super();
-    this.router.get('/auth/token', this.JWTService.isAuthenticated, this.verifyLoggedIn);
-    this.router.post('/auth/email', this.verifyUserEmail);
+    this.router.get('/auth/token/verify', this.JWTService.isAuthenticated, this.verifyLoggedIn);
+    this.router.post('/auth/email/verify', this.verifyUserEmail);
   }
 
   async verifyLoggedIn(req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> {
