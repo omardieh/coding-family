@@ -1,6 +1,7 @@
 {
   "name": "coding-family",
   "version": "0.0.1",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "test": "set NODE_ENV=development&&jest --detectOpenHandles --coverage",

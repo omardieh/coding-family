@@ -1,10 +1,10 @@
-import { Application } from 'express';
-import { tutorialTagRoutes } from './tutorial-tag.routes';
-import { tutorialRoutes } from './tutorial.routes';
+import { tutorialTagRoutes } from './tutorial-tag.route';
+import { tutorialRoutes } from './tutorial.route';
+import { InitiateRoutes } from '@/routes';
 
-export class InitiateTutorialsRoutes {
-  constructor(public app: Application) {
-    this.app = app;
+export class InitiateTutorialsRoutes extends InitiateRoutes {
+  constructor() {
+    super();
     this.app.use('/', tutorialRoutes);
     this.app.use('/', tutorialTagRoutes);
   }
