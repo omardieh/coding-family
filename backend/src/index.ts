@@ -3,7 +3,10 @@ import { SERVER_CONNECT_MESSAGES as messages } from '@/constants';
 import { DBService } from '@/services';
 class Server {
   private db;
-  constructor(public port: number, public host: string) {
+  constructor(
+    public port: number,
+    public host: string,
+  ) {
     this.port = port;
     this.host = host;
     this.db = new DBService();
