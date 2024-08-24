@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 class LogoutRoute extends BaseRouter {
   constructor() {
     super();
-    this.router.get('/', this.logUserOut);
+    this.router.get('/auth/logout', this.logUserOut);
   }
 
   async logUserOut(_: Request, res: Response, next: NextFunction): Promise<void> {
