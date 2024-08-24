@@ -10,7 +10,7 @@ class GithubRoute extends BaseRouter {
     this.router.post('/auth/github', this.retrieveGithubAuthToken);
   }
 
-  async getGithubAuthRedirectURL(_: Request, res: Response, next: NextFunction): Promise<void> {
+  getGithubAuthRedirectURL = async (_: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_REDIRECT_URI}&scope=read:user`;
       res.redirect(githubAuthURL);
@@ -18,8 +18,8 @@ class GithubRoute extends BaseRouter {
       next(error);
       res.status(500).send('Internal Server Error');
     }
-  }
-  async retrieveGithubAuthToken(req: Request, res: Response, next: NextFunction): Promise<void> {
+  };
+  retrieveGithubAuthToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { code } = req.body;
     if (!code) {
       res.status(404).json('code not found');
@@ -88,7 +88,7 @@ class GithubRoute extends BaseRouter {
       console.error('google auth error: ', error);
       next(error);
     }
-  }
+  };
 }
 
 export const { router: githubRoute } = new GithubRoute();

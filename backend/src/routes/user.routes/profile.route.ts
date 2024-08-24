@@ -6,13 +6,15 @@ import { NextFunction, Response } from 'express';
 class ProfileRoutes extends BaseRouter {
   constructor() {
     super();
-    this.router.get('/user/profile', this.getUser);
-    this.router.patch('/user/profile', this.updateUser);
+    this.router.get('/user/profile', this.JWTService.isAuthenticated, this.getUser);
+    this.router.patch('/user/profile', this.JWTService.isAuthenticated, this.updateUser);
   }
 
-  async getUser(req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> {
+  getUser = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
     try {
-      if (!req.payload?._id) return;
+      if (!req.payload?._id) {
+        throw new Error('Error finding payload, user might be not authenticated');
+      }
       const { _id } = req.payload;
       const foundUser = await UserModel.findById(_id);
       if (!foundUser) {
@@ -33,10 +35,10 @@ class ProfileRoutes extends BaseRouter {
         followers,
       });
     } catch (error) {
+      console.log(error);
       next(error);
-      res.status(500).send('Internal Server Error');
     }
-  }
+  };
 
   async updateUser(req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> {
     if (!req.payload?._id) return;
@@ -74,7 +76,6 @@ class ProfileRoutes extends BaseRouter {
       });
     } catch (error) {
       next(error);
-      res.status(500).send('Internal Server Error');
     }
   }
 }

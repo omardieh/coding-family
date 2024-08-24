@@ -82,7 +82,7 @@ class TutorialRoutes extends BaseRouter {
   async getTutorialBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { slug } = req.params;
     try {
-      const foundTutorial = await TutorialModel.findOne({ slug }).populate('tags author').exec();
+      const foundTutorial = await TutorialModel.findOne({ slug }).populate('tags author');
       if (!foundTutorial) {
         res.json('error finding tutorial');
         return;
