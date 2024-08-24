@@ -1,8 +1,10 @@
 import app from '@/App';
 import { SERVER_CONNECT_MESSAGES as messages } from '@/constants';
-import { DBService } from '@/services';
+import { DBService, SocketIOService } from '@/services';
+import { createServer } from 'http';
 class Server {
-  private db;
+  private db: DBService;
+  private httpServer;
   constructor(
     public port: number,
     public host: string,
@@ -10,13 +12,15 @@ class Server {
     this.port = port;
     this.host = host;
     this.db = new DBService();
+    this.httpServer = createServer(app);
+    new SocketIOService(this.httpServer);
     this.runServer();
   }
 
   private async runServer() {
     try {
       await this.db.connectDB();
-      app.listen(this.port, this.host, () => {
+      this.httpServer.listen(this.port, this.host, () => {
         console.info(messages.server.success);
       });
     } catch (error) {

@@ -1,12 +1,12 @@
-import { Server } from 'http';
-import { Server as SocketIOServer } from 'socket.io';
-import { IMessage, ISocket, ISocketIOService } from '@/types';
 import { ChatMessage } from '@/models';
+import { IMessage, ISocket, ISocketIOService } from '@/types';
+import { Server as HttpServer } from 'http'; // Rename the import to avoid confusion
+import { Server as SocketIOServer } from 'socket.io';
 
 export class SocketIOService implements ISocketIOService {
   public io: SocketIOServer;
 
-  constructor(server: Server) {
+  constructor(server: HttpServer) {
     this.io = new SocketIOServer(server, {
       cors: { origin: process.env.CLIENT_URL || '*' },
     });
@@ -32,7 +32,7 @@ export class SocketIOService implements ISocketIOService {
 
   public async sendExistingMessages(socket: ISocket): Promise<void> {
     try {
-      const messages = await ChatMessage.find().populate('user').exec();
+      const messages = await ChatMessage.find().populate('user');
       socket.emit('MessagesFromServer', messages);
     } catch (error) {
       console.error('Error fetching messages:', error);

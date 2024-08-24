@@ -8,33 +8,34 @@ export class JWTService {
   private readonly refreshTokenExpiresIn: string;
 
   constructor() {
-    this.secret = process.env.JWT_SECRET || '';
+    this.secret = process.env.JWT_TOKEN_SECRET || '';
     this.accessTokenExpiresIn = '5m';
     this.refreshTokenExpiresIn = '1d';
   }
 
-  public generateJWT(payload: JwtPayloadWithIatExp, isRefresh: boolean = false): string {
+  generateJWT = (payload: JwtPayloadWithIatExp, isRefresh: boolean = false): string => {
     const expiresIn = isRefresh ? this.refreshTokenExpiresIn : this.accessTokenExpiresIn;
     const secret = this.secret;
     if (!secret) {
       throw new Error('JWT secret is not defined.');
     }
-    return jwt.sign(payload, secret, {
+    const options: SignOptions = {
       algorithm: 'HS256',
-      expiresIn,
-    } as SignOptions);
-  }
+      ...(!payload.exp && { expiresIn }),
+    };
+    return jwt.sign(payload, secret, options);
+  };
 
-  public verifyJWT(token: string): JwtPayloadWithIatExp {
+  verifyJWT = (token: string): JwtPayloadWithIatExp => {
     try {
       return jwt.verify(token, this.secret) as JwtPayloadWithIatExp;
     } catch (error) {
       console.error(error);
       throw new Error('Invalid Token.');
     }
-  }
+  };
 
-  public isAuthenticated(req: Request, res: Response, next: NextFunction): void {
+  isAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
     const accessToken = req.headers['authorization'];
     const refreshToken = req.cookies['refreshToken'];
     if (!accessToken && !refreshToken) {
@@ -61,11 +62,12 @@ export class JWTService {
         });
         res.header('Authorization', newAccessToken);
         (req as Request & { payload?: JwtPayload }).payload = payload;
-        return next();
+        next();
+        return;
       } catch (error) {
         res.status(400).send('Invalid Token.');
         return next(error);
       }
     }
-  }
+  };
 }

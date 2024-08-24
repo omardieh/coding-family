@@ -42,7 +42,8 @@ export class SecurityConfig {
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
     this.app.use(
       cors({
-        origin: [process.env.CLIENT_URL || ''],
+        origin: [`${process.env.CLIENT_URL}`],
+        credentials: true,
       }),
     );
   }
