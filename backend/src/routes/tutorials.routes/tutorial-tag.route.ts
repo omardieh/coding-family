@@ -9,7 +9,7 @@ class TutorialTagRoutes extends BaseRouter {
     this.router.get('/tutorials/tags/:slug', this.getTutorialTagBySlug);
   }
 
-  async getAllTutorialsTags(_: Request, res: Response, next: NextFunction): Promise<void> {
+  getAllTutorialsTags = async (_: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const allTags = await TutorialTagModel.find();
       res.json(allTags);
@@ -17,9 +17,9 @@ class TutorialTagRoutes extends BaseRouter {
       console.log(error);
       next(error);
     }
-  }
+  };
 
-  async getTutorialTagBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
+  getTutorialTagBySlug = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
     try {
       const foundTag = await TutorialTagModel.findOne({ slug }).populate('tutorials');
@@ -32,7 +32,7 @@ class TutorialTagRoutes extends BaseRouter {
       console.log(error);
       next(error);
     }
-  }
+  };
 }
 
 export const { router: tutorialTagRoutes } = new TutorialTagRoutes();

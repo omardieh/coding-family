@@ -17,7 +17,7 @@ class Server {
     this.runServer();
   }
 
-  private async runServer() {
+  private runServer = async () => {
     try {
       await this.db.connectDB();
       this.httpServer.listen(this.port, this.host, () => {
@@ -31,7 +31,7 @@ class Server {
       console.error(errorMessage);
       process.exit(1);
     }
-  }
+  };
 }
 
 if (!process.env.SERVER_PORT || !process.env.SERVER_HOST) {

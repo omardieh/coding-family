@@ -1,7 +1,7 @@
 import { UserModel } from '@/models';
 import { BaseRouter } from '@/routes';
-import { NextFunction, Request, Response } from 'express';
 import { RequestWithPayload } from '@/types';
+import { NextFunction, Request, Response } from 'express';
 
 class VerifyRoute extends BaseRouter {
   constructor() {
@@ -10,14 +10,14 @@ class VerifyRoute extends BaseRouter {
     this.router.post('/auth/email/verify', this.verifyUserEmail);
   }
 
-  async verifyLoggedIn(req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> {
+  verifyLoggedIn = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
     try {
       res.status(200).json(req.payload);
     } catch (error) {
       next(error);
     }
-  }
-  async verifyUserEmail(req: Request, res: Response, next: NextFunction): Promise<void> {
+  };
+  verifyUserEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { userID, code } = req.body;
     try {
       const foundUser = await UserModel.findById(userID);
@@ -51,7 +51,7 @@ class VerifyRoute extends BaseRouter {
     } catch (err) {
       next(err);
     }
-  }
+  };
 }
 
 export const { router: verifyRoute } = new VerifyRoute();

@@ -8,7 +8,7 @@ class LoginRoute extends BaseRouter {
     this.router.post('/auth/login', this.logUserIn);
   }
 
-  async logUserIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+  logUserIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password } = req.body;
     if (!email || !password) {
       res.status(400).json('Provide Email and Password');
@@ -49,7 +49,7 @@ class LoginRoute extends BaseRouter {
       res.status(500).json({ 'Internal Server Error': error });
       next(error);
     }
-  }
+  };
 }
 
 export const { router: loginRoute } = new LoginRoute();

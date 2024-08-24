@@ -1,5 +1,5 @@
-import { Application } from 'express';
 import colors from 'colors';
+import { Application } from 'express';
 import morgan from 'morgan';
 
 export class LoggingConfig {
@@ -7,7 +7,7 @@ export class LoggingConfig {
     this.app = app;
     this.configureMorgan();
   }
-  private configureMorgan(): void {
+  private configureMorgan = (): void => {
     // TODO: configure Morgan for logging
     // Using Morgan for HTTP request logging in Node.js :
     // https://www.geeksforgeeks.org/what-is-morgan-in-node-js/
@@ -28,5 +28,5 @@ export class LoggingConfig {
         ].join(' '),
       ),
     );
-  }
+  };
 }

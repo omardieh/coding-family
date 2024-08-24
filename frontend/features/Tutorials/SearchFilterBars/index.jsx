@@ -43,7 +43,7 @@ export default function SearchFilterBars() {
     }));
   }, []);
   return (
-    <Box sx={{ flexGrow: 1, width: "100%", position: "fixed" }}>
+    <Box sx={{ flexGrow: 1, width: "100%", position: "fixed", zIndex: 1 }}>
       <AppBar
         position="static"
         sx={{
