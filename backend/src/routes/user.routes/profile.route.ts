@@ -40,7 +40,7 @@ class ProfileRoutes extends BaseRouter {
     }
   };
 
-  async updateUser(req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> {
+  updateUser = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
     if (!req.payload?._id) return;
     const { _id } = req.payload;
     try {
@@ -77,7 +77,7 @@ class ProfileRoutes extends BaseRouter {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 export const { router: profileRoutes } = new ProfileRoutes();

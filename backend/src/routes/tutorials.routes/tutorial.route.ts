@@ -10,10 +10,10 @@ class TutorialRoutes extends BaseRouter {
     this.router.get('/tutorials', this.getAllTutorials);
     this.router.post('/tutorials', this.JWTService.isAuthenticated, this.addNewTutorial);
     this.router.get('/tutorials/:slug', this.getTutorialBySlug);
-    this.router.patch('/tutorials/:slug', this.updateTutorialBySlug);
+    this.router.patch('/tutorials/:slug', this.JWTService.isAuthenticated, this.updateTutorialBySlug);
   }
 
-  async getAllTutorials(req: Request, res: Response, next: NextFunction): Promise<void> {
+  getAllTutorials = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const page = parseInt(req.query.page as string) || 1;
     const per_page = parseInt(req.query.per_page as string) || 12;
     const sort = (req.query.sort as string) || 'asc';
@@ -39,9 +39,9 @@ class TutorialRoutes extends BaseRouter {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  async addNewTutorial(req: Request, res: Response, next: NextFunction): Promise<void> {
+  addNewTutorial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { authorID, title, description, tags, content, isPublic } = req.body;
     try {
       const createdTutorial = await TutorialModel.create({
@@ -77,9 +77,9 @@ class TutorialRoutes extends BaseRouter {
     } catch (error) {
       this.db.logMongoError(error, req, res, next);
     }
-  }
+  };
 
-  async getTutorialBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
+  getTutorialBySlug = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
     try {
       const foundTutorial = await TutorialModel.findOne({ slug }).populate('tags author');
@@ -93,9 +93,9 @@ class TutorialRoutes extends BaseRouter {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  async updateTutorialBySlug(req: Request, res: Response, next: NextFunction): Promise<void> {
+  updateTutorialBySlug = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { slug } = req.params;
     const { tags: newTags, ...reqBody } = req.body;
     try {
@@ -150,7 +150,7 @@ class TutorialRoutes extends BaseRouter {
     } catch (error) {
       this.db.logMongoError(error, req, res, next);
     }
-  }
+  };
 }
 
 export const { router: tutorialRoutes } = new TutorialRoutes();

@@ -11,14 +11,14 @@ export class EnvironmentConfig {
     this.otherConfigs();
   }
 
-  private configureEnvVars(): void {
+  private configureEnvVars = (): void => {
     // dotenv.config({
     //   path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
     // });
     setEnv();
-  }
+  };
 
-  private configureExpress(): void {
+  private configureExpress = (): void => {
     // TODO : configure Express
     // Express.js Security Best Practices :
     // https://github.com/goldbergyoni/nodebestpractices
@@ -28,14 +28,14 @@ export class EnvironmentConfig {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(express.static(path.join(__dirname, '../../public')));
-  }
+  };
 
-  private configureViews(): void {
+  private configureViews = (): void => {
     this.app.set('view engine', 'hbs');
     this.app.set('views', path.join(__dirname, '../../views'));
-  }
+  };
 
-  private otherConfigs(): void {
+  private otherConfigs = (): void => {
     this.app.use(cookies());
-  }
+  };
 }

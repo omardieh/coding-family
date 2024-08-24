@@ -11,7 +11,7 @@ class UploadRoutes extends BaseRouter {
     this.router.patch('/user/upload', this.cloudinary.getMulterInstance().single('user-avatar'), this.uploadUserAvatar);
   }
 
-  async uploadUserAvatar(req: Request, res: Response, next: NextFunction): Promise<void> {
+  uploadUserAvatar = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       if (!req.file) return;
       const updatedUser = await UserModel.findByIdAndUpdate(req.body.userID, { avatar: req.file.path }, { new: true });
@@ -20,7 +20,7 @@ class UploadRoutes extends BaseRouter {
       next(error);
       res.status(500).send('Internal Server Error');
     }
-  }
+  };
 }
 
 export const { router: uploadRoutes } = new UploadRoutes();

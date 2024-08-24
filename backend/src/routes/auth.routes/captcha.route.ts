@@ -8,7 +8,7 @@ class CaptchaRoute extends BaseRouter {
     this.router.post('/auth/captcha', this.retrieveCaptchaToken);
   }
 
-  async retrieveCaptchaToken(req: Request, res: Response, next: NextFunction): Promise<void> {
+  retrieveCaptchaToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { token } = req.body;
     try {
       const response = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
@@ -26,7 +26,7 @@ class CaptchaRoute extends BaseRouter {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 export const { router: captchaRoute } = new CaptchaRoute();

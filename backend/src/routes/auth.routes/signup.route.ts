@@ -1,7 +1,7 @@
 import { UserModel } from '@/models';
 import { BaseRouter } from '@/routes';
-import { NextFunction, Request, Response } from 'express';
 import { EmailService } from '@/services';
+import { NextFunction, Request, Response } from 'express';
 
 class SignupRoute extends BaseRouter {
   private emailService;
@@ -11,7 +11,7 @@ class SignupRoute extends BaseRouter {
     this.router.post('/auth/signup', this.signUserUp);
   }
 
-  async signUserUp(req: Request, res: Response, next: NextFunction): Promise<void> {
+  signUserUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password, username } = req.body;
     if (!email || !password || !username) {
       res.status(400).json('Provide Username, Email and Password');
@@ -40,7 +40,7 @@ class SignupRoute extends BaseRouter {
     } catch (error) {
       this.db.logMongoError(error, req, res, next);
     }
-  }
+  };
 }
 
 export const { router: signupRoute } = new SignupRoute();

@@ -1,8 +1,8 @@
 import { UserModel } from '@/models';
 import { BaseRouter } from '@/routes';
 import axios from 'axios';
-import qs from 'qs';
 import { NextFunction, Request, Response } from 'express';
+import qs from 'qs';
 
 class GoogleRoute extends BaseRouter {
   constructor() {
@@ -11,7 +11,7 @@ class GoogleRoute extends BaseRouter {
     this.router.post('/auth/google', this.retrieveGoogleAuthToken);
   }
 
-  async getGoogleAuthRedirectURL(_: Request, res: Response, next: NextFunction): Promise<void> {
+  getGoogleAuthRedirectURL = async (_: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const googleAuthURL = `https://accounts.google.com/o/oauth2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=profile%20email&access_type=offline`;
       res.redirect(googleAuthURL);
@@ -19,8 +19,8 @@ class GoogleRoute extends BaseRouter {
       next(error);
       res.status(500).send('Internal Server Error');
     }
-  }
-  async retrieveGoogleAuthToken(req: Request, res: Response, next: NextFunction): Promise<void> {
+  };
+  retrieveGoogleAuthToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { code } = req.body;
     if (!code) {
       res.status(404).json('code not found');
@@ -104,7 +104,7 @@ class GoogleRoute extends BaseRouter {
       console.error('google auth error: ', error);
       next(error);
     }
-  }
+  };
 }
 
 export const { router: googleRoute } = new GoogleRoute();
