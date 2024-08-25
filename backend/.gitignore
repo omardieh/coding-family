@@ -11,6 +11,9 @@ npm-debug.log
 .env.development
 .env.production
 
+# build
+dist
+
 # macOS
 .DS_Store
 .AppleDouble
