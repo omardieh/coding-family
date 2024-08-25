@@ -1,7 +1,7 @@
 {
   "name": "coding-family",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "set NODE_PATH=/&&vite --port 2002",

@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 
-export interface ITutorialReview extends Document {
+export interface ITutorialReviewModel extends Document {
   message: string;
   rate: number;
   pendingApproval: boolean;

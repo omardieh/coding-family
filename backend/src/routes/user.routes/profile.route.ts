@@ -1,18 +1,22 @@
 import { UserModel } from '@/models';
 import { BaseRouter } from '@/routes';
-import { NextFunction, Request, Response } from 'express';
+import { RequestWithPayload } from '@/types';
+import { NextFunction, Response } from 'express';
 
 class ProfileRoutes extends BaseRouter {
   constructor() {
     super();
-    this.router.get('/user/profile', this.getUser);
-    this.router.patch('/user/profile', this.updateUser);
+    this.router.get('/user/profile', this.JWTService.isAuthenticated, this.getUser);
+    this.router.patch('/user/profile', this.JWTService.isAuthenticated, this.updateUser);
   }
 
-  async getUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+  getUser = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
     try {
+      if (!req.payload?._id) {
+        throw new Error('Error finding payload, user might be not authenticated');
+      }
       const { _id } = req.payload;
-      const foundUser = await User.findById(_id);
+      const foundUser = await UserModel.findById(_id);
       if (!foundUser) {
         res.status(404).json('User not found');
         return;
@@ -31,15 +35,16 @@ class ProfileRoutes extends BaseRouter {
         followers,
       });
     } catch (error) {
+      console.log(error);
       next(error);
-      res.status(500).send('Internal Server Error');
     }
-  }
+  };
 
-  async updateUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+  updateUser = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
+    if (!req.payload?._id) return;
     const { _id } = req.payload;
     try {
-      const foundUser = await User.findOne({
+      const foundUser = await UserModel.findOne({
         username: req.body.username,
       });
 
@@ -51,6 +56,12 @@ class ProfileRoutes extends BaseRouter {
       const updatedUser = await UserModel.findByIdAndUpdate(_id, req.body, {
         new: true,
       });
+
+      if (!updatedUser) {
+        res.status(404).json('Fail to update user');
+        return;
+      }
+
       const { username, email, country, avatar, bio, website, socialMedia, following, followers } = updatedUser;
       res.json({
         username,
@@ -64,10 +75,9 @@ class ProfileRoutes extends BaseRouter {
         followers,
       });
     } catch (error) {
-      console.log(error);
-      res.json(error);
+      next(error);
     }
-  }
+  };
 }
 
 export const { router: profileRoutes } = new ProfileRoutes();

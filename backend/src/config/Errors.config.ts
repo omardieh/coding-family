@@ -6,11 +6,11 @@ export class ErrorsConfig {
     this.app.use(this.configureGlobalErrors);
   }
 
-  private configureNotFoundErrors(_: Request, res: Response): void {
+  private configureNotFoundErrors = (_: Request, res: Response): void => {
     res.status(404).json({ message: 'This route does not exist' });
-  }
+  };
 
-  private configureGlobalErrors(err: Error, req: Request, res: Response, next: NextFunction): void {
+  private configureGlobalErrors = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     console.error('ERROR', req.method, req.path, err.message);
     if (!res.headersSent) {
       res.status(500).json({
@@ -22,5 +22,5 @@ export class ErrorsConfig {
     } else {
       next(err);
     }
-  }
+  };
 }

@@ -1,9 +1,8 @@
-import { IUser } from '@/types';
+import { IUserModel } from '@/types';
 import bcrypt from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 
-// Define the schema
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUserModel>(
   {
     username: {
       type: String,
@@ -104,7 +103,7 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-userSchema.pre<IUser>('save', async function (next) {
+userSchema.pre<IUserModel>('save', async function (next) {
   if (!this.isModified('password') || !this.isModified('emailVerifyCode')) {
     return next();
   }
@@ -123,4 +122,4 @@ userSchema.methods.compareEmail = function (verificationCode: string): Promise<b
   return bcrypt.compare(verificationCode, this.emailVerifyCode);
 };
 
-export const UserModel = model<IUser>('User', userSchema);
+export const UserModel = model<IUserModel>('User', userSchema);

@@ -10,7 +10,7 @@ export class SecurityConfig {
     this.configureCors();
     this.configureRateLimiter();
   }
-  private configureHelmet(): void {
+  private configureHelmet = (): void => {
     // TODO : configure Helmet
     // Using Helmet in Node.js to secure your application :
     // https://blog.logrocket.com/using-helmet-node-js-secure-application/
@@ -33,27 +33,25 @@ export class SecurityConfig {
         xssFilter: true,
       }),
     );
-  }
+  };
 
-  private configureCors(): void {
+  private configureCors = (): void => {
     // TODO : configure Cors
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
-    const isDevEnv = process.env.NODE_ENV === 'development';
     this.app.use(
-      isDevEnv
-        ? cors()
-        : cors({
-            origin: [`${process.env.CLIENT_URL}`],
-          }),
+      cors({
+        origin: [`${process.env.CLIENT_URL}`],
+        credentials: true,
+      }),
     );
-  }
+  };
 
-  private configureRateLimiter(): void {
+  private configureRateLimiter = (): void => {
     rateLimit({
       windowMs: 15 * 60 * 1000,
       max: 100,
     });
-  }
+  };
 }

@@ -1,10 +1,11 @@
 import { Application } from 'express';
 import { profileRoutes } from './profile.route';
 import { uploadRoutes } from './upload.route';
-import { userRoutes } from './user.routes';
+import { userRoutes } from './user.route';
 
 export class InitiateUserRoutes {
-  constructor(public app: Application) {
+  public app: Application;
+  constructor(app: Application) {
     this.app = app;
     this.app.use('/', userRoutes);
     this.app.use('/', uploadRoutes);

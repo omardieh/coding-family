@@ -1,8 +1,8 @@
-import { ITutorialTag } from '@/types';
+import { ITutorialTagModel } from '@/types';
 import { slugify } from '@/utils';
 import { Model, Schema, model } from 'mongoose';
 
-const tutorialTagSchema = new Schema<ITutorialTag>(
+const tutorialTagSchema = new Schema<ITutorialTagModel>(
   {
     label: {
       type: String,
@@ -24,12 +24,12 @@ const tutorialTagSchema = new Schema<ITutorialTag>(
   },
 );
 
-tutorialTagSchema.pre<ITutorialTag>('save', async function (next) {
+tutorialTagSchema.pre<ITutorialTagModel>('save', async function (next) {
   if (!this.isModified('label')) {
     return next();
   }
   this.slug = slugify(this.label);
-  const TutorialTagModel = this.constructor as Model<ITutorialTag>;
+  const TutorialTagModel = this.constructor as Model<ITutorialTagModel>;
   const existingTag = await TutorialTagModel.findOne({ slug: this.slug });
   if (existingTag) {
     let suffix = 1;
@@ -41,4 +41,4 @@ tutorialTagSchema.pre<ITutorialTag>('save', async function (next) {
   next();
 });
 
-export const TutorialTag = model<ITutorialTag>('TutorialTag', tutorialTagSchema);
+export const TutorialTagModel = model<ITutorialTagModel>('TutorialTag', tutorialTagSchema);
