@@ -61,8 +61,8 @@ class TutorialRoutes extends BaseRouter {
       for (const tag of tags) {
         const foundTag = await TutorialTagModel.findOne({ label: tag });
         if (foundTag) {
-          foundTag.tutorials.push(createdTutorial._id);
-          createdTutorial.tags.push(foundTag._id);
+          foundTag.tutorials.push(createdTutorial._id as Types.ObjectId);
+          createdTutorial.tags.push(foundTag._id as Types.ObjectId & ITutorialTagModel);
           await foundTag.save();
           continue;
         }
@@ -70,7 +70,7 @@ class TutorialRoutes extends BaseRouter {
           label: tag,
           tutorials: [createdTutorial._id],
         });
-        createdTutorial.tags.push(createdTag._id);
+        createdTutorial.tags.push(createdTag._id as Types.ObjectId & ITutorialTagModel);
       }
       await createdTutorial.save();
       res.status(201).json({ tutorial: createdTutorial, created: true });
@@ -113,7 +113,7 @@ class TutorialRoutes extends BaseRouter {
       const createTags: Promise<ITutorialTagModel>[] = [];
       for (const tag of tutorialTags) {
         if (tag && !newTags.includes(tag.label)) {
-          tagsToRemove.push(tag._id);
+          tagsToRemove.push(tag._id as Types.ObjectId);
           clearRemovedTags.push(
             TutorialTagModel.findOneAndUpdate(
               { _id: tag._id },
@@ -124,13 +124,13 @@ class TutorialRoutes extends BaseRouter {
         }
       }
       await Promise.all(clearRemovedTags);
-      updatedTutorial.tags = tutorialTags.filter((tag) => !tagsToRemove.includes(tag._id));
+      updatedTutorial.tags = tutorialTags.filter((tag) => !tagsToRemove.includes(tag._id as Types.ObjectId));
       for (const tag of newTags) {
         if (!tutorialTags.find((t) => t.label === tag)) {
           const foundTag = await TutorialTagModel.findOne({ label: tag });
           if (foundTag) {
-            if (!foundTag.tutorials.includes(updatedTutorial._id)) {
-              foundTag.tutorials.push(updatedTutorial._id);
+            if (!foundTag.tutorials.includes(updatedTutorial._id as Types.ObjectId)) {
+              foundTag.tutorials.push(updatedTutorial._id as Types.ObjectId);
               createTags.push(foundTag.save());
             }
             updatedTutorial.tags.push(foundTag);
