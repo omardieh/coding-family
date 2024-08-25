@@ -25,7 +25,13 @@ export default function TutorialForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (props.onSubmit) {
-      if (!content || !title || !description || !tags || !isPublic) {
+      if (
+        !content ||
+        !title ||
+        !description ||
+        !tags ||
+        isPublic === undefined
+      ) {
         setErrorMessage("All fields are required.");
         return;
       }
@@ -144,7 +150,7 @@ export default function TutorialForm(props) {
       )}
       {(!errorMessage || !props.errorMessage) && props.infoMessage && (
         <Alert style={{ width: "100%", marginTop: "2em" }} severity="success">
-          {props.infoMessage}
+          {typeof props.infoMessage === "string" && props.infoMessage}
         </Alert>
       )}
     </Box>

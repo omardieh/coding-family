@@ -1,7 +1,7 @@
+import { ITutorialReviewModel } from '@/types';
 import { Schema, model } from 'mongoose';
-import { ITutorialReview } from '@/types';
 
-const tutorialReviewSchema = new Schema<ITutorialReview>(
+const tutorialReviewSchema = new Schema<ITutorialReviewModel>(
   {
     message: {
       type: String,
@@ -45,4 +45,4 @@ const tutorialReviewSchema = new Schema<ITutorialReview>(
   },
 );
 
-export const TutorialReview = model<ITutorialReview>('TutorialReview', tutorialReviewSchema);
+export const TutorialReviewModel = model<ITutorialReviewModel>('TutorialReview', tutorialReviewSchema);

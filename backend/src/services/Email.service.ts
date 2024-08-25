@@ -1,4 +1,4 @@
-import { IUser } from '@/types';
+import { IUserModel } from '@/types';
 import crypto from 'crypto';
 import { readFileSync } from 'fs';
 import nodemailer, { Transporter } from 'nodemailer';
@@ -24,7 +24,11 @@ export class EmailService {
       },
     });
   }
-  sendEmailVerify = async (createdUser: IUser, emailVerifyCode: string, emailVerifyToken: string): Promise<void> => {
+  sendEmailVerify = async (
+    createdUser: IUserModel,
+    emailVerifyCode: string,
+    emailVerifyToken: string,
+  ): Promise<void> => {
     try {
       const emailTemplatePath = join(__dirname, '../utils/emailTemplates/verify.html');
       const emailTemplate = readFileSync(emailTemplatePath, 'utf-8');

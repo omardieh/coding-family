@@ -1,4 +1,4 @@
-import { ChatMessage } from '@/models';
+import { ChatMessageModel } from '@/models';
 import { IMessage, ISocket, ISocketIOService } from '@/types';
 import { Server as HttpServer } from 'http'; // Rename the import to avoid confusion
 import { Server as SocketIOServer } from 'socket.io';
@@ -25,7 +25,7 @@ export class SocketIOService implements ISocketIOService {
   };
   sendExistingMessages = async (socket: ISocket): Promise<void> => {
     try {
-      const messages = await ChatMessage.find().populate('user');
+      const messages = await ChatMessageModel.find().populate('user');
       socket.emit('MessagesFromServer', messages);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -34,7 +34,7 @@ export class SocketIOService implements ISocketIOService {
   };
   handleIncomingMessage = async (data: IMessage): Promise<void> => {
     try {
-      const createdMessage = await ChatMessage.create(data);
+      const createdMessage = await ChatMessageModel.create(data);
       const populatedMessage = await createdMessage.populate('user');
       this.io.emit('MessageToClient', populatedMessage);
     } catch (error) {

@@ -1,7 +1,7 @@
-import { IChatMessage } from '@/types';
+import { IChatMessageModel } from '@/types';
 import { Schema, model } from 'mongoose';
 
-const chatMessageSchema = new Schema<IChatMessage>(
+const chatMessageSchema = new Schema<IChatMessageModel>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     message: { type: String, required: true },
@@ -9,4 +9,4 @@ const chatMessageSchema = new Schema<IChatMessage>(
   { timestamps: true },
 );
 
-export const ChatMessage = model<IChatMessage>('ChatMessage', chatMessageSchema);
+export const ChatMessageModel = model<IChatMessageModel>('ChatMessage', chatMessageSchema);
