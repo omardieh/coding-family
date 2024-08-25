@@ -1,5 +1,5 @@
-import type { Server as SocketIOServer, Socket } from 'socket.io';
 import type { Document, Types } from 'mongoose';
+import type { Socket, Server as SocketIOServer } from 'socket.io';
 
 export interface IMessage {
   user: string;
@@ -8,7 +8,7 @@ export interface IMessage {
 
 export interface ISocket extends Socket {}
 
-export interface IChatMessage extends Document {
+export interface IChatMessageModel extends Document {
   user: Types.ObjectId;
   message: string;
   createdAt: Date;

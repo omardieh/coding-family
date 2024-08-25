@@ -2,6 +2,7 @@ import app from '@/App';
 import { SERVER_CONNECT_MESSAGES as messages } from '@/constants';
 import { DBService, SocketIOService } from '@/services';
 import { createServer } from 'http';
+
 class Server {
   private db: DBService;
   private httpServer;

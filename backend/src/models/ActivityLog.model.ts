@@ -1,7 +1,7 @@
+import { IActivityLogModel } from '@/types';
 import { Schema, model } from 'mongoose';
-import { IActivityLog } from '@/types';
 
-const activityLogSchema = new Schema<IActivityLog>(
+const activityLogSchema = new Schema<IActivityLogModel>(
   {
     clientIP: {
       type: String,
@@ -20,4 +20,4 @@ const activityLogSchema = new Schema<IActivityLog>(
   { timestamps: true },
 );
 
-export const ActivityLog = model<IActivityLog>('ActivityLog', activityLogSchema);
+export const ActivityLogModel = model<IActivityLogModel>('ActivityLog', activityLogSchema);

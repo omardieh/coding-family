@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface IActivityLog extends Document {
+export interface IActivityLogModel extends Document {
   clientIP: string;
   reqMethod: string;
   reqPath: string;
