@@ -1,5 +1,6 @@
 {
-  "build": {
-    "ignoreCommand": "./vercel.sh"
+  "scripts": {
+    "prebuild": "./build-check.sh",
+    "build": "react-scripts build"
   }
 }
