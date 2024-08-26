@@ -1,0 +1,5 @@
+[deployments]
+  autoDeploy = false
+  [[deployments.rules]]
+    branch = "backend-production"
+    autoDeploy = true
