@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "prebuild": "./build-check.sh",
-    "build": "react-scripts build"
-  }
-}
