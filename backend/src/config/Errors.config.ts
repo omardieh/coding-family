@@ -1,4 +1,5 @@
 import { Application, NextFunction, Request, Response } from 'express';
+import { IpDeniedError } from 'express-ipfilter';
 
 export class ErrorsConfig {
   constructor(private app: Application) {
@@ -12,7 +13,9 @@ export class ErrorsConfig {
 
   private configureGlobalErrors = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     console.error('ERROR', req.method, req.path, err.message);
-    if (!res.headersSent) {
+    if (err instanceof IpDeniedError) {
+      res.status(401).json({ error: { message: 'Access denied: Your IP is not allowed.' } });
+    } else if (!res.headersSent) {
       res.status(500).json({
         error: {
           message: 'An unexpected error occurred',

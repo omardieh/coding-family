@@ -1,5 +1,6 @@
+import { setEnv } from '@/utils';
 import colors from 'colors';
-
+setEnv();
 const port = Number(process.env.SERVER_PORT);
 export const SERVER_CONNECT_MESSAGES = {
   server: {
