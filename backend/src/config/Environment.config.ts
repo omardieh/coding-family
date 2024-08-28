@@ -2,14 +2,21 @@ import { setEnv } from '@/utils';
 import cookies from 'cookie-parser';
 import express, { Application } from 'express';
 import path from 'path';
+import { IpFilter } from 'express-ipfilter';
+import { ALLOWED_CLIENT_IPS } from '@/constants';
 
 export class EnvironmentConfig {
   constructor(private app: Application) {
+    this.filterIncomingRequests();
     this.configureEnvVars();
     this.configureExpress();
     this.configureViews();
     this.otherConfigs();
   }
+
+  private filterIncomingRequests = (): void => {
+    this.app.use(IpFilter(ALLOWED_CLIENT_IPS, { mode: 'allow' }));
+  };
 
   private configureEnvVars = (): void => {
     // dotenv.config({
