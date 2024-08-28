@@ -763,7 +763,14 @@
   dependencies:
     "@types/node" "*"
 
-"@types/express-serve-static-core@^4.17.33":
+"@types/csurf@^1.11.5":
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/@types/csurf/-/csurf-1.11.5.tgz#16c3502fb534004a04d9cb8a48f031577528573b"
+  integrity sha512-5rw87+5YGixyL2W8wblSUl5DSZi5YOlXE6Awwn2ofLvqKr/1LruKffrQipeJKUX44VaxKj8m5es3vfhltJTOoA==
+  dependencies:
+    "@types/express-serve-static-core" "*"
+
+"@types/express-serve-static-core@*", "@types/express-serve-static-core@^4.17.33":
   version "4.19.5"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.19.5.tgz#218064e321126fcf9048d1ca25dd2465da55d9c6"
   integrity sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==
