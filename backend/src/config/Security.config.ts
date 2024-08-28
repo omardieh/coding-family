@@ -1,22 +1,26 @@
 import cors from 'cors';
-import { Application } from 'express';
+import csrf from 'csurf';
+import { Application, NextFunction, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
-import { IpFilter } from 'express-ipfilter';
+
 export class SecurityConfig {
   constructor(private app: Application) {
+    this.configureCsrf();
     this.app = app;
-    this.filterIncomingRequests();
     this.configureHelmet();
     this.configureCors();
     this.configureRateLimiter();
   }
 
-  private filterIncomingRequests = (): void => {
-    if (!process.env.ALLOWED_CLIENT_IPS) {
-      throw new Error('cannot find client IP');
-    }
-    this.app.use(IpFilter(process.env.ALLOWED_CLIENT_IPS.split(' '), { mode: 'allow' }));
+  private configureCsrf = (): void => {
+    this.app.use(csrf({ cookie: { httpOnly: true, secure: process.env.NODE_ENV === 'production' } }));
+
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      const token = req.csrfToken();
+      res.cookie('XSRF-TOKEN', token);
+      next();
+    });
   };
 
   private configureHelmet = (): void => {
