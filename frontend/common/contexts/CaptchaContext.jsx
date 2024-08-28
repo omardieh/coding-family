@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { getCookie } from "../utilities/getCookie";
 import Loading from "/features/Loading";
 
 const CaptchaContext = createContext();
@@ -9,6 +10,8 @@ export const useCaptchaContext = () => useContext(CaptchaContext);
 export const CaptchaProvider = ({ children }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const csrfToken = getCookie("XSRF-TOKEN");
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = `https://www.google.com/recaptcha/api.js?render=${
@@ -24,15 +27,21 @@ export const CaptchaProvider = ({ children }) => {
           })
           .then(async (token) => {
             try {
-              const response = await axios.post(
-                `${import.meta.env.VITE_SERVER_URL}/auth/captcha`,
-                {
-                  token,
-                }
-              );
-              setIsVerified(response.data.verified);
+              if (csrfToken) {
+                const response = await axios.post(
+                  `${import.meta.env.VITE_SERVER_URL}/auth/captcha`,
+                  { token },
+                  {
+                    headers: { "X-XSRF-TOKEN": csrfToken }, // Include CSRF token in the headers
+                    withCredentials: true, // Ensure cookies are sent with the request
+                  }
+                );
+                setIsVerified(response.data.verified);
+              } else {
+                setIsVerified(false);
+              }
             } catch (error) {
-              console.error("error captcha:", error);
+              console.error("Error captcha:", error);
             } finally {
               setIsLoading(false);
             }
@@ -43,7 +52,7 @@ export const CaptchaProvider = ({ children }) => {
     return () => {
       document.head.removeChild(script);
     };
-  }, []);
+  }, [csrfToken]);
 
   if (isLoading) return <Loading />;
   return (
