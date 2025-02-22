@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCookie } from "../utilities/getCookie";
 import Loading from "/features/Loading";
+import { useCsrfContext } from "./CsrfContext";
 
 const CaptchaContext = createContext();
 
@@ -10,7 +11,7 @@ export const useCaptchaContext = () => useContext(CaptchaContext);
 export const CaptchaProvider = ({ children }) => {
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const csrfToken = getCookie("XSRF-TOKEN");
+  const { csrfToken } = useCsrfContext();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -52,7 +53,7 @@ export const CaptchaProvider = ({ children }) => {
     return () => {
       document.head.removeChild(script);
     };
-  }, [csrfToken]);
+  }, []);
 
   if (isLoading) return <Loading />;
   return (

@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { getCookie } from "../utilities/getCookie";
+import { useCsrfContext } from "../contexts/CsrfContext";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { csrfToken } = useCsrfContext();
+
   useEffect(() => {
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common["Access-Control-Allow-Headers"] =
       "Authorization";
     const accessToken = localStorage.getItem("accessToken");
-    const csrfToken = getCookie("XSRF-TOKEN");
     const requestInterceptor = axios.interceptors.request.use((config) => {
       if (accessToken) {
         config.headers.Authorization = accessToken;

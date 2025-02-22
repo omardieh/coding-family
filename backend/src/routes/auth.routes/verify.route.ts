@@ -8,6 +8,7 @@ class VerifyRoute extends BaseRouter {
     super();
     this.router.get('/auth/token/verify', this.JWTService.isAuthenticated, this.verifyLoggedIn);
     this.router.post('/auth/email/verify', this.verifyUserEmail);
+    this.router.get('/auth/csrf/verify', this.verifyCsrfToken);
   }
 
   verifyLoggedIn = async (req: RequestWithPayload, res: Response, next: NextFunction): Promise<void> => {
@@ -51,6 +52,15 @@ class VerifyRoute extends BaseRouter {
     } catch (err) {
       next(err);
     }
+  };
+  verifyCsrfToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const token = req.csrfToken();
+    res.cookie('XSRF-TOKEN', token, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    });
+    res.json({ csrfToken: true });
   };
 }
 

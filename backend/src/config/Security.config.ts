@@ -6,8 +6,8 @@ import helmet from 'helmet';
 
 export class SecurityConfig {
   constructor(private app: Application) {
-    this.configureCsrf();
     this.app = app;
+    this.configureCsrf();
     this.configureHelmet();
     this.configureCors();
     this.configureRateLimiter();
@@ -15,7 +15,6 @@ export class SecurityConfig {
 
   private configureCsrf = (): void => {
     this.app.use(csrf({ cookie: { httpOnly: true, secure: process.env.NODE_ENV === 'production' } }));
-
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       const token = req.csrfToken();
       res.cookie('XSRF-TOKEN', token);
