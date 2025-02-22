@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthService from "/common/services/AuthService";
+import { Typography } from "@mui/material";
 
 export default function EmailVerify() {
   const [verifyMessage, setVerifyMessage] = useState("");
@@ -16,10 +17,21 @@ export default function EmailVerify() {
         setVerifyMessage(response.data);
       })
       .catch((error) => {
-        console.error("AuthService.verifyEmail : ", error);
+        if (error.response.data) {
+          console.error("AuthService.verifyEmail : ", error.response.data);
+          setVerifyMessage(error.response.data);
+          return;
+        }
         navigate("/");
       });
   }, [userID, token, code, navigate]);
 
-  return <div>EmailVerify : {verifyMessage} </div>;
+  return (
+    <>
+      <Typography variant="h6">{verifyMessage}</Typography>
+      <Typography variant="body2" color="textSecondary">
+        {verifyMessage}
+      </Typography>
+    </>
+  );
 }

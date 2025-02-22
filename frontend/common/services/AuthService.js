@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "../utilities/getCookie";
 
 class AuthService {
   constructor() {
@@ -12,6 +13,10 @@ class AuthService {
       const token = localStorage.getItem("accessToken");
       if (token) {
         config.headers.Authorization = token;
+      }
+      const csrfToken = getCookie("XSRF-TOKEN");
+      if (csrfToken) {
+        config.headers["X-XSRF-TOKEN"] = csrfToken;
       }
       return config;
     });
@@ -52,7 +57,7 @@ class AuthService {
       },
     };
     return this.api.post(
-      "/auth/verify/email",
+      "/auth/email/verify",
       { userID, code },
       requestHeaders
     );

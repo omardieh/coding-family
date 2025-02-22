@@ -47,7 +47,7 @@ const userSchema = new Schema<IUserModel>(
       type: Date,
       required: [true, 'Email Verify code exp date is missing.'],
       default: Date.now(),
-      select: false,
+      select: true,
     },
     isEmailVerified: {
       type: Boolean,
