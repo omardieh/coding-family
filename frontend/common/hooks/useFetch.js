@@ -54,6 +54,7 @@ export default function useFetch(baseURL) {
           setData(response.data);
           setError(null);
         } catch (err) {
+          console.error("Error in useFetch hook", err);
           setError(err.response ? err.response.data : err.message);
         } finally {
           setLoading(false);
