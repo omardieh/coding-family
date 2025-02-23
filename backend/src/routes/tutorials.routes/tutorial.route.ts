@@ -43,6 +43,10 @@ class TutorialRoutes extends BaseRouter {
 
   addNewTutorial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { authorID, title, description, tags, content, isPublic } = req.body;
+    if (!authorID || !title || !description || !content || !isPublic || !tags) {
+      res.status(400).json('Missing required fields');
+      return;
+    }
     try {
       const createdTutorial = await TutorialModel.create({
         author: authorID,
@@ -56,11 +60,16 @@ class TutorialRoutes extends BaseRouter {
         $push: { tutorials: createdTutorial._id },
       });
       if (tags.length) {
-        for (const tag of tags) {
-          const foundTag = await TutorialTagModel.findOne({ label: tag });
+        const tagsLowerCased = [...new Set(tags.map((tag: string) => tag.toLowerCase()))];
+        for (const tag of tagsLowerCased) {
+          const foundTag = await TutorialTagModel.findOne({ label: { $regex: new RegExp(`^${tag}$`, 'i') } });
           if (foundTag) {
-            foundTag.tutorials.push(createdTutorial._id as Types.ObjectId);
-            createdTutorial.tags.push(foundTag._id as Types.ObjectId & ITutorialTagModel);
+            if (!foundTag.tutorials.includes(createdTutorial._id as Types.ObjectId)) {
+              foundTag.tutorials.push(createdTutorial._id as Types.ObjectId);
+            }
+            if (!createdTutorial.tags.includes(foundTag._id as Types.ObjectId & ITutorialTagModel)) {
+              createdTutorial.tags.push(foundTag._id as Types.ObjectId & ITutorialTagModel);
+            }
             await foundTag.save();
             continue;
           }
@@ -71,7 +80,6 @@ class TutorialRoutes extends BaseRouter {
           createdTutorial.tags.push(createdTag._id as Types.ObjectId & ITutorialTagModel);
         }
       }
-
       await createdTutorial.save();
       res.status(201).json({ tutorial: createdTutorial, created: true });
     } catch (error) {

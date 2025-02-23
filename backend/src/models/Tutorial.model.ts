@@ -39,14 +39,15 @@ const tutorialSchema = new Schema<ITutorialModel>(
       ref: 'User',
       required: [true, 'Author is required.'],
     },
-    tags: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'TutorialTag',
-        required: [true, 'At least one tag is required.'],
-        unique: true,
-      },
-    ],
+    tags: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'TutorialTag',
+        },
+      ],
+      default: [],
+    },
     views: {
       type: Number,
       default: 0,

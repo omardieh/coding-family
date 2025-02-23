@@ -6,7 +6,7 @@ export class InitiateTutorialsRoutes {
   public app: Application;
   constructor(app: Application) {
     this.app = app;
-    this.app.use('/', tutorialRoutes);
     this.app.use('/', tutorialTagRoutes);
+    this.app.use('/', tutorialRoutes);
   }
 }
