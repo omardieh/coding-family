@@ -53,7 +53,7 @@ class VerifyRoute extends BaseRouter {
       next(err);
     }
   };
-  verifyCsrfToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  verifyCsrfToken = async (req: Request, res: Response): Promise<void> => {
     const token = req.csrfToken();
     res.cookie('XSRF-TOKEN', token, {
       httpOnly: false,
