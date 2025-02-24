@@ -7,8 +7,8 @@ export class InitiateUserRoutes {
   public app: Application;
   constructor(app: Application) {
     this.app = app;
-    this.app.use('/', userRoutes);
-    this.app.use('/', uploadRoutes);
-    this.app.use('/', profileRoutes);
+    this.app.use('/api', userRoutes);
+    this.app.use('/api', uploadRoutes);
+    this.app.use('/api', profileRoutes);
   }
 }

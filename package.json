@@ -5,9 +5,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "app:prod": "NODE_ENV=prod concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
-    "app:dev": "set NODE_ENV=dev&&concurrently --kill-others \"npm --prefix ./backend run dev\" \"npm --prefix frontend run dev\"",
-    "app:install": "npm install && npm --prefix ./backend install && npm --prefix ./frontend install"
+    "app:prod": "set NODE_ENV=prod&&concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
+    "app:dev": "set NODE_ENV=dev&&concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
+    "app:install": "yarn install && yarn --cwd ./backend install && yarn --cwd ./frontend install"
   },
   "keywords": [],
   "author": "",
