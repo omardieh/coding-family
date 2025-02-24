@@ -6,14 +6,16 @@ export class InitiateClientBuildRoutes {
   constructor(app: Application) {
     this.app = app;
     this.app.use((req: Request, res: Response, next: NextFunction) => {
-      if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
-        next();
-      } else {
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.header('Expires', '-1');
-        res.header('Pragma', 'no-cache');
-        res.sendFile(path.join(__dirname, '..', '..', '..', 'public', 'index.html'));
+      if (/^(?!\/(api|auth)).*$/i.test(req.path)) {
+        res.set({
+          'Cache-Control': 'private, no-cache, no-store, must-revalidate',
+          Expires: '-1',
+          Pragma: 'no-cache',
+        });
+        res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
+        return;
       }
+      next();
     });
   }
 }

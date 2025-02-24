@@ -5,8 +5,8 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "app:prod": "set NODE_ENV=prod&&concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
-    "app:dev": "set NODE_ENV=dev&&concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
+    "app:prod": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
+    "app:dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
     "app:install": "yarn install && yarn --cwd ./backend install && yarn --cwd ./frontend install"
   },
   "keywords": [],

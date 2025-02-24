@@ -35,8 +35,11 @@ class Server {
   };
 }
 
-if (!process.env.SERVER_PORT || !process.env.SERVER_HOST) {
+const { SERVER_HOST: host } = process.env;
+const port = Number(process.env.SERVER_PORT);
+
+if (!port || !host) {
   throw new Error('port must be a number, host must be a string');
 }
 
-new Server(Number(process.env.SERVER_PORT), process.env.SERVER_HOST);
+new Server(port, host);

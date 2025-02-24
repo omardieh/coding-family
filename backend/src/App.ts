@@ -1,6 +1,7 @@
 import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '@/config';
 import { InitiateAuthRoutes, InitiateClientBuildRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
 import express from 'express';
+import { InitiateIndexRoutes } from './routes/index.routes';
 
 class App {
   public app;
@@ -18,10 +19,13 @@ class App {
   };
 
   private setRoutes = (): void => {
+    new InitiateIndexRoutes(this.app);
     new InitiateUserRoutes(this.app);
     new InitiateTutorialsRoutes(this.app);
     new InitiateAuthRoutes(this.app);
-    new InitiateClientBuildRoutes(this.app);
+    if (process.env.NODE_ENV === 'production') {
+      new InitiateClientBuildRoutes(this.app);
+    }
   };
 
   private handleErrors = (): void => {
