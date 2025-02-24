@@ -7,7 +7,7 @@ import SearchInput from "./../SearchFilterBars/SearchInput";
 
 export default function SearchFilterTagsBar() {
   return (
-    <SearchFilterBarsLayout top="67px">
+    <SearchFilterBarsLayout top="64px">
       <QuickFiltersGrid
         fields={[
           { title: "alphabetically", field: "label" },
