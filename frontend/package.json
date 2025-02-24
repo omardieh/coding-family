@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "set NODE_PATH=/&&vite --port 2002",
-    "build": "vite build",
+    "build": "vite build && sh ./build.sh",
     "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

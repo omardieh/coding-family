@@ -1,6 +1,7 @@
 import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '@/config';
-import { InitiateAuthRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
+import { InitiateAuthRoutes, InitiateClientBuildRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
 import express from 'express';
+
 class App {
   public app;
   constructor() {
@@ -20,6 +21,7 @@ class App {
     new InitiateUserRoutes(this.app);
     new InitiateTutorialsRoutes(this.app);
     new InitiateAuthRoutes(this.app);
+    new InitiateClientBuildRoutes(this.app);
   };
 
   private handleErrors = (): void => {
