@@ -9,23 +9,26 @@ import { SocketProvider } from "/common/contexts/SocketContext";
 import { CsrfProvider } from "/common/contexts/CsrfContext";
 import TutorialsProvider from "/features/Tutorials/context";
 // import * as serviceWorker from "/sw.js";
+import { StyleSheetManager } from "styled-components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <Router>
-    <CsrfProvider>
-      <CaptchaProvider>
-        <AuthProvider>
-          <SocketProvider>
-            <TutorialsProvider>
-              <App />
-            </TutorialsProvider>
-          </SocketProvider>
-        </AuthProvider>
-      </CaptchaProvider>
-    </CsrfProvider>
-  </Router>
+  <StyleSheetManager>
+    <Router>
+      <CsrfProvider>
+        <CaptchaProvider>
+          <AuthProvider>
+            <SocketProvider>
+              <TutorialsProvider>
+                <App />
+              </TutorialsProvider>
+            </SocketProvider>
+          </AuthProvider>
+        </CaptchaProvider>
+      </CsrfProvider>
+    </Router>
+  </StyleSheetManager>
 );
 
 // serviceWorker.unregister();

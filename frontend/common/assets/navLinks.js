@@ -25,10 +25,10 @@ export const userAvatarLinks = [
 
 export const tutorialsNavbarLinks = [
   { id: uuid(), title: "Create New Tutorial", path: "/tutorials/create" },
-  { id: uuid(), title: "All Tags", path: "/tutorials/tags" },
+  { id: uuid(), title: "Browse Tutorials Tags", path: "/tutorials/tags" },
 ];
 
 export const tutorialsTagsNavbarLinks = [
   { id: uuid(), title: "Create New Tutorial", path: "/tutorials/create" },
-  { id: uuid(), title: "All Tutorials", path: "/tutorials" },
+  { id: uuid(), title: "Show All Tutorials", path: "/tutorials" },
 ];
