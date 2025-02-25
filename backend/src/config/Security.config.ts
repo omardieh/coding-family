@@ -52,14 +52,14 @@ export class SecurityConfig {
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
-    // const { NODE_ENV, CLIENT_URL } = process.env;
-    // let clientURL: string[] | undefined = [];
-    // if (NODE_ENV === 'production') clientURL = CLIENT_URL?.split(', ');
+    const clientURL = process.env.CLIENT_URL.split(', ');
+    console.info('||cors|| clientURL:', clientURL);
     this.app.use(
       cors({
-        // origin: [...(clientURL || [])],
-        origin: ['https://coding.family', 'https://www.coding.family'],
+        origin: [...(clientURL || [])],
         credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-XSRF-TOKEN'],
       }),
     );
   };
