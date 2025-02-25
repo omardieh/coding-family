@@ -7,9 +7,9 @@ import helmet from 'helmet';
 export class SecurityConfig {
   constructor(private app: Application) {
     this.app = app;
+    this.configureCors();
     this.configureCsrf();
     this.configureHelmet();
-    this.configureCors();
     this.configureRateLimiter();
   }
 

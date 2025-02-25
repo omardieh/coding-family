@@ -13,8 +13,8 @@ class App {
   }
 
   private initializeConfigs = (): void => {
-    new EnvironmentConfig(this.app);
     new SecurityConfig(this.app);
+    new EnvironmentConfig(this.app);
     new LoggingConfig(this.app);
   };
 
