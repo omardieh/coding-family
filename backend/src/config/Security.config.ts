@@ -53,11 +53,19 @@ export class SecurityConfig {
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
     const { NODE_ENV, CLIENT_URL } = process.env;
-    let clientURL: string[] | undefined = [];
-    if (NODE_ENV === 'production') clientURL = CLIENT_URL?.split(', ');
+    let clientURLs: string[] = [];
+    if (NODE_ENV === 'production' && CLIENT_URL) {
+      clientURLs = CLIENT_URL.split(',').map((url) => url.trim());
+    }
     this.app.use(
       cors({
-        origin: [...(clientURL || [])],
+        origin: (origin, callback) => {
+          if (!origin || clientURLs.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
         credentials: true,
       }),
     );
