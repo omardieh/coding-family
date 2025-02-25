@@ -1,4 +1,4 @@
-import { EnvironmentConfig, ErrorsConfig, LoggingConfig } from '@/config';
+import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '@/config';
 import { InitiateAuthRoutes, InitiateClientBuildRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
 import express from 'express';
 import { InitiateIndexRoutes } from './routes/index.routes';
@@ -14,7 +14,7 @@ class App {
 
   private initializeConfigs = (): void => {
     new EnvironmentConfig(this.app);
-    // new SecurityConfig(this.app);
+    new SecurityConfig(this.app);
     new LoggingConfig(this.app);
   };
 
