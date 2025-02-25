@@ -52,9 +52,12 @@ export class SecurityConfig {
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
+    const { NODE_ENV, CLIENT_URL } = process.env;
+    let clientURL: string[] | undefined = [];
+    if (NODE_ENV === 'production') clientURL = CLIENT_URL?.split(', ');
     this.app.use(
       cors({
-        origin: [`${process.env.CLIENT_URL}`],
+        origin: [...(clientURL || [])],
         credentials: true,
       }),
     );
