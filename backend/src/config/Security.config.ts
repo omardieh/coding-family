@@ -52,7 +52,7 @@ export class SecurityConfig {
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
-    const clientURL = process.env.CLIENT_URL.split(', ');
+    const clientURL = (process.env.CLIENT_URL || '').split(', ');
     console.info('||cors|| clientURL:', clientURL);
     this.app.use(
       cors({
