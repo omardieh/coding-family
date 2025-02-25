@@ -1,3 +1,6 @@
+import { setEnv } from '@/utils';
+setEnv();
+
 import app from '@/App';
 import { SERVER_CONNECT_MESSAGES as messages } from '@/constants';
 import { DBService, SocketIOService } from '@/services';
@@ -21,9 +24,7 @@ class Server {
   private runServer = async () => {
     try {
       await this.db.connectDB();
-      this.httpServer.listen(this.port, this.host, () => {
-        console.info(messages.server.success);
-      });
+      this.httpServer.listen(this.port, this.host, () => console.info(messages.server.success));
     } catch (error) {
       let errorMessage = 'unknown error';
       if (error instanceof Error) {

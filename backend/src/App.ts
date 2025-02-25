@@ -19,13 +19,11 @@ class App {
   };
 
   private setRoutes = (): void => {
+    new InitiateClientBuildRoutes(this.app);
     new InitiateIndexRoutes(this.app);
     new InitiateUserRoutes(this.app);
     new InitiateTutorialsRoutes(this.app);
     new InitiateAuthRoutes(this.app);
-    if (process.env.NODE_ENV === 'production') {
-      new InitiateClientBuildRoutes(this.app);
-    }
   };
 
   private handleErrors = (): void => {

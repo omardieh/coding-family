@@ -5,8 +5,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "kill-port": "npx kill-port 2001 && npx kill-port 2002",
     "app:prod": "yarn --cwd ./backend start",
-    "app:dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
+    "app:dev": "yarn kill-port && concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
     "app:install": "yarn install && yarn --cwd ./backend install && yarn --cwd ./frontend install"
   },
   "keywords": [],

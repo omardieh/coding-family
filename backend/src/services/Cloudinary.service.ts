@@ -1,9 +1,7 @@
-import { setEnv } from '@/utils';
 import { v2 as cloudinary, ConfigOptions } from 'cloudinary';
 import multer, { Multer } from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-setEnv();
 export class CloudinaryService {
   private cloudinaryConfig: ConfigOptions;
   constructor() {
