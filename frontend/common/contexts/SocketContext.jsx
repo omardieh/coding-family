@@ -6,6 +6,9 @@ const SocketContext = createContext();
 const useSocketContext = () => useContext(SocketContext);
 
 function SocketProvider(props) {
+  console.log("called");
+  console.log(import.meta.env.VITE_WEBSOCKET_SERVER_URL);
+
   const socket = socketIOClient(import.meta.env.VITE_WEBSOCKET_SERVER_URL, {
     transports: ["polling", "websocket"],
     withCredentials: true,
