@@ -1,13 +1,24 @@
 import { ChatMessageModel } from '@/models';
 import { IMessage, ISocket, ISocketIOService } from '@/types';
-import { Server as HttpServer } from 'http'; // Rename the import to avoid confusion
+import { Server as HttpServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 
 export class SocketIOService implements ISocketIOService {
   public io: SocketIOServer;
   constructor(server: HttpServer) {
+    const clientURLs = (process.env.CLIENT_URL || '').split(', ');
+    const corsOptions = {
+      origin: clientURLs,
+      credentials: true,
+      methods: ['GET', 'POST', 'OPTIONS'],
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-XSRF-TOKEN'],
+    };
+
     this.io = new SocketIOServer(server, {
-      cors: { origin: process.env.CLIENT_URL || '*' },
+      cors: corsOptions,
+      transports: ['polling', 'websocket'],
+      pingTimeout: 60000,
+      pingInterval: 25000,
     });
     this.configureSocketEvents();
   }

@@ -7,8 +7,6 @@ class AuthService {
       baseURL: import.meta.env.VITE_SERVER_URL,
     });
     this.api.defaults.withCredentials = true;
-    this.api.defaults.headers.common["Access-Control-Allow-Headers"] =
-      "Authorization";
     this.api.interceptors.request.use((config) => {
       const token = localStorage.getItem("accessToken");
       if (token) {

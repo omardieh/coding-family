@@ -10,8 +10,6 @@ export default function useFetch(baseURL) {
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    axios.defaults.headers.common["Access-Control-Allow-Headers"] =
-      "Authorization";
     const accessToken = localStorage.getItem("accessToken");
     const requestInterceptor = axios.interceptors.request.use((config) => {
       if (accessToken) {
@@ -25,7 +23,6 @@ export default function useFetch(baseURL) {
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.defaults.withCredentials = false;
-      delete axios.defaults.headers.common["Access-Control-Allow-Headers"];
     };
   }, []);
 

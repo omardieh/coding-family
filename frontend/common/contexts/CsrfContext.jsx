@@ -33,7 +33,6 @@ export const CsrfProvider = ({ children }) => {
     };
     fetchToken();
   }, []);
-  console.log("CsrfProvider csrfToken:", state);
 
   if (state.isLoading) return <Loading />;
 

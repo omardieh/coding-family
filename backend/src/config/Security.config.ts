@@ -53,13 +53,14 @@ export class SecurityConfig {
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
     const clientURL = (process.env.CLIENT_URL || '').split(', ');
-    console.info('||cors|| clientURL:', clientURL);
     this.app.use(
       cors({
         origin: [...(clientURL || [])],
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-XSRF-TOKEN'],
+        preflightContinue: false,
+        optionsSuccessStatus: 204,
       }),
     );
   };

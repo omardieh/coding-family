@@ -4,17 +4,10 @@ import path from 'path';
 
 export class EnvironmentConfig {
   constructor(private app: Application) {
-    this.configureEnvVars();
     this.configureExpress();
     this.configureViews();
     this.otherConfigs();
   }
-
-  private configureEnvVars = (): void => {
-    // dotenv.config({
-    //   path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
-    // });
-  };
 
   private configureExpress = (): void => {
     // TODO : configure Express

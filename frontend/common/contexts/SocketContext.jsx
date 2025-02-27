@@ -6,7 +6,16 @@ const SocketContext = createContext();
 const useSocketContext = () => useContext(SocketContext);
 
 function SocketProvider(props) {
-  const socket = socketIOClient(import.meta.env.VITE_SERVER_URL);
+  const socket = socketIOClient(import.meta.env.VITE_WEBSOCKET_SERVER_URL, {
+    transports: ["polling", "websocket"],
+    withCredentials: true,
+    autoConnect: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
+    timeout: 60000,
+    forceNew: true,
+    path: "/socket.io", // Make sure this matches your backend path if custom
+  });
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
