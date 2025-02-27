@@ -1,0 +1,98 @@
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --text-color: #1f2937;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background: var(--bg-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.endpoint {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 4px solid var(--primary-color);
+  background: #f8fafc;
+}
+
+.method {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.get {
+  background: #22c55e;
+  color: white;
+}
+
+.post {
+  background: #3b82f6;
+  color: white;
+}
+
+.put,
+.patch {
+  background: #f59e0b;
+  color: white;
+}
+
+.delete {
+  background: #ef4444;
+  color: white;
+}
+
+.path {
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+
+.description {
+  margin-top: 0.5rem;
+  color: #4b5563;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+}

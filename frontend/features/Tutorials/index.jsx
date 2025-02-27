@@ -44,12 +44,16 @@ export default function Tutorials() {
           <Loading />
         ) : (
           <Box
-            className={classes.box}
             sx={{
               background: (theme) => theme.colors.white.mid,
               margin: "auto",
               marginTop: "6em",
               maxWidth: "1200px",
+              width: "90%",
+              padding: "2em",
+              borderRadius: "14px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
             }}
           >
             {data.tutorials?.map((tutorial) => (

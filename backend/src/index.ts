@@ -1,3 +1,6 @@
+import { setEnv } from '@/utils';
+setEnv();
+
 import app from '@/App';
 import { SERVER_CONNECT_MESSAGES as messages } from '@/constants';
 import { DBService, SocketIOService } from '@/services';
@@ -21,9 +24,7 @@ class Server {
   private runServer = async () => {
     try {
       await this.db.connectDB();
-      this.httpServer.listen(this.port, this.host, () => {
-        console.info(messages.server.success);
-      });
+      this.httpServer.listen(this.port, this.host, () => console.info(messages.server.success));
     } catch (error) {
       let errorMessage = 'unknown error';
       if (error instanceof Error) {
@@ -35,8 +36,11 @@ class Server {
   };
 }
 
-if (!process.env.SERVER_PORT || !process.env.SERVER_HOST) {
+const { SERVER_HOST: host } = process.env;
+const port = Number(process.env.SERVER_PORT);
+
+if (!port || !host) {
   throw new Error('port must be a number, host must be a string');
 }
 
-new Server(Number(process.env.SERVER_PORT), process.env.SERVER_HOST);
+new Server(port, host);

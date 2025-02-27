@@ -20,8 +20,8 @@ const tutorialSchema = new Schema<ITutorialModel>(
       maxlength: [100, 'Title must be at most 100 characters.'],
       minlength: [8, 'Title must be at least 8 characters.'],
       match: [
-        /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/,
-        'Tutorial title should contain only letters, numbers, with one space between words.',
+        /^(?![- ])[a-zA-Z0-9]+(?:[- ][a-zA-Z0-9]+)*(?<![- ])$/,
+        'Title can contain letters, numbers, hyphens, and single spaces between words. It cannot start or end with a hyphen or space.',
       ],
     },
     description: {
@@ -39,14 +39,15 @@ const tutorialSchema = new Schema<ITutorialModel>(
       ref: 'User',
       required: [true, 'Author is required.'],
     },
-    tags: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'TutorialTag',
-        required: [true, 'At least one tag is required.'],
-        unique: true,
-      },
-    ],
+    tags: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'TutorialTag',
+        },
+      ],
+      default: [],
+    },
     views: {
       type: Number,
       default: 0,

@@ -11,12 +11,12 @@ export class InitiateAuthRoutes {
   public app: Application;
   constructor(app: Application) {
     this.app = app;
-    this.app.use('/', googleRoute);
-    this.app.use('/', githubRoute);
-    this.app.use('/', captchaRoute);
-    this.app.use('/', loginRoute);
-    this.app.use('/', logoutRoute);
-    this.app.use('/', signupRoute);
-    this.app.use('/', verifyRoute);
+    this.app.use('/api', googleRoute);
+    this.app.use('/api', githubRoute);
+    this.app.use('/api', captchaRoute);
+    this.app.use('/api', loginRoute);
+    this.app.use('/api', logoutRoute);
+    this.app.use('/api', signupRoute);
+    this.app.use('/api', verifyRoute);
   }
 }

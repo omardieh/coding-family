@@ -34,14 +34,16 @@ function AuthProvider(props) {
         const userInfo = await AuthService.getUserInfo();
         setUser(userInfo.data);
         setIsLoggedIn(true);
-        setIsLoading(false);
       }
     } catch (error) {
       setIsLoggedIn(false);
-      setIsLoading(false);
       setUser(null);
+      await AuthService.logout();
+      localStorage.removeItem("accessToken");
       console.error(error, "Unexpected error occurred during authentication.");
       setErrorMessage("An unexpected error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 

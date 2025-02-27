@@ -1,6 +1,8 @@
 import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '@/config';
-import { InitiateAuthRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
+import { InitiateAuthRoutes, InitiateClientBuildRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
 import express from 'express';
+import { InitiateIndexRoutes } from './routes/index.routes';
+
 class App {
   public app;
   constructor() {
@@ -17,6 +19,8 @@ class App {
   };
 
   private setRoutes = (): void => {
+    new InitiateClientBuildRoutes(this.app);
+    new InitiateIndexRoutes(this.app);
     new InitiateUserRoutes(this.app);
     new InitiateTutorialsRoutes(this.app);
     new InitiateAuthRoutes(this.app);

@@ -1,22 +1,13 @@
-import { setEnv } from '@/utils';
 import cookies from 'cookie-parser';
 import express, { Application } from 'express';
 import path from 'path';
 
 export class EnvironmentConfig {
   constructor(private app: Application) {
-    this.configureEnvVars();
     this.configureExpress();
     this.configureViews();
     this.otherConfigs();
   }
-
-  private configureEnvVars = (): void => {
-    // dotenv.config({
-    //   path: path.resolve(__dirname, `../../.env.${process.env.NODE_ENV}`),
-    // });
-    setEnv();
-  };
 
   private configureExpress = (): void => {
     // TODO : configure Express
@@ -27,12 +18,22 @@ export class EnvironmentConfig {
     // https://expressjs.com/en/advanced/best-practice-security.html
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.static(path.join(__dirname, '../../public')));
+    this.app.use(
+      express.static(path.join(__dirname, '..', '..', 'public'), {
+        setHeaders: (res) => {
+          res.set({
+            'X-Content-Type-Options': 'nosniff',
+            'Cache-Control': 'max-age=31536000',
+            'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+          });
+        },
+      }),
+    );
   };
 
   private configureViews = (): void => {
     this.app.set('view engine', 'hbs');
-    this.app.set('views', path.join(__dirname, '../../views'));
+    this.app.set('views', path.join(__dirname, '..', 'views'));
   };
 
   private otherConfigs = (): void => {

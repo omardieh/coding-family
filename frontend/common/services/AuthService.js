@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "../utilities/getCookie";
 
 class AuthService {
   constructor() {
@@ -6,12 +7,14 @@ class AuthService {
       baseURL: import.meta.env.VITE_SERVER_URL,
     });
     this.api.defaults.withCredentials = true;
-    this.api.defaults.headers.common["Access-Control-Allow-Headers"] =
-      "Authorization";
     this.api.interceptors.request.use((config) => {
       const token = localStorage.getItem("accessToken");
       if (token) {
         config.headers.Authorization = token;
+      }
+      const csrfToken = getCookie("XSRF-TOKEN");
+      if (csrfToken) {
+        config.headers["X-XSRF-TOKEN"] = csrfToken;
       }
       return config;
     });
@@ -52,7 +55,7 @@ class AuthService {
       },
     };
     return this.api.post(
-      "/auth/verify/email",
+      "/auth/email/verify",
       { userID, code },
       requestHeaders
     );

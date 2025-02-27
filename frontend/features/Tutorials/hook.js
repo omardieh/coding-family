@@ -44,7 +44,7 @@ export default function useTutorialsHook() {
 
   const updateTutorialBySlug = async (slug, reqBody) => {
     await fetcher({
-      method: "PUT",
+      method: "PATCH",
       endPoint: "/tutorials/" + slug,
       reqBody,
     });

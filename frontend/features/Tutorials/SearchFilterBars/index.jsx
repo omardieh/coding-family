@@ -1,12 +1,12 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import * as React from "react";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTutorialsContext } from "../context";
 import QuickFiltersGrid from "./QuickFiltersGrid";
 import SearchInput from "./SearchInput";
+import NavigateElements from "./NavigateElements";
+import { tutorialsNavbarLinks } from "/common/assets/navLinks";
+import SearchFilterBarsLayout from "./SearchFilterBars.layout";
 
 export default function SearchFilterBars() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,28 +42,20 @@ export default function SearchFilterBars() {
       ...(per_page && { per_page: per_page }),
     }));
   }, []);
+
   return (
-    <Box sx={{ flexGrow: 1, width: "100%", position: "fixed", zIndex: 1 }}>
-      <AppBar
-        position="static"
-        sx={{
-          background: (theme) => theme.colors.black.light,
-          zIndex: 1,
-        }}
-      >
-        <Toolbar>
-          <QuickFiltersGrid
-            fields={[
-              { title: "alphabetically", field: "title" },
-              { title: "rating score", field: "rating" },
-              { title: "views count", field: "views" },
-              { title: "date created", field: "date" },
-              { title: "popularity", field: "popularity" },
-            ]}
-          />
-          <SearchInput />
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <SearchFilterBarsLayout>
+      <QuickFiltersGrid
+        fields={[
+          { title: "alphabetically", field: "title" },
+          { title: "rating score", field: "rating" },
+          { title: "views count", field: "views" },
+          { title: "date created", field: "date" },
+          { title: "popularity", field: "popularity" },
+        ]}
+      />
+      <NavigateElements navbarLinks={tutorialsNavbarLinks} />
+      <SearchInput />
+    </SearchFilterBarsLayout>
   );
 }

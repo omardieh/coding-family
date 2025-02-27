@@ -6,16 +6,15 @@ import helmet from 'helmet';
 
 export class SecurityConfig {
   constructor(private app: Application) {
-    this.configureCsrf();
     this.app = app;
-    this.configureHelmet();
     this.configureCors();
+    this.configureCsrf();
+    this.configureHelmet();
     this.configureRateLimiter();
   }
 
   private configureCsrf = (): void => {
     this.app.use(csrf({ cookie: { httpOnly: true, secure: process.env.NODE_ENV === 'production' } }));
-
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       const token = req.csrfToken();
       res.cookie('XSRF-TOKEN', token);
@@ -53,10 +52,15 @@ export class SecurityConfig {
     // Configuring CORS in Node.js with Express :
     // https://dev.to/speaklouder/how-to-configure-cors-in-nodejs-with-express-11h
     // https://www.linkedin.com/pulse/configure-cors-node-js-express-naum-asafov-qs6ce
+    const clientURL = (process.env.CLIENT_URL || '').split(', ');
     this.app.use(
       cors({
-        origin: [`${process.env.CLIENT_URL}`],
+        origin: [...(clientURL || [])],
         credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-XSRF-TOKEN'],
+        preflightContinue: false,
+        optionsSuccessStatus: 204,
       }),
     );
   };

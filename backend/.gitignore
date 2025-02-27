@@ -28,3 +28,7 @@ ehthumbs.db
 
 # VS Code
 .vscode/*
+
+# build
+/public/*
+!/public/api

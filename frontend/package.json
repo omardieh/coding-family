@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "set NODE_PATH=/&&vite --port 2002",
-    "build": "vite build",
+    "build": "vite build && sh ./build.sh",
     "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,6 +17,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@uiw/react-md-editor": "^4.0.4",
     "axios": "^1.7.5",
+    "babel-plugin-styled-components": "^2.1.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",

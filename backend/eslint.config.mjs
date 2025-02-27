@@ -6,7 +6,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
-  { ignores: ['dist/*', 'coverage/*', 'jest.config.js', '__tests__/**/*'] },
+  { ignores: ['dist/*', 'coverage/*', 'public/*', 'jest.config.js', '__tests__/**/*'] },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,

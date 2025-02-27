@@ -7,7 +7,7 @@ import { useTutorialsContext } from "./../context";
 
 export default function QuickFiltersGrid({ fields }) {
   const { quickFilter, setQuickFilter } = useTutorialsContext();
-  const [, setSearchParams] = useSearchParams();
+  const [_, setSearchParams] = useSearchParams();
 
   function handleFilterClick(field) {
     setQuickFilter((prevState) => ({
