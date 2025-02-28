@@ -61,7 +61,6 @@ export default function EditProfilePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     const {
       username,
       bio,

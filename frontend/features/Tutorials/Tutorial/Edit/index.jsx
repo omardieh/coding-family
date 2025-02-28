@@ -24,11 +24,8 @@ export default function TutorialEdit() {
   useEffect(() => {
     getTutorialBySlug(slug);
   }, [updatedTutorial]);
-  console.log(updatedTutorial, tutorial);
 
   if (loading || updatedLoading || !tutorial) return <Loading />;
-  const isOwner =
-    JSON.stringify(tutorial.author._id) === JSON.stringify(user._id);
 
   return (
     <TutorialForm

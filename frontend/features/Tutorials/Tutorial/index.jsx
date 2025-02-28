@@ -23,7 +23,6 @@ export default function Tutorial() {
   if (loading || !tutorial) return <Loading />;
   const isOwner =
     JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
-  console.log(tutorial);
   return (
     <Box
       sx={{
