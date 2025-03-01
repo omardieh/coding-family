@@ -7,7 +7,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import { Box, Button, Link, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuthContext } from "/common/contexts/AuthContext";
+import { useAuthContext } from "/common/contexts";
 
 export default function Profile() {
   const { user, authenticateUser } = useAuthContext();

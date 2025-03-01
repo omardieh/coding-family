@@ -12,10 +12,9 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import LoginForm from "./LoginForm";
 import SocialLoginLink from "./SocialLoginLink";
-import { useAuthContext } from "/common/contexts/AuthContext";
-import { useCaptchaContext } from "/common/contexts/CaptchaContext";
+import { useAuthContext, useCaptchaContext } from "/common/contexts";
 import AuthService from "/common/services/AuthService";
-import Loading from "/features/Loading";
+import { LoadingSpinner } from "/common/components";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -71,7 +70,7 @@ export default function Login() {
       });
   };
 
-  if (captchaLoading) return <Loading />;
+  if (captchaLoading) return <LoadingSpinner />;
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>

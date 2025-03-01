@@ -3,9 +3,9 @@ import socketIOClient from "socket.io-client";
 
 const SocketContext = createContext();
 
-const useSocketContext = () => useContext(SocketContext);
+export const useSocketContext = () => useContext(SocketContext);
 
-function SocketProvider(props) {
+export const SocketProvider = (props) => {
   const socket = socketIOClient(import.meta.env.VITE_WEBSOCKET_SERVER_URL, {
     transports: ["polling", "websocket"],
     withCredentials: true,
@@ -33,6 +33,4 @@ function SocketProvider(props) {
       {props.children}
     </SocketContext.Provider>
   );
-}
-
-export { SocketProvider, useSocketContext };
+};

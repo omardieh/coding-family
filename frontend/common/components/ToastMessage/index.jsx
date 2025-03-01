@@ -1,7 +1,7 @@
 import { Snackbar } from "@mui/material";
 import { useState } from "react";
 
-export default function Toast(props) {
+export const ToastMessage = (props) => {
   const [isOpen, setIsOpen] = useState(true);
   const options = {
     vertical: props.vertical || "bottom",
@@ -17,4 +17,4 @@ export default function Toast(props) {
       key={vertical + horizontal}
     />
   );
-}
+};

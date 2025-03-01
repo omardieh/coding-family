@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useAuthContext } from "/common/contexts/AuthContext";
+import { useAuthContext } from "/common/contexts";
 import useTutorialsHook from "/features/Tutorials/hook";
-import Loading from "/features/Loading";
 import TutorialForm from "../../TutorialForm";
 import { useEffect } from "react";
+import { LoadingSpinner } from "/common/components";
 
 export default function TutorialEdit() {
   const { slug } = useParams();
@@ -25,7 +25,7 @@ export default function TutorialEdit() {
     getTutorialBySlug(slug);
   }, [updatedTutorial]);
 
-  if (loading || updatedLoading || !tutorial) return <Loading />;
+  if (loading || updatedLoading || !tutorial) return <LoadingSpinner />;
 
   return (
     <TutorialForm

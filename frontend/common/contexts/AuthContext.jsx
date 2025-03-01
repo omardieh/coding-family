@@ -1,12 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "/common/services/AuthService";
-import Loading from "/features/Loading";
+import { LoadingSpinner } from "/common/components";
 
 const AuthContext = createContext();
 
-const useAuthContext = () => useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext);
 
-function AuthProvider(props) {
+export const AuthProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -77,9 +77,7 @@ function AuthProvider(props) {
         setErrorMessage,
       }}
     >
-      {isLoading ? <Loading /> : props.children}
+      {isLoading ? <LoadingSpinner /> : props.children}
     </AuthContext.Provider>
   );
-}
-
-export { AuthProvider, useAuthContext };
+};

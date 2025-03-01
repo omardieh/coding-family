@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useAuthContext } from "/common/contexts/AuthContext";
+import { useAuthContext } from "/common/contexts";
 import AuthService from "/common/services/AuthService";
 
 export default function GithubAuth() {

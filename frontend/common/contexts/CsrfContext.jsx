@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getCookie } from "../utilities/getCookie";
-import Loading from "/features/Loading";
+import { LoadingSpinner } from "/common/components";
 
 const CsrfContext = createContext();
 
@@ -34,7 +34,7 @@ export const CsrfProvider = ({ children }) => {
     fetchToken();
   }, []);
 
-  if (state.isLoading) return <Loading />;
+  if (state.isLoading) return <LoadingSpinner />;
 
   return <CsrfContext.Provider value={state}>{children}</CsrfContext.Provider>;
 };

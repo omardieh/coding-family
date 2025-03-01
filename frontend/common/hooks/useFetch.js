@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { useCsrfContext } from "../contexts/CsrfContext";
+import { useCsrfContext } from "/common/contexts";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCookie } from "../utilities/getCookie";
-import Loading from "/features/Loading";
 import { useCsrfContext } from "./CsrfContext";
+import { LoadingSpinner } from "/common/components";
 
 const CaptchaContext = createContext();
 
@@ -55,7 +54,8 @@ export const CaptchaProvider = ({ children }) => {
     };
   }, []);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <LoadingSpinner />;
+
   return (
     <CaptchaContext.Provider value={{ isVerified, isLoading }}>
       {children}
