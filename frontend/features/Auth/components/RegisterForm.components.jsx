@@ -8,11 +8,10 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "/common/components";
+import { Button, Input } from "/common/components";
 
 export const RegisterForm = ({
   handleSubmit,
@@ -24,31 +23,19 @@ export const RegisterForm = ({
   return (
     <>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           id="username"
           label="Username"
           name="username"
           autoComplete="username"
-          autoFocus
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           id="email"
           label="Email Address"
           name="email"
           autoComplete="email"
-          autoFocus
         />
-
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           name="password"
           label="Password"
           id="password"
@@ -68,16 +55,12 @@ export const RegisterForm = ({
             ),
           }}
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           id="passRepeat"
           label="Repeat Password"
           name="passRepeat"
           autoComplete="passRepeat"
           type={showPassword ? "text" : "password"}
-          autoFocus
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -93,7 +76,16 @@ export const RegisterForm = ({
         </Grid>
       </Box>
       {errorMessage && (
-        <Alert style={{ width: "100%", marginTop: "2em" }} severity="error">
+        <Alert
+          style={{ width: "100%", marginTop: "2em" }}
+          severity="error"
+          sx={{
+            bgcolor: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(211, 47, 47, 0.1)"
+                : undefined,
+          }}
+        >
           {errorMessage}
         </Alert>
       )}

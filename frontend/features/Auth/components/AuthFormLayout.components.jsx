@@ -56,7 +56,7 @@ export const AuthFormLayout = ({ children, ...props }) => {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -80,7 +80,19 @@ export const AuthFormLayout = ({ children, ...props }) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{
+            bgcolor: "background.paper",
+            transition: "background-color 0.3s ease",
+          }}
+        >
           <Box
             sx={{
               my: 8,
@@ -92,7 +104,7 @@ export const AuthFormLayout = ({ children, ...props }) => {
           >
             <>
               <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>{icon}</Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography component="h1" variant="h5" color="text.primary">
                 {title}
               </Typography>
             </>

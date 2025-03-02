@@ -4,3 +4,4 @@ export * from "./PageLayout";
 export * from "./ToastMessage";
 export * from "./NavLinkItem";
 export * from "./Button";
+export * from "./Input";

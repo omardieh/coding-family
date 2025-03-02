@@ -13,6 +13,11 @@ export const Button = ({ children, ...props }) => {
         maxWidth: "calc(100% - 2em)",
         margin: "2em 1em",
         background: (theme) => theme.colors.black.bg.mid,
+        bgcolor: (theme) => theme.palette.primary.main,
+        "&:hover": {
+          bgcolor: (theme) => theme.palette.primary.dark,
+        },
+        color: (theme) => theme.palette.primary.contrastText,
       }}
       {...props}
     >

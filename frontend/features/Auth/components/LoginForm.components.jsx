@@ -8,11 +8,10 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "/common/components";
+import { Button, Input } from "/common/components";
 
 export const LoginForm = ({ handleSubmit, errorMessage, disabled = false }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,20 +19,13 @@ export const LoginForm = ({ handleSubmit, errorMessage, disabled = false }) => {
   return (
     <>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           id="email"
           label="Email Address"
           name="email"
           autoComplete="email"
-          autoFocus
         />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
+        <Input
           name="password"
           label="Password"
           id="password"
@@ -72,7 +64,16 @@ export const LoginForm = ({ handleSubmit, errorMessage, disabled = false }) => {
         </Grid>
       </Box>
       {errorMessage && (
-        <Alert style={{ width: "100%", marginTop: "2em" }} severity="error">
+        <Alert
+          style={{ width: "100%", marginTop: "2em" }}
+          severity="error"
+          sx={{
+            bgcolor: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(211, 47, 47, 0.1)"
+                : undefined,
+          }}
+        >
           {errorMessage}
         </Alert>
       )}
