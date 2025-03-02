@@ -18,7 +18,12 @@ export default function SearchFilterBarsLayout({ top, children }) {
         sx={{
           background: (theme) => theme.colors.black.light,
           zIndex: 1,
-          padding: "1em 0",
+          padding: {
+            xs: "1em 0px",
+            sm: "1em 0px",
+            md: "0px 0px",
+            lg: "0px 0px",
+          },
           display: "flex",
           justifyContent: "center",
           alignItems: "space-between",
@@ -29,6 +34,7 @@ export default function SearchFilterBarsLayout({ top, children }) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "baseline",
+
             flexDirection: {
               xs: "column",
               sm: "inline-flex",

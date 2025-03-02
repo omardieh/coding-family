@@ -3,7 +3,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
   Alert,
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   Grid,
@@ -13,6 +12,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "/common/components";
 
 export const RegisterForm = ({
   handleSubmit,
@@ -83,20 +83,7 @@ export const RegisterForm = ({
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{
-            mt: 3,
-            mb: 2,
-            background: (theme) => theme.colors.blue.bg.mid,
-          }}
-          style={{ padding: "1em 0" }}
-          disabled={disabled}
-        >
-          Register
-        </Button>
+        <Button>Register</Button>
         <Grid container>
           <Grid style={{ margin: "auto" }} item>
             <Link to="/login" variant="body2">

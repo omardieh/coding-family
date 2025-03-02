@@ -1,19 +1,16 @@
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import validator from "validator";
 import {
   LoginForm,
   SocialLoginLink,
-  LoginLayout,
+  AuthFormLayout,
 } from "/features/Auth/components";
 import { useAuthContext, useCaptchaContext } from "/features/Auth/context";
 import { useAuth } from "/features/Auth/hooks";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
+import { validateFormInputs } from "/features/Auth/handlers";
 
 export function Login() {
   const navigate = useNavigate();
@@ -39,29 +36,6 @@ export function Login() {
     setErrorMessage(null);
   };
 
-  const areInputsValid = ({ email, password }) => {
-    if (!validator.isEmail(email)) {
-      setErrorMessage("Please enter a valid email");
-      return false;
-    }
-
-    const passwordOptions = {
-      minLength: 6,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 0,
-    };
-
-    if (!validator.isStrongPassword(password, passwordOptions)) {
-      setErrorMessage(
-        "Please ensures that the password contains at least one uppercase letter, one number, and 6 characters long."
-      );
-      return false;
-    }
-
-    return true;
-  };
-
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -70,7 +44,7 @@ export function Login() {
       password: data.get("password"),
     };
 
-    if (!areInputsValid({ email, password })) return;
+    if (!validateFormInputs({ email, password, setErrorMessage })) return;
 
     try {
       await logUserIn({ email, password });
@@ -88,7 +62,7 @@ export function Login() {
   return (
     <PageLayout>
       <PageCard sx={{ marginTop: "1em" }}>
-        <LoginLayout>
+        <AuthFormLayout>
           <>
             <LoginForm
               handleSubmit={handleLoginSubmit}
@@ -113,7 +87,7 @@ export function Login() {
               <FcGoogle style={{ fontSize: "2em", marginLeft: ".5em" }} />
             </SocialLoginLink>
           </>
-        </LoginLayout>
+        </AuthFormLayout>
       </PageCard>
     </PageLayout>
   );
