@@ -1,4 +1,4 @@
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 import { LoadingSpinner } from "/common/components";
 
 export default function withLoading(ChildComponent) {

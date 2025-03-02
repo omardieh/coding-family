@@ -1,8 +1,8 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
 import MobSideMenu from "./MobSideMenu";
+import { NavLinkItem } from "/common/components";
 
 export default function Navbar({ navLinks, children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,12 +37,8 @@ export default function Navbar({ navLinks, children }) {
         Site Logo
       </Typography>
       <Box sx={{ display: { xs: "none", sm: "inline-flex" } }}>
-        {navLinks.map(({ id, title, path }) => (
-          <Button key={id} sx={{ color: "#fff" }}>
-            <NavLink style={{ all: "unset" }} to={path}>
-              {title}
-            </NavLink>
-          </Button>
+        {navLinks.map(({ id, ...rest }) => (
+          <NavLinkItem key={id} {...rest} />
         ))}
       </Box>
       {children}

@@ -1,6 +1,6 @@
 import useFetch from "/common/hooks/useFetch";
 
-export default function useAuth() {
+export function useAuth() {
   const { data, error, loading, fetcher } = useFetch(
     import.meta.env.VITE_SERVER_URL
   );

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAuthContext } from "../../common/contexts/AuthContext";
+import { useAuthContext } from "/features/Auth/context";
 
-export default function Logout() {
+export function Logout() {
   const { logUserOut } = useAuthContext();
   useEffect(() => {
     logUserOut();

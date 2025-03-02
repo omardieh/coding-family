@@ -6,9 +6,9 @@ import App from "./App";
 import {
   AuthProvider,
   CaptchaProvider,
-  SocketProvider,
   CsrfProvider,
-} from "/common/contexts";
+} from "/features/Auth/context";
+import { SocketProvider } from "/common/contexts";
 import { TutorialsProvider } from "/features/Tutorials/context";
 // import * as serviceWorker from "/sw.js";
 import { StyleSheetManager } from "styled-components";

@@ -3,7 +3,7 @@ import MDEditor from "@uiw/react-md-editor";
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import useTutorialsHook from "../hook";
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
 
 export default function Tutorial() {

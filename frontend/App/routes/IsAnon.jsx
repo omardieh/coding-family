@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 import { LoadingSpinner } from "/common/components";
 
 function IsAnon({ children }) {

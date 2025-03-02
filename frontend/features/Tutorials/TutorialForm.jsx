@@ -10,7 +10,7 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 
 export default function TutorialForm(props) {
   const navigate = useNavigate();

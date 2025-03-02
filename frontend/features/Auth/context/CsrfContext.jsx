@@ -1,6 +1,6 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getCookie } from "../utilities/getCookie";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCookie } from "/common/utilities/getCookie";
 import { LoadingSpinner } from "/common/components";
 
 const CsrfContext = createContext();

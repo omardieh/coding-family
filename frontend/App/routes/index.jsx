@@ -2,14 +2,16 @@ import { Route, Routes } from "react-router-dom";
 import IsAnon from "./IsAnon";
 import IsPrivate from "./IsPrivate";
 import Dashboard from "/features/Dashboard";
-import Login from "/features/Login";
-import GithubAuth from "/features/Login/GithubAuth";
-import GoogleAuth from "/features/Login/GoogleAuth";
-import Logout from "/features/Logout";
+import {
+  Login,
+  LoginGithub,
+  LoginGoogle,
+  Register,
+  Logout,
+} from "/features/Auth/pages";
 import Notification from "/features/Notification";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
-import Register from "/features/Register";
 import Tutorials from "/features/Tutorials";
 import TutorialsCreate from "/features/Tutorials/Create";
 import TutorialsTags from "/features/Tutorials/Tags";
@@ -61,7 +63,7 @@ const routes = [
         path: "/login/github",
         element: (
           <IsAnon>
-            <GithubAuth />
+            <LoginGithub />
           </IsAnon>
         ),
       },
@@ -69,7 +71,7 @@ const routes = [
         path: "/login/google",
         element: (
           <IsAnon>
-            <GoogleAuth />
+            <LoginGoogle />
           </IsAnon>
         ),
       },

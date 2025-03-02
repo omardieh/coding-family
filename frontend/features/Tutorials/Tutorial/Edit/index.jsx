@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 import useTutorialsHook from "/features/Tutorials/hook";
 import TutorialForm from "../../TutorialForm";
 import { useEffect } from "react";

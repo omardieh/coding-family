@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useAuthContext } from "/common/contexts";
+import { useAuthContext } from "/features/Auth/context";
 
 export default function Dashboard() {
   const { user } = useAuthContext();

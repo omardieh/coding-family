@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
-import { useCsrfContext } from "/common/contexts";
+import { useCsrfContext } from "/features/Auth/context";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);
@@ -51,7 +51,6 @@ export default function useFetch(baseURL) {
           setData(response.data);
           setError(null);
         } catch (err) {
-          console.error("Error in useFetch hook", err);
           setError(err.response ? err.response.data : err.message);
         } finally {
           setLoading(false);
