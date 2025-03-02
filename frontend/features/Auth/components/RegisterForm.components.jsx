@@ -69,7 +69,6 @@ export const RegisterForm = ({
           }}
         />
         <TextField
-          type="password"
           margin="normal"
           required
           fullWidth
@@ -77,6 +76,7 @@ export const RegisterForm = ({
           label="Repeat Password"
           name="passRepeat"
           autoComplete="passRepeat"
+          type={showPassword ? "text" : "password"}
           autoFocus
         />
         <FormControlLabel

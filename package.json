@@ -6,9 +6,10 @@
   "private": true,
   "scripts": {
     "kill-port": "npx kill-port 2001 && npx kill-port 2002",
-    "app:prod": "yarn --cwd ./backend start",
+    "app:install": "yarn install && yarn --cwd ./backend install && yarn --cwd ./frontend install",
     "app:dev": "yarn kill-port && concurrently \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
-    "app:install": "yarn install && yarn --cwd ./backend install && yarn --cwd ./frontend install"
+    "app:build": "yarn --cwd ./frontend build && yarn --cwd ./backend build",
+    "app:start": "yarn kill-port && yarn --cwd ./backend start"
   },
   "keywords": [],
   "author": "",

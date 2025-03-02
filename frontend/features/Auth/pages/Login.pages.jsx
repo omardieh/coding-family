@@ -13,7 +13,7 @@ import {
 } from "/features/Auth/components";
 import { useAuthContext, useCaptchaContext } from "/features/Auth/context";
 import { useAuth } from "/features/Auth/hooks";
-import { LoadingSpinner, PageLayout } from "/common/components";
+import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
 
 export function Login() {
   const navigate = useNavigate();
@@ -87,32 +87,34 @@ export function Login() {
 
   return (
     <PageLayout>
-      <LoginLayout>
-        <>
-          <LoginForm
-            handleSubmit={handleLoginSubmit}
-            errorMessage={errorMessage}
-          />
-        </>
-        <>
-          <SocialLoginLink
-            to={`/login/github`}
-            styleLink={{ width: "100%" }}
-            styleButton={{ padding: "1em 0", marginTop: "2em" }}
-          >
-            Login with GitHub
-            <FaGithub style={{ fontSize: "2em", marginLeft: ".5em" }} />
-          </SocialLoginLink>
-          <SocialLoginLink
-            to={`/login/google`}
-            styleLink={{ width: "100%" }}
-            styleButton={{ padding: "1em 0", marginTop: "2em" }}
-          >
-            Login with Google
-            <FcGoogle style={{ fontSize: "2em", marginLeft: ".5em" }} />
-          </SocialLoginLink>
-        </>
-      </LoginLayout>
+      <PageCard sx={{ marginTop: "1em" }}>
+        <LoginLayout>
+          <>
+            <LoginForm
+              handleSubmit={handleLoginSubmit}
+              errorMessage={errorMessage}
+            />
+          </>
+          <>
+            <SocialLoginLink
+              to={`/login/github`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+            >
+              Login with GitHub
+              <FaGithub style={{ fontSize: "2em", marginLeft: ".5em" }} />
+            </SocialLoginLink>
+            <SocialLoginLink
+              to={`/login/google`}
+              styleLink={{ width: "100%" }}
+              styleButton={{ padding: "1em 0", marginTop: "2em" }}
+            >
+              Login with Google
+              <FcGoogle style={{ fontSize: "2em", marginLeft: ".5em" }} />
+            </SocialLoginLink>
+          </>
+        </LoginLayout>
+      </PageCard>
     </PageLayout>
   );
 }

@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 export const LoginLayout = ({ children }) => {
   return (
     <>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "calc(90vh - 50px)" }}>
         <CssBaseline />
         <Grid
           item
@@ -23,6 +23,7 @@ export const LoginLayout = ({ children }) => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
+            height: "100%",
           }}
         />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
