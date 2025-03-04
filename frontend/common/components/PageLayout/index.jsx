@@ -5,6 +5,8 @@ export const PageLayout = ({ children, ...props }) => {
   return (
     <>
       <Box
+        name="PageLayout"
+        component="section"
         sx={{
           width: "100%",
           position: "relative",

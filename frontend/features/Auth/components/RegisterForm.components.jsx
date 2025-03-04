@@ -13,11 +13,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input } from "/common/components";
 
-export const RegisterForm = ({
-  handleSubmit,
-  errorMessage,
-  disabled = false,
-}) => {
+export const RegisterForm = ({ handleSubmit, errorMessage }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Button } from "/common/components";
 
 export const SocialLoginLink = ({ to, styleLink, styleButton, children }) => {
   return (

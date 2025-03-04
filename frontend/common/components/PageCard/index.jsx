@@ -5,6 +5,8 @@ export const PageCard = ({ children, ...props }) => {
   return (
     <>
       <Box
+        name="PageCard"
+        component="div"
         sx={{
           background: (theme) => theme.colors.white.mid,
           margin: "auto",

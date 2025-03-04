@@ -33,7 +33,11 @@ export const AuthFormLayout = ({ children, ...props }) => {
 
   return (
     <>
-      <Grid container component="main" sx={{ height: "calc(90vh - 50px)" }}>
+      <Grid
+        container
+        name="AuthFormLayout"
+        sx={{ height: "calc(90vh - 50px)" }}
+      >
         <CssBaseline />
         <Grid
           item
@@ -45,7 +49,7 @@ export const AuthFormLayout = ({ children, ...props }) => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            height: "100%",
+            minHeight: "100%",
             position: "relative",
           }}
         >
@@ -57,7 +61,6 @@ export const AuthFormLayout = ({ children, ...props }) => {
               width: "100%",
               height: "100%",
               backgroundColor: "rgba(0, 0, 0, 0.5)",
-              display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input } from "/common/components";
 
-export const LoginForm = ({ handleSubmit, errorMessage, disabled = false }) => {
+export const LoginForm = ({ handleSubmit, errorMessage }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -58,7 +58,7 @@ export const LoginForm = ({ handleSubmit, errorMessage, disabled = false }) => {
           </Grid>
           <Grid item>
             <Link to="/register" variant="body2">
-              {"Don't have an account? Register"}
+              Don't have an account? Register
             </Link>
           </Grid>
         </Grid>

@@ -38,7 +38,15 @@ export function Register() {
       passRepeat: data.get("passRepeat"),
     };
 
-    if (!validateFormInputs({ email, password, passRepeat, setErrorMessage }))
+    if (
+      !validateFormInputs({
+        email,
+        password,
+        passRepeat,
+        setErrorMessage,
+        isNewAccount: true,
+      })
+    )
       return;
 
     try {
