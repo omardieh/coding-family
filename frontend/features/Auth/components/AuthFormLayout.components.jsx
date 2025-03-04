@@ -33,11 +33,7 @@ export const AuthFormLayout = ({ children, ...props }) => {
 
   return (
     <>
-      <Grid
-        container
-        name="AuthFormLayout"
-        sx={{ height: "calc(90vh - 50px)" }}
-      >
+      <Grid container name="AuthFormLayout">
         <CssBaseline />
         <Grid
           item

@@ -17,6 +17,7 @@ const userSchema = new Schema<IUserModel>(
       lowercase: true,
       trim: true,
       match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address.'],
+      required: [true, 'Email is required.'],
     },
     password: {
       type: String,
@@ -24,6 +25,7 @@ const userSchema = new Schema<IUserModel>(
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
         'Password must have at least 6 characters and contain at least one number, one lowercase, and one uppercase letter.',
       ],
+      required: [true, 'Password is required.'],
     },
     avatar: {
       type: String,

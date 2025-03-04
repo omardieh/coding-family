@@ -11,6 +11,8 @@ export const PageLayout = ({ children, ...props }) => {
           width: "100%",
           position: "relative",
           top: "4em",
+          padding: "2em 0",
+
           ...sx,
         }}
         {...otherProps}

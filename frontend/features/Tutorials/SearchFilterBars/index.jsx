@@ -44,13 +44,13 @@ export default function SearchFilterBars() {
   }, []);
 
   return (
-    <SearchFilterBarsLayout>
+    <SearchFilterBarsLayout top="4em">
       <QuickFiltersGrid
         fields={[
           { title: "alphabetically", field: "title" },
-          { title: "rating score", field: "rating" },
-          { title: "views count", field: "views" },
-          { title: "date created", field: "date" },
+          { title: "rating", field: "rating" },
+          { title: "views", field: "views" },
+          { title: "date", field: "date" },
           { title: "popularity", field: "popularity" },
         ]}
       />
