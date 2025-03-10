@@ -12,7 +12,6 @@ import { SocketProvider } from "/common/contexts";
 import { TutorialsProvider } from "/features/Tutorials/context";
 // import * as serviceWorker from "/sw.js";
 import { StyleSheetManager } from "styled-components";
-import { ToastContainer } from "react-toastify";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -25,7 +24,6 @@ root.render(
             <SocketProvider>
               <TutorialsProvider>
                 <App />
-                <ToastContainer />
               </TutorialsProvider>
             </SocketProvider>
           </AuthProvider>

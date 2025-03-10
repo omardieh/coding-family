@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, Slide } from "react-toastify";
 import "./index.css";
 
 export function Notifier() {
@@ -20,7 +20,7 @@ export function Notifier() {
       autoClose: 3000,
       hideProgressBar: false,
       newestOnTop: false,
-      closeOnClick: true,
+      closeOnClick: false,
       rtl: false,
       pauseOnFocusLoss: true,
       draggable: true,
@@ -29,11 +29,26 @@ export function Notifier() {
     },
   };
 
-  const useToast = (message, options) => toast(<p> {message} </p>, options);
+  const useToast = ({ message, options, redirect }) =>
+    toast(
+      <p>
+        {message} <br /> redirecting to {redirect || "login"} page..
+      </p>,
+      options
+    );
 
   return {
-    onSuccess: (message) => useToast(message, toastOptions.success),
-    onError: (message, options) =>
-      useToast(message, { ...toastOptions.error, ...options }),
+    onSuccess: ({ message, options, redirect }) =>
+      useToast({
+        message,
+        options: { ...toastOptions.success, ...options },
+        redirect,
+      }),
+    onError: ({ message, options, redirect }) =>
+      useToast({
+        message,
+        options: { ...toastOptions.error, ...options },
+        redirect,
+      }),
   };
 }

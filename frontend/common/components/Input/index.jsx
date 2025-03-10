@@ -10,7 +10,6 @@ export const Input = (props) => {
       margin="normal"
       required
       fullWidth
-      autoFocus
       sx={{
         "& .MuiInputBase-root": {
           bgcolor: "background.default",

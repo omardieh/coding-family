@@ -24,6 +24,7 @@ export const LoginForm = ({ handleSubmit, errorMessage }) => {
           label="Email Address"
           name="email"
           autoComplete="email"
+          autoFocus
         />
         <Input
           name="password"

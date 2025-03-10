@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import useFetch from "/common/hooks/useFetch";
 
 export function useAuth() {
   const { data, error, loading, fetcher } = useFetch(
     import.meta.env.VITE_SERVER_URL
   );
+  const navigate = useNavigate();
 
   return {
     data,
@@ -38,10 +40,13 @@ export function useAuth() {
         reqBody,
       }),
 
-    logUserOut: async () =>
+    logUserOut: async () => {
+      localStorage.removeItem("accessToken");
       await fetcher({
         endPoint: "/auth/logout",
-      }),
+      });
+      navigate("/login");
+    },
 
     verifyUserToken: async () =>
       await fetcher({
@@ -57,5 +62,8 @@ export function useAuth() {
           Authorization: `Bearer ${token}`,
         },
       }),
+
+    getUserToken: () => localStorage.getItem("accessToken"),
+    storeUserToken: (token) => localStorage.setItem("accessToken", token),
   };
 }

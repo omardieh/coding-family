@@ -24,6 +24,7 @@ export const RegisterForm = ({ handleSubmit, errorMessage }) => {
           label="Username"
           name="username"
           autoComplete="username"
+          autoFocus
         />
         <Input
           id="email"
