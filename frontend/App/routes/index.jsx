@@ -9,7 +9,7 @@ import {
   Register,
   Logout,
 } from "/features/Auth/pages";
-import Notification from "/features/Notification";
+import VerifyEmail from "/features/VerifyEmail";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
 import Tutorials from "/features/Tutorials";
@@ -86,10 +86,10 @@ const routes = [
     ),
   },
   {
-    path: "/notification",
+    path: "/email/verify",
     element: (
       <IsAnon>
-        <Notification />
+        <VerifyEmail />
       </IsAnon>
     ),
   },
