@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { NavLinkItem } from "/common/components";
 
 export default function NavigateElements({ navbarLinks }) {
   return (
@@ -16,20 +17,9 @@ export default function NavigateElements({ navbarLinks }) {
         },
       }}
     >
-      <Box sx={{ display: { sm: "inline-flex", lg: "flex" } }}>
-        {navbarLinks.map(({ id, title, path }) => (
-          <Button key={id} sx={{ color: "#fff" }}>
-            <NavLink
-              style={{
-                all: "unset",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-              to={path}
-            >
-              {title}
-            </NavLink>
-          </Button>
+      <Box sx={{ display: { sm: "inline-flex", lg: "flex" }, margin: "0 1em" }}>
+        {navbarLinks.map(({ id, ...rest }) => (
+          <NavLinkItem key={id} {...rest} />
         ))}
       </Box>
     </Box>

@@ -1,13 +1,15 @@
+import "./index.css";
+import "/common/assets/fonts/MontserratAlt1-Light.ttf";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import "./index.css";
-import "/common/assets/fonts/MontserratAlt1-Light.ttf";
-import { AuthProvider } from "/common/contexts/AuthContext";
-import { CaptchaProvider } from "/common/contexts/CaptchaContext";
-import { SocketProvider } from "/common/contexts/SocketContext";
-import { CsrfProvider } from "/common/contexts/CsrfContext";
-import TutorialsProvider from "/features/Tutorials/context";
+import {
+  AuthProvider,
+  CaptchaProvider,
+  CsrfProvider,
+} from "/features/Auth/context";
+import { SocketProvider } from "/common/contexts";
+import { TutorialsProvider } from "/features/Tutorials/context";
 // import * as serviceWorker from "/sw.js";
 import { StyleSheetManager } from "styled-components";
 

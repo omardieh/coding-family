@@ -2,18 +2,17 @@ import { createContext, useContext, useState } from "react";
 
 const ThemeContext = createContext();
 
-const useThemeContext = () => useContext(ThemeContext);
+export const useThemeContext = () => useContext(ThemeContext);
 
-function ThemeProvider(props) {
+export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState("default");
   const multipleValues = {
     themeState: [theme, setTheme],
   };
+
   return (
     <ThemeContext.Provider value={multipleValues}>
-      {props.children}
+      {children}
     </ThemeContext.Provider>
   );
-}
-
-export { ThemeProvider, useThemeContext };
+};

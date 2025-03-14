@@ -4,7 +4,7 @@ const TutorialsContext = createContext();
 
 export const useTutorialsContext = () => useContext(TutorialsContext);
 
-export default function TutorialsProvider({ children }) {
+export const TutorialsProvider = ({ children }) => {
   const [tutorials, setTutorials] = useState([]);
   const [quickFilter, setQuickFilter] = useState({
     field: "title",
@@ -28,4 +28,4 @@ export default function TutorialsProvider({ children }) {
       {children}
     </TutorialsContext.Provider>
   );
-}
+};

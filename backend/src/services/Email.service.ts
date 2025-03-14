@@ -32,7 +32,7 @@ export class EmailService {
     try {
       const emailTemplatePath = join(__dirname, '../utils/emailTemplates/verify.html');
       const emailTemplate = readFileSync(emailTemplatePath, 'utf-8');
-      const linkToSend = `${process.env.CLIENT_URL}/notification?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
+      const linkToSend = `${process.env.CLIENT_URL}/email/verify?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
       const emailVerifyHTML = emailTemplate.replace('{{verificationLink}}', linkToSend);
       const mailOptions = {
         from: process.env.MAIL_FROM || '',

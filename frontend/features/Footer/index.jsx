@@ -11,7 +11,7 @@ const Footer = () => {
       sx={{
         background: ({ colors: { black } }) => black.bg.dark,
         color: ({ colors: { white } }) => white.dark,
-        padding: "1em 2em",
+        padding: "1.2em 2em",
         textAlign: "center",
         width: "100%",
         display: "flex",

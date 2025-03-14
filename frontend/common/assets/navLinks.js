@@ -24,11 +24,11 @@ export const userAvatarLinks = [
 ];
 
 export const tutorialsNavbarLinks = [
-  { id: uuid(), title: "Create New Tutorial", path: "/tutorials/create" },
-  { id: uuid(), title: "Browse Tutorials Tags", path: "/tutorials/tags" },
+  { id: uuid(), title: "Create Tutorial", path: "/tutorials/create" },
+  { id: uuid(), title: "Browse Tags", path: "/tutorials/tags" },
 ];
 
 export const tutorialsTagsNavbarLinks = [
-  { id: uuid(), title: "Create New Tutorial", path: "/tutorials/create" },
-  { id: uuid(), title: "Show All Tutorials", path: "/tutorials" },
+  { id: uuid(), title: "Create Tutorial", path: "/tutorials/create" },
+  { id: uuid(), title: "Browse Tags", path: "/tutorials/tags" },
 ];
