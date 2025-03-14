@@ -1,26 +1,28 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
+import { useCsrfContext } from "/features/Auth/context";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { csrfToken } = useCsrfContext();
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    axios.defaults.headers.common["Access-Control-Allow-Headers"] =
-      "Authorization";
     const accessToken = localStorage.getItem("accessToken");
     const requestInterceptor = axios.interceptors.request.use((config) => {
       if (accessToken) {
-        config.headers.Authorization = `${accessToken}`;
+        config.headers.Authorization = accessToken;
+      }
+      if (csrfToken) {
+        config.headers["X-XSRF-TOKEN"] = csrfToken;
       }
       return config;
     });
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.defaults.withCredentials = false;
-      delete axios.defaults.headers.common["Access-Control-Allow-Headers"];
     };
   }, []);
 
@@ -45,6 +47,7 @@ export default function useFetch(baseURL) {
             timeout,
             cancelToken: source.token,
           });
+
           setData(response.data);
           setError(null);
         } catch (err) {
@@ -55,6 +58,5 @@ export default function useFetch(baseURL) {
       },
     [baseURL]
   );
-
   return { data, error, loading, fetcher };
 }

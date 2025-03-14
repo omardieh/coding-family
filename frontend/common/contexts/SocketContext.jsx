@@ -3,10 +3,19 @@ import socketIOClient from "socket.io-client";
 
 const SocketContext = createContext();
 
-const useSocketContext = () => useContext(SocketContext);
+export const useSocketContext = () => useContext(SocketContext);
 
-function SocketProvider(props) {
-  const socket = socketIOClient(import.meta.env.VITE_SERVER_URL);
+export const SocketProvider = (props) => {
+  const socket = socketIOClient(import.meta.env.VITE_WEBSOCKET_SERVER_URL, {
+    transports: ["polling", "websocket"],
+    withCredentials: true,
+    autoConnect: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
+    timeout: 60000,
+    forceNew: true,
+    path: "/socket.io",
+  });
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
@@ -24,6 +33,4 @@ function SocketProvider(props) {
       {props.children}
     </SocketContext.Provider>
   );
-}
-
-export { SocketProvider, useSocketContext };
+};

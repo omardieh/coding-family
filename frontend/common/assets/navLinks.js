@@ -22,3 +22,13 @@ export const userAvatarLinks = [
   { id: uuid(), title: "settings", path: "/settings" },
   { id: uuid(), title: "Logout", path: "/logout" },
 ];
+
+export const tutorialsNavbarLinks = [
+  { id: uuid(), title: "Create Tutorial", path: "/tutorials/create" },
+  { id: uuid(), title: "Browse Tags", path: "/tutorials/tags" },
+];
+
+export const tutorialsTagsNavbarLinks = [
+  { id: uuid(), title: "Create Tutorial", path: "/tutorials/create" },
+  { id: uuid(), title: "Browse Tags", path: "/tutorials/tags" },
+];

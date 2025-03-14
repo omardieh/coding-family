@@ -7,7 +7,7 @@ import {
   userAvatarLinks,
   userLinks,
 } from "/common/assets/navLinks";
-import { useAuthContext } from "/common/contexts/AuthContext";
+import { useAuthContext } from "/features/Auth/context";
 
 export default function Header({ mode, setMode }) {
   const { isLoggedIn, logUserOut } = useAuthContext();
@@ -17,6 +17,7 @@ export default function Header({ mode, setMode }) {
       sx={{
         width: "100%",
         background: (theme) => theme.colors.white.bg.dark,
+        minHeight: "4em",
       }}
       component="header"
     >

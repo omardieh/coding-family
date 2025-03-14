@@ -1,0 +1,97 @@
+{{! api-docs.hbs }}
+
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>{{siteTitle}}</title>
+    <link rel='stylesheet' href='/api/css/styles.css' />
+  </head>
+  <body>
+    <div class='container'>
+      <header class='header'>
+        <h1>{{siteHeading}}</h1>
+        <p>RESTful API endpoints documentation for the Coding Family platform</p>
+      </header>
+
+      <section class='section'>
+        <h2>Authentication Endpoints</h2>
+
+        <div class='endpoint'>
+          <span class='method post'>POST</span>
+          <span class='path'>/api/auth/login</span>
+          <p class='description'>Authenticate user and retrieve tokens</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method post'>POST</span>
+          <span class='path'>/api/auth/signup</span>
+          <p class='description'>Register a new user account</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method get'>GET</span>
+          <span class='path'>/api/auth/logout</span>
+          <p class='description'>Logout user and invalidate tokens</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method post'>POST</span>
+          <span class='path'>/api/auth/google</span>
+          <p class='description'>Authenticate with Google OAuth</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method post'>POST</span>
+          <span class='path'>/api/auth/github</span>
+          <p class='description'>Authenticate with GitHub OAuth</p>
+        </div>
+      </section>
+
+      <section class='section'>
+        <h2>Tutorial Endpoints</h2>
+
+        <div class='endpoint'>
+          <span class='method get'>GET</span>
+          <span class='path'>/api/tutorials</span>
+          <p class='description'>Get all tutorials with pagination support</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method post'>POST</span>
+          <span class='path'>/api/tutorials</span>
+          <p class='description'>Create a new tutorial</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method get'>GET</span>
+          <span class='path'>/api/tutorials/:slug</span>
+          <p class='description'>Get tutorial by slug</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method patch'>PATCH</span>
+          <span class='path'>/api/tutorials/:slug</span>
+          <p class='description'>Update tutorial by slug</p>
+        </div>
+      </section>
+
+      <section class='section'>
+        <h2>User Endpoints</h2>
+
+        <div class='endpoint'>
+          <span class='method get'>GET</span>
+          <span class='path'>/api/user/profile</span>
+          <p class='description'>Get user profile information</p>
+        </div>
+
+        <div class='endpoint'>
+          <span class='method patch'>PATCH</span>
+          <span class='path'>/api/user/profile</span>
+          <p class='description'>Update user profile information</p>
+        </div>
+      </section>
+    </div>
+    <script src='/api/js/script.js'></script>
+  </body>
+</html>

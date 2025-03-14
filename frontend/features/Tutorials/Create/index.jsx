@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Toast from "../../../common/components/Toast";
 import useTutorialsHook from "../hook";
 import TutorialForm from "../TutorialForm";
-import Loading from "/features/Loading";
+import {
+  PageLayout,
+  PageCard,
+  ToastMessage,
+  LoadingSpinner,
+} from "/common/components";
 
 export default function TutorialsCreate() {
   const {
@@ -13,6 +17,7 @@ export default function TutorialsCreate() {
     postNewTutorial,
   } = useTutorialsHook();
   const navigate = useNavigate();
+  const [formData, setFormData] = useState(null);
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
@@ -23,17 +28,31 @@ export default function TutorialsCreate() {
     };
   }, [response]);
 
-  if (loading) return <Loading />;
-  if (response?.created)
-    return <Toast message={"Tutorial has been created successfully"} />;
+  const handleSubmit = async (data) => {
+    setFormData(data);
+    await postNewTutorial(data);
+  };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (response?.created) {
+    return <ToastMessage message={"Tutorial has been created successfully"} />;
+  }
 
   return (
     <>
-      <TutorialForm
-        headingTitle="Create new Tutorial"
-        onSubmit={postNewTutorial}
-        errorMessage={error}
-      />
+      <PageLayout sx={{ top: "1em" }}>
+        <PageCard>
+          <TutorialForm
+            headingTitle="Create new Tutorial"
+            onSubmit={handleSubmit}
+            errorMessage={error}
+            initialData={formData}
+          />
+        </PageCard>
+      </PageLayout>
     </>
   );
 }

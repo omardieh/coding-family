@@ -1,0 +1,112 @@
+import { ITutorialModel } from '@/types';
+import { slugify } from '@/utils';
+import { Model, Schema, model } from 'mongoose';
+
+const tutorialSchema = new Schema<ITutorialModel>(
+  {
+    isPublic: {
+      type: Boolean,
+      required: [true, 'Active state is required.'],
+      default: true,
+    },
+    slug: {
+      type: String,
+      unique: true,
+    },
+    title: {
+      type: String,
+      required: [true, 'Title is required.'],
+      trim: true,
+      maxlength: [100, 'Title must be at most 100 characters.'],
+      minlength: [8, 'Title must be at least 8 characters.'],
+      match: [
+        /^(?![- ])[a-zA-Z0-9]+(?:[- ][a-zA-Z0-9]+)*(?<![- ])$/,
+        'Title can contain letters, numbers, hyphens, and single spaces between words. It cannot start or end with a hyphen or space.',
+      ],
+    },
+    description: {
+      type: String,
+      required: [true, 'Description is required.'],
+      maxlength: [500, 'Description must be at most 500 characters.'],
+    },
+    content: {
+      type: String,
+      required: [true, 'Content is required.'],
+      maxlength: [50000, 'Content must be at most 50,000 characters.'],
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Author is required.'],
+    },
+    tags: {
+      type: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'TutorialTag',
+        },
+      ],
+      default: [],
+    },
+    views: {
+      type: Number,
+      default: 0,
+      min: [0, 'Views cannot be negative.'],
+    },
+    likes: {
+      type: Number,
+      default: 0,
+      min: [0, 'Likes cannot be negative.'],
+    },
+    comments: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+          required: [true, 'Comment user is required.'],
+        },
+        content: {
+          type: String,
+          required: [true, 'Comment content is required.'],
+          maxlength: [1000, 'Comment must be at most 1000 characters.'],
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    estimatedReadingTime: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+tutorialSchema.pre<ITutorialModel>('save', function (next) {
+  this.estimatedReadingTime = Math.ceil(this.content.length / 5 / 200) || 1;
+  next();
+});
+
+tutorialSchema.pre<ITutorialModel>('save', async function (next) {
+  if (!this.isModified('title')) {
+    return next();
+  }
+
+  this.slug = slugify(this.title);
+  const existingTutorial = await (this.constructor as Model<ITutorialModel>).findOne({ slug: this.slug });
+
+  if (existingTutorial) {
+    let suffix = 1;
+    while (await (this.constructor as Model<ITutorialModel>).findOne({ slug: `${this.slug}${suffix}` })) {
+      suffix++;
+    }
+    this.slug = `${this.slug}${suffix}`;
+  }
+  next();
+});
+
+export const TutorialModel = model<ITutorialModel>('Tutorial', tutorialSchema);

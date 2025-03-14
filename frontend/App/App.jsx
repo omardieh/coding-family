@@ -1,3 +1,5 @@
+import { ToastContainer } from "react-toastify";
+
 import RenderRoutes from "./routes";
 import Theme from "/features/Theme";
 
@@ -10,6 +12,13 @@ function App() {
         logo="Coding Family"
       >
         <RenderRoutes />
+        <ToastContainer
+        // transition={{
+        //   enter: "noop",
+        //   exit: "noop",
+        //   collapse: false,
+        // }}
+        />
       </Theme>
     </>
   );

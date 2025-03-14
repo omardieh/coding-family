@@ -10,22 +10,39 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "/common/contexts/AuthContext";
+import { useAuthContext } from "/features/Auth/context";
 
 export default function TutorialForm(props) {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const [title, setTitle] = useState(props.title || "");
-  const [description, setDescription] = useState(props.description || "");
-  const [tags, setTags] = useState(props.tags?.map(({ label }) => label) || []);
-  const [content, setContent] = useState(props.content || "**Hello world!!!**");
-  const [isPublic, setIsPublic] = useState(props.isPublic || true);
+
+  const [title, setTitle] = useState(
+    props.initialData?.title || props.title || ""
+  );
+  const [description, setDescription] = useState(
+    props.initialData?.description || props.description || ""
+  );
+  const [tags, setTags] = useState(
+    props.initialData?.tags || props.tags?.map(({ label }) => label) || []
+  );
+  const [content, setContent] = useState(
+    props.initialData?.content || props.content || "**Hello world!!!**"
+  );
+  const [isPublic, setIsPublic] = useState(
+    props.initialData?.isPublic ?? props.isPublic ?? true
+  );
   const [errorMessage, setErrorMessage] = useState(props.errorMessage || null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (props.onSubmit) {
-      if (!content || !title || !description || !tags || !isPublic) {
+      if (
+        !content ||
+        !title ||
+        !description ||
+        !tags ||
+        isPublic === undefined
+      ) {
         setErrorMessage("All fields are required.");
         return;
       }
@@ -139,12 +156,12 @@ export default function TutorialForm(props) {
       </Box>
       {(errorMessage || props.errorMessage) && (
         <Alert style={{ width: "100%", marginTop: "2em" }} severity="error">
-          {errorMessage || props.errorMessage}
+          {JSON.stringify(errorMessage) || JSON.stringify(props.errorMessage)}
         </Alert>
       )}
       {(!errorMessage || !props.errorMessage) && props.infoMessage && (
         <Alert style={{ width: "100%", marginTop: "2em" }} severity="success">
-          {props.infoMessage}
+          {typeof props.infoMessage === "string" && props.infoMessage}
         </Alert>
       )}
     </Box>

@@ -1,4 +1,4 @@
-## Authentication
+### Authentication
 
 | method | endpoint             | headers | body  | params | query | status | Headers | body    | description                    |
 | ------ | -------------------- | ------- | ----- | ------ | ----- | ------ | ------- | ------- | ------------------------------ |
