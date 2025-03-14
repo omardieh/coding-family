@@ -6,30 +6,29 @@ import { validateFormInputs } from "/features/Auth/handlers";
 import { useAuth } from "/features/Auth/hooks";
 
 export function Register() {
+  const [registerFormData, setRegisterFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    passRepeat: "",
+  });
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const {
-    data: registerResponse,
     loading: registerLoading,
     error: registerError,
     signUserUp,
   } = useAuth();
 
+  const handleRegisterInput = ({ target: { name, value } }) =>
+    setRegisterFormData({ ...registerFormData, [name]: value });
+
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const { username, email, password, passRepeat } = {
-      username: data.get("username"),
-      email: data.get("email"),
-      password: data.get("password"),
-      passRepeat: data.get("passRepeat"),
-    };
-
+    const { passRepeat, ...formData } = registerFormData;
     if (
       !validateFormInputs({
-        username,
-        email,
-        password,
+        ...formData,
         passRepeat,
         setErrorMessage,
         isNewAccount: true,
@@ -38,10 +37,9 @@ export function Register() {
       return;
 
     try {
-      await signUserUp({ username, email, password });
-      // if (!registerError) navigate("/login");
+      await signUserUp(formData);
     } catch (error) {
-      setErrorMessage(JSON.stringify(error));
+      setErrorMessage(error?.response?.data);
     }
   };
 
@@ -53,7 +51,9 @@ export function Register() {
         <AuthFormLayout isNewAccount>
           <>
             <RegisterForm
-              handleSubmit={handleRegisterSubmit}
+              registerFormData={registerFormData}
+              handleRegisterInput={handleRegisterInput}
+              handleRegisterSubmit={handleRegisterSubmit}
               errorMessage={errorMessage || registerError}
             />
           </>

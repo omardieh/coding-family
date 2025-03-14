@@ -13,17 +13,30 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input } from "/common/components";
 
-export const RegisterForm = ({ handleSubmit, errorMessage }) => {
+export const RegisterForm = ({
+  registerFormData,
+  handleRegisterSubmit,
+  handleRegisterInput,
+  errorMessage,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { username, email, password, passRepeat } = registerFormData;
 
   return (
     <>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleRegisterSubmit}
+        sx={{ mt: 1 }}
+      >
         <Input
           id="username"
           label="Username"
           name="username"
           autoComplete="username"
+          value={username}
+          onChange={handleRegisterInput}
           autoFocus
         />
         <Input
@@ -31,12 +44,16 @@ export const RegisterForm = ({ handleSubmit, errorMessage }) => {
           label="Email Address"
           name="email"
           autoComplete="email"
+          value={email}
+          onChange={handleRegisterInput}
         />
         <Input
           name="password"
           label="Password"
           id="password"
           autoComplete="current-password"
+          value={password}
+          onChange={handleRegisterInput}
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -57,6 +74,8 @@ export const RegisterForm = ({ handleSubmit, errorMessage }) => {
           label="Repeat Password"
           name="passRepeat"
           autoComplete="passRepeat"
+          value={passRepeat}
+          onChange={handleRegisterInput}
           type={showPassword ? "text" : "password"}
         />
         <FormControlLabel

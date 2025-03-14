@@ -4,6 +4,7 @@ import { useCsrfContext } from "/features/Auth/context";
 
 export default function useFetch(baseURL) {
   const [data, setData] = useState(null);
+  const [headers, setHeaders] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { csrfToken } = useCsrfContext();
@@ -49,6 +50,7 @@ export default function useFetch(baseURL) {
           });
 
           setData(response.data);
+          setHeaders(response.headers);
           setError(null);
         } catch (err) {
           setError(err.response ? err.response.data : err.message);
@@ -58,5 +60,5 @@ export default function useFetch(baseURL) {
       },
     [baseURL]
   );
-  return { data, error, loading, fetcher };
+  return { data, headers, error, loading, fetcher };
 }

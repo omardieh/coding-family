@@ -47,7 +47,7 @@ export default function TutorialsTags() {
           }}
         >
           {tags?.map((tag) => (
-            <TagCard key={tag.id} tag={tag} />
+            <TagCard key={tag._id} tag={tag} />
           ))}
         </Box>
       </Box>

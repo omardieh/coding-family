@@ -13,27 +13,41 @@ import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
 
 export function Login() {
-  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loginFormData, setLoginFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
   const { storeToken, authenticateUser } = useAuthContext();
   const {
     logUserIn,
     data: response,
+    headers: responseHeaders,
     loading: loginLoading,
     error: loginError,
   } = useAuth();
 
-  const handleLoginSubmit = async (formData) => {
-    const { email, password } = formData;
-    if (!validateFormInputs({ email, password, setErrorMessage })) return;
+  useEffect(() => {
+    if (responseHeaders) {
+      const accessToken = responseHeaders.authorization.split(" ")[1];
+      storeToken(accessToken);
+      authenticateUser();
+      navigate("/");
+    }
+    return () => setErrorMessage(null);
+  }, [responseHeaders]);
+
+  const handleLoginInput = ({ target: { name, value } }) =>
+    setLoginFormData({ ...loginFormData, [name]: value });
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateFormInputs({ ...loginFormData, setErrorMessage })) return;
     try {
-      await logUserIn({ email, password });
-      // const accessToken = response.headers.authorization.split(" ")[1];
-      // storeToken(accessToken);
-      // authenticateUser();
-      // navigate("/");
+      await logUserIn(loginFormData);
     } catch (error) {
-      setErrorMessage(error.response.data);
+      setErrorMessage(error?.response?.data);
     }
   };
 
@@ -45,7 +59,9 @@ export function Login() {
         <AuthFormLayout>
           <>
             <LoginForm
+              loginFormData={loginFormData}
               handleLoginSubmit={handleLoginSubmit}
+              handleLoginInput={handleLoginInput}
               errorMessage={errorMessage || loginError}
             />
           </>

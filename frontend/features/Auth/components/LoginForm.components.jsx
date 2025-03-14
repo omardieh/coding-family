@@ -13,28 +13,21 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input } from "/common/components";
 
-export const LoginForm = ({ handleLoginSubmit, errorMessage }) => {
+export const LoginForm = ({
+  loginFormData,
+  handleLoginSubmit,
+  handleLoginInput,
+  errorMessage,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [loginFormData, setLoginFormData] = useState({
-    email: "",
-    password: "",
-  });
   const { email, password } = loginFormData;
-
-  const handleLoginInputChange = ({ target: { name, value } }) =>
-    setLoginFormData({ ...loginFormData, [name]: value });
-
-  const handleLoginFormSubmit = (e) => {
-    e.preventDefault();
-    handleLoginSubmit(loginFormData);
-  };
 
   return (
     <>
       <Box
         component="form"
         noValidate
-        onSubmit={handleLoginFormSubmit}
+        onSubmit={handleLoginSubmit}
         sx={{ mt: 1 }}
       >
         <Input
@@ -43,7 +36,7 @@ export const LoginForm = ({ handleLoginSubmit, errorMessage }) => {
           name="email"
           autoComplete="email"
           value={email}
-          onChange={handleLoginInputChange}
+          onChange={handleLoginInput}
           autoFocus
         />
         <Input
@@ -52,7 +45,7 @@ export const LoginForm = ({ handleLoginSubmit, errorMessage }) => {
           id="password"
           autoComplete="current-password"
           value={password}
-          onChange={handleLoginInputChange}
+          onChange={handleLoginInput}
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (

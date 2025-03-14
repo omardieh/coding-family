@@ -2,13 +2,14 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "/common/hooks/useFetch";
 
 export function useAuth() {
-  const { data, error, loading, fetcher } = useFetch(
+  const { data, headers, error, loading, fetcher } = useFetch(
     import.meta.env.VITE_SERVER_URL
   );
   const navigate = useNavigate();
 
   return {
     data,
+    headers,
     error,
     loading,
 
