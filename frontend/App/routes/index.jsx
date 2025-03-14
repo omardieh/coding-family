@@ -8,8 +8,8 @@ import {
   LoginGoogle,
   Register,
   Logout,
+  VerifyEmail,
 } from "/features/Auth/pages";
-import VerifyEmail from "/features/VerifyEmail";
 import Profile from "/features/Profile";
 import EditProfilePage from "/features/Profile/EditProfilePage";
 import Tutorials from "/features/Tutorials";

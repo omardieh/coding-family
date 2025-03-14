@@ -37,9 +37,9 @@ export const CaptchaProvider = ({ children }) => {
                   }
                 );
                 setIsVerified(response.data.verified);
-              } else {
-                setIsVerified(false);
+                return;
               }
+              setIsVerified(false);
             } catch (error) {
               console.error("Error captcha:", error);
             } finally {
@@ -56,9 +56,19 @@ export const CaptchaProvider = ({ children }) => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  return (
-    <CaptchaContext.Provider value={{ isVerified, isLoading }}>
-      {children}
-    </CaptchaContext.Provider>
-  );
+  if (!isVerified) {
+    return (
+      <div>
+        <h3>reCAPTCHA verification failed. Please try again.</h3>
+        <button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Reload
+        </button>
+      </div>
+    );
+  }
+  return <CaptchaContext.Provider>{children}</CaptchaContext.Provider>;
 };

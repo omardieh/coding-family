@@ -3,30 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { RegisterForm, AuthFormLayout } from "/features/Auth/components";
 import { PageLayout, PageCard, LoadingSpinner } from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
-import { useCaptchaContext } from "/features/Auth/context";
 import { useAuth } from "/features/Auth/hooks";
 
 export function Register() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
-  const { isVerified, isLoading: captchaLoading } = useCaptchaContext();
   const {
+    data: registerResponse,
     loading: registerLoading,
     error: registerError,
     signUserUp,
   } = useAuth();
-
-  useEffect(() => {
-    handleCaptchaError();
-  }, [isVerified, captchaLoading]);
-
-  const handleCaptchaError = () => {
-    if (!isVerified && !captchaLoading) {
-      setErrorMessage("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-    setErrorMessage(null);
-  };
 
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +27,7 @@ export function Register() {
 
     if (
       !validateFormInputs({
+        username,
         email,
         password,
         passRepeat,
@@ -51,13 +39,13 @@ export function Register() {
 
     try {
       await signUserUp({ username, email, password });
-      navigate("/login");
-    } catch (_) {
-      setErrorMessage(registerError);
+      // if (!registerError) navigate("/login");
+    } catch (error) {
+      setErrorMessage(JSON.stringify(error));
     }
   };
 
-  if (captchaLoading || registerLoading) return <LoadingSpinner />;
+  if (registerLoading) return <LoadingSpinner />;
 
   return (
     <PageLayout>
@@ -66,7 +54,7 @@ export function Register() {
           <>
             <RegisterForm
               handleSubmit={handleRegisterSubmit}
-              errorMessage={errorMessage}
+              errorMessage={errorMessage || registerError}
             />
           </>
         </AuthFormLayout>

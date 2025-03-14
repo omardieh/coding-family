@@ -7,7 +7,7 @@ import {
   SocialLoginLink,
   AuthFormLayout,
 } from "/features/Auth/components";
-import { useAuthContext, useCaptchaContext } from "/features/Auth/context";
+import { useAuthContext } from "/features/Auth/context";
 import { useAuth } from "/features/Auth/hooks";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
@@ -16,25 +16,12 @@ export function Login() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const { storeToken, authenticateUser } = useAuthContext();
-  const { isVerified, isLoading: captchaLoading } = useCaptchaContext();
   const {
     logUserIn,
     data: response,
     loading: loginLoading,
     error: loginError,
   } = useAuth();
-
-  useEffect(() => {
-    handleCaptchaError();
-  }, [isVerified, captchaLoading]);
-
-  const handleCaptchaError = () => {
-    if (!isVerified && !captchaLoading) {
-      setErrorMessage("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-    setErrorMessage(null);
-  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -57,7 +44,7 @@ export function Login() {
     }
   };
 
-  if (captchaLoading || loginLoading) return <LoadingSpinner />;
+  if (loginLoading) return <LoadingSpinner />;
 
   return (
     <PageLayout>
