@@ -23,24 +23,17 @@ export function Login() {
     error: loginError,
   } = useAuth();
 
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const { email, password } = {
-      email: data.get("email"),
-      password: data.get("password"),
-    };
-
+  const handleLoginSubmit = async (formData) => {
+    const { email, password } = formData;
     if (!validateFormInputs({ email, password, setErrorMessage })) return;
-
     try {
       await logUserIn({ email, password });
-      const accessToken = response.headers.authorization.split(" ")[1];
-      storeToken(accessToken);
-      authenticateUser();
-      navigate("/");
-    } catch (_) {
-      setErrorMessage(loginError);
+      // const accessToken = response.headers.authorization.split(" ")[1];
+      // storeToken(accessToken);
+      // authenticateUser();
+      // navigate("/");
+    } catch (error) {
+      setErrorMessage(error.response.data);
     }
   };
 
@@ -52,8 +45,8 @@ export function Login() {
         <AuthFormLayout>
           <>
             <LoginForm
-              handleSubmit={handleLoginSubmit}
-              errorMessage={errorMessage}
+              handleLoginSubmit={handleLoginSubmit}
+              errorMessage={errorMessage || loginError}
             />
           </>
           <>
