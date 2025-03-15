@@ -102,7 +102,7 @@ export const RegisterForm = ({
                 : undefined,
           }}
         >
-          {errorMessage}
+          {JSON.stringify(errorMessage)}
         </Alert>
       )}
     </>

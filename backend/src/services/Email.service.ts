@@ -6,14 +6,21 @@ import { join } from 'path';
 
 export class EmailService {
   private transporter: Transporter;
+  private user: string;
+  private from: string;
+
   constructor() {
     const host = process.env.MAIL_HOST || '';
     const port = parseInt(process.env.MAIL_PORT || '0', 10);
     const user = process.env.MAIL_USER || '';
     const pass = process.env.MAIL_PASS || '';
-    if (!host || !port || !user || !pass) {
+    const from = process.env.MAIL_FROM || '';
+    if (!host || !port || !user || !pass || !from) {
       throw new Error('Email configuration is incomplete. Please check your environment variables.');
     }
+    this.user = user;
+    this.from = from;
+
     this.transporter = nodemailer.createTransport({
       host,
       port,
@@ -33,12 +40,23 @@ export class EmailService {
       const emailTemplatePath = join(__dirname, '../utils/emailTemplates/verify.html');
       const emailTemplate = readFileSync(emailTemplatePath, 'utf-8');
       const linkToSend = `${process.env.CLIENT_URL}/email/verify?userID=${createdUser._id}&code=${emailVerifyCode}&token=${emailVerifyToken}`;
-      const emailVerifyHTML = emailTemplate.replace('{{verificationLink}}', linkToSend);
+      const logoContentID = 'logo@coding.family';
+      const emailVerifyHTML = emailTemplate
+        .replaceAll('{{verificationLink}}', linkToSend)
+        .replace('{{userName}}', createdUser.username)
+        .replace('{{logoUrl}}', `cid:${logoContentID}`);
       const mailOptions = {
-        from: process.env.MAIL_FROM || '',
+        from: `${this.from} <${this.user}>`,
         to: createdUser.email,
         subject: 'Please Verify Your Email',
         html: emailVerifyHTML,
+        attachments: [
+          {
+            filename: 'site-logo.png',
+            path: `${process.env.CLIENT_URL}/site-logo.png`,
+            cid: logoContentID,
+          },
+        ],
       };
       await this.transporter.sendMail(mailOptions);
     } catch (error) {

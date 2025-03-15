@@ -15,10 +15,20 @@ export function Register() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const {
+    data: registerData,
     loading: registerLoading,
     error: registerError,
     signUserUp,
   } = useAuth();
+
+  useEffect(() => {
+    console.log(registerData);
+    if (registerError) setErrorMessage(registerError);
+    // if (!registerLoading && !registerError) navigate("/login");
+    return () => {
+      setErrorMessage(null);
+    };
+  }, [registerError, registerLoading, registerData]);
 
   const handleRegisterInput = ({ target: { name, value } }) =>
     setRegisterFormData({ ...registerFormData, [name]: value });
@@ -39,7 +49,7 @@ export function Register() {
     try {
       await signUserUp(formData);
     } catch (error) {
-      setErrorMessage(error?.response?.data);
+      setErrorMessage(JSON.stringify(error));
     }
   };
 
