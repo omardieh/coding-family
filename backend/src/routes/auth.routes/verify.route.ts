@@ -27,7 +27,8 @@ class VerifyRoute extends BaseRouter {
         return;
       }
       if (foundUser.emailVerifyCodeExpiresAt.getTime() <= Date.now()) {
-        res.status(400).json('verification code has expired');
+        await foundUser.deleteOne();
+        res.status(400).json('verification code has expired, please sign up again');
         return;
       }
       if (foundUser.emailVerifyCode === 'verified') {
@@ -48,7 +49,7 @@ class VerifyRoute extends BaseRouter {
         res.status(400).json('error while verifying email');
         return;
       }
-      res.status(201).json('email verification was successful');
+      res.status(201).json({ message: 'email verification was successful', isEmailVerified: true });
     } catch (err) {
       next(err);
     }

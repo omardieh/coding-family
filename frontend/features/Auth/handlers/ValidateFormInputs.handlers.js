@@ -27,7 +27,10 @@ export const validateFormInputs = ({
     return false;
   }
 
-  if (!isNewAccount) return true;
+  if (!isNewAccount) {
+    setErrorMessage(null);
+    return true;
+  }
 
   if (!validator.matches(username, /^[a-zA-Z0-9_.]{6,}$/)) {
     setErrorMessage(
@@ -41,5 +44,6 @@ export const validateFormInputs = ({
     return false;
   }
 
+  setErrorMessage(null);
   return true;
 };

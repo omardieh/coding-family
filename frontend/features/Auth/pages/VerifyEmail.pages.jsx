@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AuthService from "/common/services/AuthService";
 import { Typography } from "@mui/material";
+import { Notifier, LoadingSpinner } from "/common/components";
+import { useAuth } from "/features/Auth/hooks";
 
 export function VerifyEmail() {
   const [verifyMessage, setVerifyMessage] = useState("");
@@ -10,21 +11,34 @@ export function VerifyEmail() {
   const token = searchParams.get("token");
   const code = searchParams.get("code");
   const navigate = useNavigate();
+  const { onSuccess } = Notifier();
+  const { data: verifyResponse, error, loading, verifyEmail } = useAuth();
 
   useEffect(() => {
-    AuthService.verifyEmail({ userID, code, token })
-      .then((response) => {
-        setVerifyMessage(response.data);
-      })
-      .catch((error) => {
-        if (error.response.data) {
-          console.error("AuthService.verifyEmail : ", error.response.data);
-          setVerifyMessage(error.response.data);
-          return;
-        }
-        navigate("/");
-      });
-  }, [userID, token, code, navigate]);
+    if (userID && code && token) verifyEmail({ userID, code, token });
+  }, [userID, token, code]);
+
+  useEffect(() => {
+    if (error) setVerifyMessage(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (!verifyResponse) return;
+    setVerifyMessage(verifyResponse?.message);
+    if (!verifyResponse?.isEmailVerified) return;
+    const { message, isEmailVerified } = verifyResponse;
+    let timeoutID;
+    if (isEmailVerified) {
+      setVerifyMessage("");
+      onSuccess({ message, redirect: "login" });
+      timeoutID = setTimeout(() => {
+        navigate("/login");
+      }, 2500);
+    }
+    return () => clearTimeout(timeoutID);
+  }, [verifyResponse]);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <>

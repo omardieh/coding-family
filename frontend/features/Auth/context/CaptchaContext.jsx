@@ -70,5 +70,9 @@ export const CaptchaProvider = ({ children }) => {
       </div>
     );
   }
-  return <CaptchaContext.Provider>{children}</CaptchaContext.Provider>;
+  return (
+    <CaptchaContext.Provider value={{ isVerified }}>
+      {children}
+    </CaptchaContext.Provider>
+  );
 };
