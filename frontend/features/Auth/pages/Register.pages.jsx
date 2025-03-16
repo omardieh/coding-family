@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterForm, AuthFormLayout } from "/features/Auth/components";
-import { PageLayout, PageCard, LoadingSpinner } from "/common/components";
+import {
+  PageLayout,
+  PageCard,
+  LoadingSpinner,
+  Notifier,
+} from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
 import { useAuth } from "/features/Auth/hooks";
 
@@ -12,23 +17,32 @@ export function Register() {
     password: "",
     passRepeat: "",
   });
+  const { onSuccess } = Notifier();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const {
     data: registerData,
     loading: registerLoading,
-    error: registerError,
+    error,
     signUserUp,
   } = useAuth();
 
   useEffect(() => {
-    console.log(registerData);
-    if (registerError) setErrorMessage(registerError);
-    // if (!registerLoading && !registerError) navigate("/login");
-    return () => {
-      setErrorMessage(null);
-    };
-  }, [registerError, registerLoading, registerData]);
+    if (error) setVerifyMessage(error);
+  }, [error]);
+
+  useEffect(() => {
+    if (!registerData) return;
+    const { message, success } = registerData;
+    let timeoutID;
+    if (success) {
+      onSuccess({ message, redirect: "login", options: { autoClose: 5000 } });
+      timeoutID = setTimeout(() => {
+        navigate("/login");
+      }, 5000);
+    }
+    return () => clearTimeout(timeoutID);
+  }, [registerData]);
 
   const handleRegisterInput = ({ target: { name, value } }) =>
     setRegisterFormData({ ...registerFormData, [name]: value });
@@ -64,7 +78,7 @@ export function Register() {
               registerFormData={registerFormData}
               handleRegisterInput={handleRegisterInput}
               handleRegisterSubmit={handleRegisterSubmit}
-              errorMessage={errorMessage || registerError}
+              errorMessage={errorMessage}
             />
           </>
         </AuthFormLayout>

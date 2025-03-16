@@ -9,7 +9,12 @@ import {
 } from "/features/Auth/components";
 import { useAuthContext } from "/features/Auth/context";
 import { useAuth } from "/features/Auth/hooks";
-import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
+import {
+  LoadingSpinner,
+  PageLayout,
+  PageCard,
+  Notifier,
+} from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
 
 export function Login() {
@@ -19,6 +24,7 @@ export function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const { onSuccess } = Notifier();
   const { storeToken, authenticateUser } = useAuthContext();
   const {
     logUserIn,
@@ -29,14 +35,30 @@ export function Login() {
   } = useAuth();
 
   useEffect(() => {
+    if (loginError) setErrorMessage(loginError);
+  }, [loginError]);
+
+  useEffect(() => {
     if (responseHeaders) {
       const accessToken = responseHeaders.authorization.split(" ")[1];
       storeToken(accessToken);
-      authenticateUser();
-      navigate("/");
+      if (accessToken) authenticateUser();
     }
-    return () => setErrorMessage(null);
   }, [responseHeaders]);
+
+  useEffect(() => {
+    let timeoutID;
+    if (response) {
+      const { success, message } = response;
+      if (success) {
+        onSuccess({ message });
+        timeoutID = setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      }
+    }
+    return () => clearTimeout(timeoutID);
+  }, [response]);
 
   const handleLoginInput = ({ target: { name, value } }) =>
     setLoginFormData({ ...loginFormData, [name]: value });

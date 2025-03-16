@@ -84,7 +84,14 @@ class LoginRoute extends BaseRouter {
         })
         .set('Access-Control-Expose-Headers', 'Authorization')
         .header('Authorization', `Bearer ${accessToken}`)
-        .json({ _id, email, username, avatar });
+        .json({
+          _id,
+          email,
+          username,
+          avatar,
+          success: true,
+          message: `Welcome back ${username}! redirecting you to your profile page ;)`,
+        });
     } catch (error) {
       res.status(500).json({ 'Internal Server Error': error });
       next(error);
