@@ -28,7 +28,7 @@ export function Register() {
   } = useAuth();
 
   useEffect(() => {
-    if (error) setVerifyMessage(error);
+    if (error) setErrorMessage(error);
   }, [error]);
 
   useEffect(() => {
