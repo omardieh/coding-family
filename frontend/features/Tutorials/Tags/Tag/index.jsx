@@ -1,17 +1,23 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import useTutorialsHook from "/features/Tutorials/hook";
 import classes from "/features/Tutorials/index.module.css";
+import { useErrorContext } from "/features/Error/context";
+import { LoadingSpinner } from "/common/components";
 
 export default function TutorialsTagsTag() {
   const { slug } = useParams();
+  const { getTutorialsByTag } = useTutorialsHook();
+  const { data, isLoading, error } = getTutorialsByTag(slug);
+  const { handleError } = useErrorContext();
 
-  const { data: tag, error, loading, getTutorialsByTag } = useTutorialsHook();
+  if (isLoading) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
 
-  useEffect(() => {
-    getTutorialsByTag(slug);
-  }, []);
+  const { data: tag } = data;
 
   return (
     <Box

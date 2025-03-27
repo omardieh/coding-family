@@ -17,5 +17,14 @@ export default function useTutorialsHook() {
     getTutorialsTags: () => fetcher({ endPoint: "/tutorials/tags" }),
     getTutorialsByTag: (slug) =>
       fetcher({ endPoint: "/tutorials/tags/" + slug }),
+    postNewTutorial: (reqBody) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/tutorials",
+        reqBody,
+        swr: {
+          revalidate: true,
+        },
+      }),
   };
 }

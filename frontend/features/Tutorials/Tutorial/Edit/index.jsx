@@ -1,43 +1,41 @@
-import { useParams } from "react-router-dom";
-import { useAuthContext } from "/features/Auth/context";
+import { Navigate, useParams } from "react-router-dom";
 import useTutorialsHook from "/features/Tutorials/hook";
 import TutorialForm from "../../TutorialForm";
-import { useEffect } from "react";
 import { LoadingSpinner } from "/common/components";
+import { useErrorContext } from "/features/Error/context";
 
 export default function TutorialEdit() {
   const { slug } = useParams();
-  const { user } = useAuthContext();
+  const { handleError } = useErrorContext();
+  const { getTutorialBySlug, updateTutorialBySlug } = useTutorialsHook();
+
   const {
-    data: tutorial,
+    data: tutorialData,
+    isLoading,
+    isValidating,
     error,
-    loading,
-    getTutorialBySlug,
-  } = useTutorialsHook();
-  const {
-    data: updatedTutorial,
-    error: updatedError,
-    loading: updatedLoading,
-    updateTutorialBySlug,
-  } = useTutorialsHook();
+  } = getTutorialBySlug(slug);
+  const { data: updateData, error: updateError } = updateTutorialBySlug(slug);
 
-  useEffect(() => {
-    getTutorialBySlug(slug);
-  }, [updatedTutorial]);
+  if (isLoading || isValidating) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
 
-  if (loading || updatedLoading || !tutorial) return <LoadingSpinner />;
+  const { data: tutorial } = tutorialData;
 
   return (
     <TutorialForm
       headingTitle="Edit Tutorial"
       onSubmit={(reqBody) => updateTutorialBySlug(slug, reqBody)}
-      errorMessage={updatedError}
+      errorMessage={updateError}
       content={tutorial.content}
       title={tutorial.title}
       description={tutorial.description}
       tags={tutorial.tags}
       isPublic={tutorial.isPublic}
-      infoMessage={updatedTutorial?.updated ? "Successfully updated" : null}
+      infoMessage={updateData?.updated ? "Successfully updated" : null}
     />
   );
 }

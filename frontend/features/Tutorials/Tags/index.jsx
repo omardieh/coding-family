@@ -1,16 +1,23 @@
 import { Box } from "@mui/material";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useTutorialsHook from "/features/Tutorials/hook";
 import TagCard from "./TagCard";
 import SearchFilterTagsBar from "./SearchFilterTagsBar";
+import { LoadingSpinner } from "/common/components";
+import { useErrorContext } from "/features/Error/context";
 
 export default function TutorialsTags() {
-  const { data: tags, error, loading, getTutorialsTags } = useTutorialsHook();
+  const { getTutorialsTags } = useTutorialsHook();
+  const { data, isLoading, error } = getTutorialsTags();
+  const { handleError } = useErrorContext();
 
-  useEffect(() => {
-    getTutorialsTags();
-  }, []);
+  if (isLoading) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
+
+  const { data: tags } = data;
 
   return (
     <>

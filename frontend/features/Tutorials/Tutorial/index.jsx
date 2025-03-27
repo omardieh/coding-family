@@ -13,6 +13,7 @@ export default function Tutorial() {
   const { getTutorialBySlug } = useTutorialsHook();
   const { handleError } = useErrorContext();
   const { data, isLoading, isValidating, error } = getTutorialBySlug(slug);
+
   if (isLoading || isValidating) return <LoadingSpinner />;
   if (error) {
     handleError(error);
@@ -20,7 +21,6 @@ export default function Tutorial() {
   }
 
   const { data: tutorial } = data;
-
   const isOwner =
     JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
 
