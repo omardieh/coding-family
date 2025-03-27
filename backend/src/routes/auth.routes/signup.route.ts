@@ -36,7 +36,10 @@ class SignupRoute extends BaseRouter {
       const payload = { _id, createdEmail, createdUsername };
       const emailVerifyToken = this.JWTService.generateJWT(payload);
       await this.emailService.sendEmailVerify(createdUser, emailVerifyCode, emailVerifyToken);
-      res.status(200).send('Verification Email was sent Successfully');
+      res.status(200).json({
+        message: `User created. Please check your email inbox: "${createdEmail}" to verify your account.`,
+        success: true,
+      });
     } catch (error) {
       this.db.logMongoError(error, req, res, next);
     }

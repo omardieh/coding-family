@@ -10,9 +10,11 @@ import {
 } from "/features/Auth/context";
 import { SocketProvider } from "/common/contexts";
 import { TutorialsProvider } from "/features/Tutorials/context";
-// import * as serviceWorker from "/sw.js";
 import { StyleSheetManager } from "styled-components";
+import useBrowserAgent from "./analytics/BrowserAgent";
+import { UserProvider } from "../features/User/context";
 
+useBrowserAgent();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -22,9 +24,11 @@ root.render(
         <CaptchaProvider>
           <AuthProvider>
             <SocketProvider>
-              <TutorialsProvider>
-                <App />
-              </TutorialsProvider>
+              <UserProvider>
+                <TutorialsProvider>
+                  <App />
+                </TutorialsProvider>
+              </UserProvider>
             </SocketProvider>
           </AuthProvider>
         </CaptchaProvider>

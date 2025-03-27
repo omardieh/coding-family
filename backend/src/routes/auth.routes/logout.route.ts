@@ -11,7 +11,7 @@ class LogoutRoute extends BaseRouter {
     try {
       res.clearCookie('refreshToken');
       res.removeHeader('Authorization');
-      res.status(200).send({ success: true });
+      res.status(200).json({ message: 'successfully logged out', success: true });
     } catch (error) {
       next(error);
     }

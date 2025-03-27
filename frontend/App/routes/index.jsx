@@ -19,6 +19,7 @@ import TutorialsTagsTag from "/features/Tutorials/Tags/Tag";
 import Tutorial from "/features/Tutorials/Tutorial";
 import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
 import Welcome from "/features/Welcome";
+import { ErrorPage } from "/features/Error/pages";
 
 export default function RenderRoutes() {
   const renderRoutesRecursively = (routes) => {
@@ -43,6 +44,10 @@ export default function RenderRoutes() {
 
 const routes = [
   { path: "/", element: <Welcome /> },
+  {
+    path: "/error",
+    element: <ErrorPage />,
+  },
   {
     path: "/register",
     element: (

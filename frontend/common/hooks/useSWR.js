@@ -44,10 +44,7 @@ export default function useSWR({ baseURL }) {
           timeout,
           cancelToken: source.token,
         });
-        return {
-          data: response.data,
-          headers: response.headers,
-        };
+        return response;
       } catch (err) {
         if (import.meta.env.NODE_ENV === "development") console.error(err);
         throw err.response ? err.response.data : err.message;
@@ -56,21 +53,21 @@ export default function useSWR({ baseURL }) {
     [baseURL]
   );
 
-  const fetcher = ({ method, endPoint, reqBody, headers, timeout }) => {
-    const { data, error, isValidating, ...swr } = fetchSWR(
-      [endPoint, method, reqBody],
-      () =>
-        handleFetch(
-          { method, endPoint, reqBody, headers, timeout },
-          {
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false,
-            shouldRetryOnError: false,
-          }
-        )
-    );
-    return { data, error, isValidating, ...swr };
-  };
+  const fetcher = useCallback(
+    ({ method = "GET", endPoint, reqBody, headers, timeout, swr }) => {
+      return fetchSWR(
+        [endPoint, method, reqBody],
+        () => handleFetch({ method, endPoint, reqBody, headers, timeout }),
+        {
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false,
+          shouldRetryOnError: false,
+          ...swr,
+        }
+      );
+    },
+    [handleFetch]
+  );
 
   return { fetcher };
 }

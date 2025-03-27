@@ -1,28 +1,29 @@
 import { Box, Button, Chip, Typography } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
-import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Fragment } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
 import useTutorialsHook from "../hook";
 import { useAuthContext } from "/features/Auth/context";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
+import { useErrorContext } from "/features/Error/context";
 
 export default function Tutorial() {
   const { slug } = useParams();
   const { user } = useAuthContext();
-  const {
-    data: tutorial,
-    error,
-    loading,
-    getTutorialBySlug,
-  } = useTutorialsHook();
+  const { getTutorialBySlug } = useTutorialsHook();
+  const { handleError } = useErrorContext();
+  const { data, isLoading, isValidating, error } = getTutorialBySlug(slug);
+  if (isLoading || isValidating) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
 
-  useEffect(() => {
-    getTutorialBySlug(slug);
-  }, []);
+  const { data: tutorial } = data;
 
-  if (loading || !tutorial) return <LoadingSpinner />;
   const isOwner =
     JSON.stringify(tutorial.author._id) === JSON.stringify(user?._id);
+
   return (
     <PageLayout sx={{ top: "1em" }}>
       <PageCard>
@@ -51,7 +52,7 @@ export default function Tutorial() {
             >
               <legend style={{ padding: "0 1em" }}> Tags </legend>
               {tutorial.tags?.map(({ _id, label, slug }) => (
-                <React.Fragment key={_id}>
+                <Fragment key={_id}>
                   <Link to={"/tutorials/tags/" + slug}>
                     <Chip
                       sx={{ padding: "1.5em", cursor: "pointer" }}
@@ -59,7 +60,7 @@ export default function Tutorial() {
                       label={label}
                     />
                   </Link>
-                </React.Fragment>
+                </Fragment>
               ))}
             </Box>
             <Typography variant="subtitle2">
