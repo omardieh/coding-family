@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTutorialsContext } from "../context";
@@ -12,36 +11,21 @@ export default function SearchFilterBars() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { quickFilter, setQuickFilter } = useTutorialsContext();
 
-  const [field, sort, page, per_page] = [
-    searchParams.get("field"),
-    searchParams.get("sort"),
-    searchParams.get("page"),
-    searchParams.get("per_page"),
-  ];
-
   useEffect(() => {
-    setSearchParams((params) => {
-      for (const filter in quickFilter) {
-        if (quickFilter[filter]) params.set(filter, quickFilter[filter]);
+    const params = Object.fromEntries(searchParams);
+    const newFilters = {
+      field: params.field || quickFilter.field,
+      sort: params.sort || quickFilter.sort,
+      page: params.page || quickFilter.page,
+      per_page: params.per_page || quickFilter.per_page,
+    };
+    if (JSON.stringify(newFilters) !== JSON.stringify(quickFilter)) {
+      setQuickFilter(newFilters);
+      if (!params.field || !params.sort || !params.page || !params.per_page) {
+        setSearchParams(newFilters, { replace: true });
       }
-      return params;
-    });
-  }, [
-    quickFilter.field,
-    quickFilter.sort,
-    quickFilter.page,
-    quickFilter.per_page,
-  ]);
-
-  useEffect(() => {
-    setQuickFilter((prev) => ({
-      ...prev,
-      ...(field && { field: field }),
-      ...(sort && { sort: sort }),
-      ...(page && { page: page }),
-      ...(per_page && { per_page: per_page }),
-    }));
-  }, []);
+    }
+  }, [searchParams]);
 
   return (
     <SearchFilterBarsLayout top="4em">

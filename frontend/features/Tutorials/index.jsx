@@ -1,18 +1,19 @@
-import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import SearchFilterBars from "./SearchFilterBars";
 import TutorialCard from "./TutorialCard";
 import { useTutorialsContext } from "./context";
 import useTutorialsHook from "./hook";
-import "./styles.css";
 import { PageLayout } from "../../common/components/PageLayout";
 import { PageCard } from "../../common/components/PageCard";
 import { LoadingSpinner } from "/common/components";
+import { useErrorContext } from "/features/Error/context";
+import "./styles.css";
 
 export default function Tutorials() {
-  const { data, error, loading, getAllTutorials } = useTutorialsHook();
+  const { getAllTutorials } = useTutorialsHook();
   const { quickFilter } = useTutorialsContext();
   const [searchParams] = useSearchParams();
+  const { handleError } = useErrorContext();
 
   const [field, sort, page, per_page] = [
     searchParams.get("field") || quickFilter.field,
@@ -21,37 +22,31 @@ export default function Tutorials() {
     searchParams.get("per_page") || quickFilter.per_page,
   ];
 
-  useEffect(() => {
-    getAllTutorials({
-      ...(field && { field: field }),
-      ...(sort && { sort: sort }),
-      ...(page && { page: page }),
-      ...(per_page && { per_page: per_page }),
-    });
-  }, [field, sort, page, per_page]);
+  const { data, isLoading, isValidating, error } = getAllTutorials({
+    ...(field && { field: field }),
+    ...(sort && { sort: sort }),
+    ...(page && { page: page }),
+    ...(per_page && { per_page: per_page }),
+  });
 
-  const renderLoading = () => {
-    if (!data?.tutorials || loading) return <LoadingSpinner />;
-  };
+  if (isLoading || isValidating) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
 
-  const renderTutorials = () => {
-    if (data?.tutorials && !loading)
-      return (
-        <>
-          <SearchFilterBars />
-          <PageCard>
-            {data.tutorials?.map((tutorial) => (
-              <TutorialCard key={tutorial._id} tutorial={tutorial} />
-            ))}
-          </PageCard>
-        </>
-      );
-  };
+  const {
+    data: { tutorials },
+  } = data;
 
   return (
     <PageLayout>
-      {renderLoading()}
-      {renderTutorials()}
+      <SearchFilterBars />
+      <PageCard>
+        {tutorials.map((tutorial) => (
+          <TutorialCard key={tutorial._id} tutorial={tutorial} />
+        ))}
+      </PageCard>
     </PageLayout>
   );
 }
