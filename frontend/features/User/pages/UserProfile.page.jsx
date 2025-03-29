@@ -16,7 +16,7 @@ export function UserProfile() {
 
   useEffect(() => {
     authenticateUser();
-  }, [authenticateUser]);
+  }, []);
 
   const {
     username,
