@@ -2,12 +2,11 @@ import { BrowserAgent } from "@newrelic/browser-agent/loaders/browser-agent";
 import { Ajax } from "@newrelic/browser-agent/features/ajax";
 import { JSErrors } from "@newrelic/browser-agent/features/jserrors";
 import { Metrics } from "@newrelic/browser-agent/features/metrics";
-import { PageAction } from "@newrelic/browser-agent/features/page_action";
+import { GenericEvents } from "@newrelic/browser-agent/features/generic_events";
 import { PageViewEvent } from "@newrelic/browser-agent/features/page_view_event";
 import { PageViewTiming } from "@newrelic/browser-agent/features/page_view_timing";
 import { SessionTrace } from "@newrelic/browser-agent/features/session_trace";
 import { Spa } from "@newrelic/browser-agent/features/spa";
-
 const options = {
   init: {
     distributed_tracing: { enabled: true },
@@ -32,7 +31,7 @@ const options = {
     Ajax,
     JSErrors,
     Metrics,
-    PageAction,
+    GenericEvents,
     PageViewEvent,
     PageViewTiming,
     SessionTrace,

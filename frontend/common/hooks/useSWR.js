@@ -16,7 +16,7 @@ export default function useSWR({ baseURL }) {
       headers: {
         ...config.headers,
         "X-XSRF-TOKEN": csrfToken,
-        ...(userToken && { Authorization: `Bearer ${userToken}` }),
+        ...(userToken && { Authorization: userToken }),
       },
     }));
     return () => {
@@ -54,9 +54,17 @@ export default function useSWR({ baseURL }) {
   );
 
   const fetcher = useCallback(
-    ({ method = "GET", endPoint, reqBody, headers, timeout, swr }) => {
-      return fetchSWR(
-        [endPoint, method, reqBody],
+    ({
+      method = "GET",
+      endPoint = "/",
+      reqBody = null,
+      headers = {},
+      timeout = 0,
+      isFetching = true,
+      swr = {},
+    }) =>
+      fetchSWR(
+        isFetching ? [endPoint, method, reqBody] : null,
         () => handleFetch({ method, endPoint, reqBody, headers, timeout }),
         {
           revalidateOnFocus: false,
@@ -64,8 +72,7 @@ export default function useSWR({ baseURL }) {
           shouldRetryOnError: false,
           ...swr,
         }
-      );
-    },
+      ),
     [handleFetch]
   );
 

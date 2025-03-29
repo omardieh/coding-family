@@ -70,7 +70,7 @@ export class JWTService {
       if (accessToken) {
         const decoded = jwt.decode(accessToken as string) as JwtPayloadWithIatExp;
         const currentTime = Math.floor(Date.now() / 1000);
-        if (decoded.exp && decoded.exp < currentTime) {
+        if (decoded?.exp && decoded?.exp < currentTime) {
           payload = this.handleRefreshToken(req, res, next, refreshToken);
           if (!payload) {
             next(new Error('Failed to refresh access token.'));

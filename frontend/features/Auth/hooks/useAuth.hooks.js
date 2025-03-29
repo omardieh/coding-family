@@ -1,58 +1,55 @@
-import useFetch from "/common/hooks/useFetch";
+import useSWR from "/common/hooks/useSWR";
 
-export function useAuth() {
-  const { data, headers, error, loading, fetcher } = useFetch(
-    import.meta.env.VITE_SERVER_URL
-  );
+export function useAuthHook() {
+  const { fetcher } = useSWR({ baseURL: import.meta.env.VITE_SERVER_URL });
 
   return {
-    data,
-    headers,
-    error,
-    loading,
-
-    logUserIn: async (reqBody) =>
-      await fetcher({
+    // Authentication
+    logUserIn: (reqBody, isFetching) =>
+      fetcher({
         method: "POST",
         endPoint: "/auth/login",
         reqBody,
+        isFetching,
       }),
 
-    logGithubUserIn: async (code) =>
-      await fetcher({
-        method: "POST",
-        endPoint: "/auth/github",
-        reqBody: { code },
-      }),
-
-    logGoogleUserIn: async (code) =>
-      await fetcher({
-        method: "POST",
-        endPoint: "/auth/google",
-        reqBody: { code },
-      }),
-
-    signUserUp: async (reqBody) =>
-      await fetcher({
+    signUserUp: (reqBody) =>
+      fetcher({
         method: "POST",
         endPoint: "/auth/signup",
         reqBody,
       }),
 
-    logUserOut: async () => {
+    logUserOut: () => {
       localStorage.removeItem("accessToken");
-      await fetcher({
+      return fetcher({
         endPoint: "/auth/logout",
       });
     },
 
-    verifyUserToken: async () =>
-      await fetcher({
+    // OAuth providers
+    logGithubUserIn: (code) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/github",
+        reqBody: { code },
+      }),
+
+    logGoogleUserIn: (code) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/google",
+        reqBody: { code },
+      }),
+
+    // Token management
+    verifyUserToken: () =>
+      fetcher({
         endPoint: "/auth/token/verify",
       }),
 
-    verifyEmail: async ({ userID, token, code }) =>
-      await fetcher({
+    verifyEmail: ({ userID, token, code }) =>
+      fetcher({
         method: "POST",
         endPoint: "/auth/email/verify",
         reqBody: { userID, code },
@@ -61,6 +58,69 @@ export function useAuth() {
         },
       }),
 
+    // Local storage helpers
+    getUserToken: () => localStorage.getItem("accessToken"),
+    storeUserToken: (token) => localStorage.setItem("accessToken", token),
+  };
+}
+export function useAuth() {
+  const { fetcher } = useSWR({ baseURL: import.meta.env.VITE_SERVER_URL });
+
+  return {
+    // Authentication
+    logUserIn: (reqBody) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/login",
+        reqBody,
+      }),
+
+    signUserUp: (reqBody) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/signup",
+        reqBody,
+      }),
+
+    logUserOut: () => {
+      localStorage.removeItem("accessToken");
+      return fetcher({
+        endPoint: "/auth/logout",
+      });
+    },
+
+    // OAuth providers
+    logGithubUserIn: (code) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/github",
+        reqBody: { code },
+      }),
+
+    logGoogleUserIn: (code) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/google",
+        reqBody: { code },
+      }),
+
+    // Token management
+    verifyUserToken: () =>
+      fetcher({
+        endPoint: "/auth/token/verify",
+      }),
+
+    verifyEmail: ({ userID, token, code }) =>
+      fetcher({
+        method: "POST",
+        endPoint: "/auth/email/verify",
+        reqBody: { userID, code },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+
+    // Local storage helpers
     getUserToken: () => localStorage.getItem("accessToken"),
     storeUserToken: (token) => localStorage.setItem("accessToken", token),
   };

@@ -154,7 +154,7 @@ class TutorialRoutes extends BaseRouter {
       }
       await Promise.all(createTags);
       await updatedTutorial.save();
-      res.status(200).json({ updated: true });
+      res.status(200).json({ updated: true, tutorial: updatedTutorial });
     } catch (error) {
       this.db.logMongoError(error, req, res, next);
     }

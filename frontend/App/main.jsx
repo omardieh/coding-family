@@ -11,8 +11,8 @@ import {
 import { SocketProvider } from "/common/contexts";
 import { TutorialsProvider } from "/features/Tutorials/context";
 import { StyleSheetManager } from "styled-components";
+import { UserProvider } from "/features/User/context";
 import useBrowserAgent from "./analytics/BrowserAgent";
-import { UserProvider } from "../features/User/context";
 
 useBrowserAgent();
 const root = ReactDOM.createRoot(document.getElementById("root"));

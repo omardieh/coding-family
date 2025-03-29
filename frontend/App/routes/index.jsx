@@ -1,160 +1,47 @@
 import { Route, Routes } from "react-router-dom";
 import IsAnon from "./IsAnon";
 import IsPrivate from "./IsPrivate";
-import Dashboard from "/features/Dashboard";
-import {
-  Login,
-  LoginGithub,
-  LoginGoogle,
-  Register,
-  Logout,
-  VerifyEmail,
-} from "/features/Auth/pages";
-import Profile from "/features/Profile";
-import EditProfilePage from "/features/Profile/EditProfilePage";
-import Tutorials from "/features/Tutorials";
-import TutorialsCreate from "/features/Tutorials/Create";
-import TutorialsTags from "/features/Tutorials/Tags";
-import TutorialsTagsTag from "/features/Tutorials/Tags/Tag";
-import Tutorial from "/features/Tutorials/Tutorial";
-import TutorialEdit from "/features/Tutorials/Tutorial/Edit";
-import Welcome from "/features/Welcome";
+import authPages from "/features/Auth/pages";
+import userPages from "/features/User/pages";
+import tutorialsPages from "/features/Tutorials/pages";
+import { HomePage } from "/features/Hero/pages";
 import { ErrorPage } from "/features/Error/pages";
 
+const routes = [
+  { path: "/", element: <HomePage /> },
+  {
+    path: "/error",
+    element: <ErrorPage />,
+  },
+  ...authPages,
+  ...userPages,
+  ...tutorialsPages,
+];
+
 export default function RenderRoutes() {
+  const handleRouteBoundaries = ({ element, scope }) => {
+    if (scope === "guest") return <IsAnon>{element}</IsAnon>;
+    if (scope === "user") return <IsPrivate>{element}</IsPrivate>;
+    return element;
+  };
+
   const renderRoutesRecursively = (routes) => {
     const result = [];
     const handler = (routes) => {
-      routes.forEach((route) => {
+      routes.forEach(({ element, path, scope, children }) => {
         result.push(
-          <Route key={route.path} path={route.path}>
-            <Route index element={route.element} />
+          <Route key={path} path={path}>
+            <Route index element={handleRouteBoundaries({ element, scope })} />
           </Route>
         );
-        if (route.children) {
-          handler(route.children);
+        if (children) {
+          handler(children);
         }
       });
     };
     handler(routes);
     return result;
   };
+
   return <Routes>{renderRoutesRecursively(routes)}</Routes>;
 }
-
-const routes = [
-  { path: "/", element: <Welcome /> },
-  {
-    path: "/error",
-    element: <ErrorPage />,
-  },
-  {
-    path: "/register",
-    element: (
-      <IsAnon>
-        <Register />
-      </IsAnon>
-    ),
-  },
-  {
-    path: "/login",
-    element: (
-      <IsAnon>
-        <Login />
-      </IsAnon>
-    ),
-    children: [
-      {
-        path: "/login/github",
-        element: (
-          <IsAnon>
-            <LoginGithub />
-          </IsAnon>
-        ),
-      },
-      {
-        path: "/login/google",
-        element: (
-          <IsAnon>
-            <LoginGoogle />
-          </IsAnon>
-        ),
-      },
-    ],
-  },
-  {
-    path: "/logout",
-    element: (
-      <IsPrivate>
-        <Logout />
-      </IsPrivate>
-    ),
-  },
-  {
-    path: "/email/verify",
-    element: (
-      <IsAnon>
-        <VerifyEmail />
-      </IsAnon>
-    ),
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <IsPrivate>
-        <Dashboard />
-      </IsPrivate>
-    ),
-  },
-  {
-    path: "/profile",
-    element: (
-      <IsPrivate>
-        <Profile />
-      </IsPrivate>
-    ),
-    children: [
-      {
-        path: "/profile/edit",
-        element: (
-          <IsPrivate>
-            <EditProfilePage />
-          </IsPrivate>
-        ),
-      },
-    ],
-  },
-  {
-    path: "/tutorials",
-    element: <Tutorials />,
-    children: [
-      {
-        path: "/tutorials/:slug",
-        element: <Tutorial />,
-      },
-      {
-        path: "/tutorials/:slug/edit",
-        element: (
-          <IsPrivate>
-            <TutorialEdit />
-          </IsPrivate>
-        ),
-      },
-      {
-        path: "/tutorials/create",
-        element: (
-          <IsPrivate>
-            <TutorialsCreate />
-          </IsPrivate>
-        ),
-      },
-      {
-        path: "/tutorials/tags",
-        element: <TutorialsTags />,
-        children: [
-          { path: "/tutorials/tags/:slug", element: <TutorialsTagsTag /> },
-        ],
-      },
-    ],
-  },
-];

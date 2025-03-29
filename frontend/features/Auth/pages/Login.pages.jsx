@@ -8,7 +8,7 @@ import {
   AuthFormLayout,
 } from "/features/Auth/components";
 import { useAuthContext } from "/features/Auth/context";
-import { useAuth } from "/features/Auth/hooks";
+import { useAuthHook } from "/features/Auth/hooks";
 import {
   LoadingSpinner,
   PageLayout,
@@ -16,64 +16,82 @@ import {
   Notifier,
 } from "/common/components";
 import { validateFormInputs } from "/features/Auth/handlers";
+import { useErrorContext } from "/features/Error/context";
 
 export function Login() {
+  const navigate = useNavigate();
+  const { onSuccess } = Notifier();
+  const { authenticateUser } = useAuthContext();
+  const { logUserIn, storeUserToken } = useAuthHook();
+  const { handleError } = useErrorContext();
+  const [isFetching, setIsFetching] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const { onSuccess } = Notifier();
-  const { storeToken, authenticateUser } = useAuthContext();
-  const {
-    logUserIn,
-    data: response,
-    headers: responseHeaders,
-    loading: loginLoading,
-    error: loginError,
-  } = useAuth();
+  const { data, isLoading, isValidating, error } = logUserIn(
+    loginFormData,
+    isFetching
+  );
 
   useEffect(() => {
-    if (loginError) setErrorMessage(loginError);
-  }, [loginError]);
-
-  useEffect(() => {
-    if (responseHeaders) {
-      const accessToken = responseHeaders.authorization.split(" ")[1];
-      storeToken(accessToken);
-      if (accessToken) authenticateUser();
+    // handle user token
+    const headersAuth = data?.headers?.authorization;
+    if (headersAuth) {
+      const accessToken = headersAuth.split(" ")[1];
+      storeUserToken(accessToken);
     }
-  }, [responseHeaders]);
 
-  useEffect(() => {
-    let timeoutID;
-    if (response) {
-      const { success, message } = response;
+    // Handle response data
+    const respData = data?.data;
+    let timeoutID = null;
+    if (respData) {
+      const { success, message } = respData;
       if (success) {
-        onSuccess({ message });
+        onSuccess({ message, options: { autoClose: 2500 } });
         timeoutID = setTimeout(() => {
+          authenticateUser();
           navigate("/");
-        }, 1500);
+        }, 2500);
+        return;
       }
+      setErrorMessage(message);
+    }
+
+    // Handle errors
+    if (error) {
+      handleError(error);
+      setErrorMessage(error);
+      console.log(error);
     }
     return () => clearTimeout(timeoutID);
-  }, [response]);
+  }, [
+    authenticateUser,
+    data?.data,
+    data?.headers?.authorization,
+    navigate,
+    onSuccess,
+    storeUserToken,
+    error,
+    handleError,
+  ]);
 
-  const handleLoginInput = ({ target: { name, value } }) =>
-    setLoginFormData({ ...loginFormData, [name]: value });
-
-  const handleLoginSubmit = async (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
     if (!validateFormInputs({ ...loginFormData, setErrorMessage })) return;
     try {
-      await logUserIn(loginFormData);
+      setIsFetching(true);
     } catch (error) {
+      console.log(error);
       setErrorMessage(error?.response?.data);
     }
   };
 
-  if (loginLoading) return <LoadingSpinner />;
+  const handleLoginInput = ({ target: { name, value } }) =>
+    setLoginFormData({ ...loginFormData, [name]: value });
+
+  if (isLoading || isValidating) return <LoadingSpinner />;
 
   return (
     <PageLayout>
@@ -84,7 +102,7 @@ export function Login() {
               loginFormData={loginFormData}
               handleLoginSubmit={handleLoginSubmit}
               handleLoginInput={handleLoginInput}
-              errorMessage={errorMessage || loginError}
+              errorMessage={errorMessage}
             />
           </>
           <>

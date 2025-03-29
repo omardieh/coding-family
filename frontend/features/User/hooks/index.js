@@ -1,1 +1,1 @@
-export * from "./useUser.hooks";
+export * from "./useUser.hook";

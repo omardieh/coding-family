@@ -1,30 +1,40 @@
 import { useEffect } from "react";
-import { useAuth } from "/features/Auth/hooks";
-import { Notifier } from "/common/components";
-import { useNavigate } from "react-router-dom";
+import { LoadingSpinner, Notifier } from "/common/components";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useErrorContext } from "/features/Error/context";
+import { useAuthHook } from "/features/Auth/hooks";
+import { useAuthContext } from "/features/Auth/context";
 
 export function Logout() {
-  const { onSuccess } = Notifier();
-  const { data: response, error, logUserOut } = useAuth();
   const navigate = useNavigate();
+  const { onSuccess } = Notifier();
+  const { handleError } = useErrorContext();
+  const { logUserOut } = useAuthHook();
+  const { authenticateUser } = useAuthContext();
 
-  useEffect(() => {
-    logUserOut();
-  }, []);
+  const { data, isLoading, isValidating, error } = logUserOut();
+  const response = data?.data;
 
   useEffect(() => {
     let timeoutID;
     if (response) {
       const { success, message } = response;
       if (success) {
-        onSuccess({ message, redirect: "login", options: { autoClose: 1500 } });
+        onSuccess({ message, redirect: "login", options: { autoClose: 2500 } });
         timeoutID = setTimeout(() => {
+          authenticateUser();
           navigate("/login");
-        }, 1500);
+        }, 2500);
       }
     }
     return () => clearTimeout(timeoutID);
-  }, [response]);
+  }, [response, navigate, onSuccess, authenticateUser]);
 
-  return "loading...";
+  if (isLoading || isValidating) return <LoadingSpinner />;
+  if (error) {
+    handleError(error);
+    return <Navigate to="/error" />;
+  }
+
+  return <LoadingSpinner />;
 }
