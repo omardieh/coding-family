@@ -1,8 +1,8 @@
-import SearchFilterBarsLayout from "/features/Tutorials/components/SearchFilterBars/SearchFilterBars.layout";
+import SearchFilterBarsLayout from "./SearchFilterBars/SearchFilterBars.layout";
 import { tutorialsTagsNavbarLinks } from "/common/assets/navLinks";
-import QuickFiltersGrid from "/features/Tutorials/components/SearchFilterBars/QuickFiltersGrid";
-import NavigateElements from "/features/Tutorials/components/SearchFilterBars/NavigateElements";
-import SearchInput from "/features/Tutorials/components/SearchFilterBars/SearchInput";
+import QuickFiltersGrid from "./SearchFilterBars/QuickFiltersGrid";
+import NavigateElements from "./SearchFilterBars/NavigateElements";
+import SearchInput from "./SearchFilterBars/SearchInput";
 
 export function SearchFilterTagsBar() {
   return (

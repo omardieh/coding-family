@@ -3,7 +3,7 @@ import { SearchFilterBars, TutorialCard } from "../components";
 import { useTutorialsContext } from "../context";
 import { useTutorialsHook } from "../hooks";
 import { PageLayout, PageCard, LoadingSpinner } from "/common/components";
-import { useErrorContext } from "/features/Error/context";
+import { useErrorContext } from "../../error-boundaries/context";
 
 export function TutorialsList() {
   const { getAllTutorials } = useTutorialsHook();

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useUserContext } from "/features/User/context";
+import { useUserContext } from "../context";
 
 export function UserDashboard() {
   const { user } = useUserContext();

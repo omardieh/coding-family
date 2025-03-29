@@ -2,21 +2,17 @@ import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import {
-  LoginForm,
-  SocialLoginLink,
-  AuthFormLayout,
-} from "/features/Auth/components";
-import { useAuthContext } from "/features/Auth/context";
-import { useAuthHook } from "/features/Auth/hooks";
+import { LoginForm, SocialLoginLink, AuthFormLayout } from "../components";
+import { useAuthContext } from "../context";
+import { useAuthHook } from "../hooks";
 import {
   LoadingSpinner,
   PageLayout,
   PageCard,
   Notifier,
 } from "/common/components";
-import { validateFormInputs } from "/features/Auth/handlers";
-import { useErrorContext } from "/features/Error/context";
+import { validateFormInputs } from "../handlers";
+import { useErrorContext } from "../../error-boundaries/context";
 
 export function Login() {
   const navigate = useNavigate();

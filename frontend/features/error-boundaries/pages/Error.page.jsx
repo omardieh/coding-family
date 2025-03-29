@@ -2,7 +2,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useErrorContext } from "/features/Error/context";
+import { useErrorContext } from "../context";
 import { PageLayout, PageCard } from "/common/components";
 
 export function ErrorPage({ error }) {

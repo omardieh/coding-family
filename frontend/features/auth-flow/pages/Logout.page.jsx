@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { LoadingSpinner, Notifier } from "/common/components";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useErrorContext } from "/features/Error/context";
-import { useAuthHook } from "/features/Auth/hooks";
-import { useAuthContext } from "/features/Auth/context";
+import { useErrorContext } from "../../error-boundaries/context";
+import { useAuthHook } from "../hooks";
+import { useAuthContext } from "../context";
 
 export function Logout() {
   const navigate = useNavigate();

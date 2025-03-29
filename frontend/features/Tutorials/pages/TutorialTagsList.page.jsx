@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import { Navigate } from "react-router-dom";
-import { useTutorialsHook } from "/features/Tutorials/hooks";
+import { useTutorialsHook } from "../hooks";
 import { TagCard, SearchFilterTagsBar } from "../components";
 import { LoadingSpinner } from "/common/components";
-import { useErrorContext } from "/features/Error/context";
+import { useErrorContext } from "../../error-boundaries/context";
 
 export function TutorialTagsList() {
   const { getTutorialsTags } = useTutorialsHook();

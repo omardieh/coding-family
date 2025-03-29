@@ -1,5 +1,5 @@
 import { LoadingSpinner } from "/common/components";
-import { useAuthContext } from "/features/Auth/context";
+import { useAuthContext } from "../../features/auth-flow/context";
 import { Navigate } from "react-router-dom";
 
 export default function IsPrivate({ children }) {

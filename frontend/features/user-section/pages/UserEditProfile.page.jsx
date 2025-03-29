@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import validator from "validator";
 import countries from "/common/assets/countries.json";
-import { useAuthContext } from "/features/Auth/context";
+import { useAuthContext } from "../../auth-flow/context";
 
 export function UserEditProfile() {
   const {

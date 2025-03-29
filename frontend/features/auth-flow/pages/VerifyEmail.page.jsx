@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { Notifier, LoadingSpinner } from "/common/components";
-import { useAuth } from "/features/Auth/hooks";
+import { useAuth } from "../hooks";
 
 export function VerifyEmail() {
   const [verifyMessage, setVerifyMessage] = useState("");

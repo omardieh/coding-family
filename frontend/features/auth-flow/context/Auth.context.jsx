@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "/common/services/AuthService";
 import { LoadingSpinner } from "/common/components";
-import { useUserContext } from "/features/User/context";
+import { useUserContext } from "../../user-section/context";
 
 const AuthContext = createContext();
 

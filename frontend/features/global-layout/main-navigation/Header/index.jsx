@@ -7,7 +7,7 @@ import {
   userAvatarLinks,
   userLinks,
 } from "/common/assets/navLinks";
-import { useAuthContext } from "/features/Auth/context";
+import { useAuthContext } from "/features/auth-flow/context";
 
 export default function Header({ mode, setMode }) {
   const { isLoggedIn, logUserOut } = useAuthContext();

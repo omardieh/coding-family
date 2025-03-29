@@ -1,8 +1,8 @@
 // frontend/features/Tutorials/pages/TutorialCreate.page.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTutorialsHook } from "/features/Tutorials/hooks";
-import { TutorialForm } from "/features/Tutorials/components";
+import { useTutorialsHook } from "../hooks";
+import { TutorialForm } from "../components";
 import {
   PageLayout,
   PageCard,

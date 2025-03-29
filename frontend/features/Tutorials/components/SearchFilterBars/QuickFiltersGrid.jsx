@@ -3,7 +3,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Box from "@mui/material/Box";
 import { Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useTutorialsContext } from "/features/Tutorials/context";
+import { useTutorialsContext } from "../../context";
 
 export default function QuickFiltersGrid({ fields }) {
   const { quickFilter, setQuickFilter } = useTutorialsContext();

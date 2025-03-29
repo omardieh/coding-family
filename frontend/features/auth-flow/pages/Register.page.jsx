@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { RegisterForm, AuthFormLayout } from "/features/Auth/components";
+import { RegisterForm, AuthFormLayout } from "../components";
 import {
   PageLayout,
   PageCard,
   LoadingSpinner,
   Notifier,
 } from "/common/components";
-import { validateFormInputs } from "/features/Auth/handlers";
-import { useAuth } from "/features/Auth/hooks";
+import { validateFormInputs } from "../handlers";
+import { useAuth } from "../hooks";
 
 export function Register() {
   const [registerFormData, setRegisterFormData] = useState({

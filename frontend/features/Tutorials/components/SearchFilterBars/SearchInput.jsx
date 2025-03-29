@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { alpha, styled } from "@mui/material/styles";
-import { useTutorialsContext } from "/features/Tutorials/context";
+import { useTutorialsContext } from "../../context";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

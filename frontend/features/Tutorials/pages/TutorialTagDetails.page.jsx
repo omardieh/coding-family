@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { useTutorialsHook } from "/features/Tutorials/hooks";
-import { useErrorContext } from "/features/Error/context";
+import { useTutorialsHook } from "../hooks";
+import { useErrorContext } from "../../error-boundaries/context";
 import { LoadingSpinner } from "/common/components";
 
 export function TutorialTagDetails() {

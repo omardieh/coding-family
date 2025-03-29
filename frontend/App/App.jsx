@@ -1,8 +1,8 @@
 import { ToastContainer } from "react-toastify";
 import RenderRoutes from "./routes";
-import Theme from "/features/Theme";
-import { ErrorProvider } from "/features/Error/context";
-import { ErrorBoundary } from "/features/Error/components";
+import Theme from "/features/global-layout/theme";
+import { ErrorProvider } from "../features/error-boundaries/context";
+import { ErrorBoundary } from "../features/error-boundaries/components";
 
 function App() {
   return (

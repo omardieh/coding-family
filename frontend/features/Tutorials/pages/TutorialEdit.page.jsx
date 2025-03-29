@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useTutorialsHook } from "/features/Tutorials/hooks";
-import { TutorialForm } from "/features/Tutorials/components";
+import { useTutorialsHook } from "../hooks";
+import { TutorialForm } from "../components";
 import { LoadingSpinner } from "/common/components";
-import { useErrorContext } from "/features/Error/context";
+import { useErrorContext } from "../../error-boundaries/context";
 import { useEffect, useState } from "react";
 
 export function TutorialEdit() {

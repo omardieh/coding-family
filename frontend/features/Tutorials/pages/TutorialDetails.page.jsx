@@ -4,8 +4,8 @@ import { Fragment } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTutorialsHook } from "../hooks";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
-import { useErrorContext } from "/features/Error/context";
-import { useUserContext } from "/features/User/context";
+import { useErrorContext } from "../../error-boundaries/context";
+import { useUserContext } from "../../user-section/context";
 
 export function TutorialDetails() {
   const { slug } = useParams();

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useTutorialsContext } from "/features/Tutorials/context";
+import { useTutorialsContext } from "../../context";
 import QuickFiltersGrid from "./QuickFiltersGrid";
 import SearchInput from "./SearchInput";
 import NavigateElements from "./NavigateElements";
