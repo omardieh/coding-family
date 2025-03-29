@@ -1,4 +1,4 @@
-import "./index.css";
+import "./main.css";
 import "/common/assets/fonts/MontserratAlt1-Light.ttf";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
