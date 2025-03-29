@@ -1,5 +1,4 @@
 import { ToastContainer } from "react-toastify";
-
 import RenderRoutes from "./routes";
 import Theme from "/features/Theme";
 import { ErrorProvider } from "/features/Error/context";

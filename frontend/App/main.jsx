@@ -12,9 +12,11 @@ import { SocketProvider } from "/common/contexts";
 import { TutorialsProvider } from "/features/Tutorials/context";
 import { StyleSheetManager } from "styled-components";
 import { UserProvider } from "/features/User/context";
-import useBrowserAgent from "./analytics/BrowserAgent";
+import { AnalyticsService } from "/common/services";
 
-useBrowserAgent();
+const { initialize } = AnalyticsService();
+initialize();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
