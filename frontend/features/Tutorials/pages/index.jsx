@@ -32,7 +32,7 @@ export default [
         element: <TutorialTagsList />,
         children: [
           {
-            path: "/tutorials/tags/:tag",
+            path: "/tutorials/tags/:slug",
             element: <TutorialTagDetails />,
           },
         ],

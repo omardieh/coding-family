@@ -1,9 +1,9 @@
-import { Login } from "./Login.pages";
-import { LoginGithub } from "./LoginGithub.pages";
-import { LoginGoogle } from "./LoginGoogle.pages";
-import { Register } from "./Register.pages";
-import { Logout } from "./Logout.pages";
-import { VerifyEmail } from "./VerifyEmail.pages";
+import { Login } from "./Login.page";
+import { LoginGithub } from "./LoginGithub.page";
+import { LoginGoogle } from "./LoginGoogle.page";
+import { Register } from "./Register.page";
+import { Logout } from "./Logout.page";
+import { VerifyEmail } from "./VerifyEmail.page";
 
 export default [
   {

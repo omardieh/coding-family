@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthService from "/common/services/AuthService";
 import { LoadingSpinner } from "/common/components";
+import { useUserContext } from "/features/User/context";
 
 const AuthContext = createContext();
 
@@ -10,7 +11,7 @@ export const AuthProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [user, setUser] = useState(null);
+  const { setUserInfo } = useUserContext();
 
   useEffect(() => {
     authenticateUser();
@@ -25,19 +26,19 @@ export const AuthProvider = (props) => {
     if (!storedToken) {
       setIsLoggedIn(false);
       setIsLoading(false);
-      setUser(null);
+      setUserInfo(null);
       return;
     }
     try {
       const responseVerify = await AuthService.verifyToken();
       if (responseVerify.status === 200) {
         const userInfo = await AuthService.getUserInfo();
-        setUser(userInfo.data);
+        setUserInfo(userInfo.data);
         setIsLoggedIn(true);
       }
     } catch (error) {
       setIsLoggedIn(false);
-      setUser(null);
+      setUserInfo(null);
       await AuthService.logout();
       localStorage.removeItem("accessToken");
       console.error(error, "Unexpected error occurred during authentication.");
@@ -56,7 +57,7 @@ export const AuthProvider = (props) => {
   const updateUserInfo = (reqBody) => {
     AuthService.updateUserInfo(reqBody)
       .then((updatedUser) => {
-        setUser(updatedUser.data);
+        setUserInfo(updatedUser.data);
       })
       .catch((err) => {
         setErrorMessage(err.response.data);
@@ -68,7 +69,6 @@ export const AuthProvider = (props) => {
       value={{
         isLoggedIn,
         isLoading,
-        user,
         storeToken,
         authenticateUser,
         logUserOut,

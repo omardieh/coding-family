@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useCsrfContext } from "./CsrfContext";
+import { useCsrfContext } from "./Csrf.context";
 import { LoadingSpinner } from "/common/components";
 
 const CaptchaContext = createContext();

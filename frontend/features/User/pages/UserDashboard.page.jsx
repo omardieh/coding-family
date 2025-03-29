@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { useAuthContext } from "/features/Auth/context";
+import { useUserContext } from "/features/User/context";
 
 export function UserDashboard() {
-  const { user } = useAuthContext();
+  const { user } = useUserContext();
   if (!user) return "loading...";
   return (
     <DIV>

@@ -10,11 +10,11 @@ import {
 import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "/features/Auth/context";
+import { useUserContext } from "/features/User/context";
 
 export function TutorialForm(props) {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user } = useUserContext();
 
   const [title, setTitle] = useState(
     props.initialData?.title || props.title || ""

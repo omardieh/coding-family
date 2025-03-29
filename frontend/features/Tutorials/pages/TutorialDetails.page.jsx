@@ -3,13 +3,13 @@ import MDEditor from "@uiw/react-md-editor";
 import { Fragment } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useTutorialsHook } from "../hooks";
-import { useAuthContext } from "/features/Auth/context";
 import { LoadingSpinner, PageLayout, PageCard } from "/common/components";
 import { useErrorContext } from "/features/Error/context";
+import { useUserContext } from "/features/User/context";
 
 export function TutorialDetails() {
   const { slug } = useParams();
-  const { user } = useAuthContext();
+  const { user } = useUserContext();
   const { getTutorialBySlug } = useTutorialsHook();
   const { handleError } = useErrorContext();
   const { data, isLoading, isValidating, error } = getTutorialBySlug(slug);

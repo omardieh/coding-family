@@ -2,14 +2,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import Header from "../Header";
 import { themeColors } from "./theme-colors";
 import { darkTheme } from "./theme-dark";
 import { lightTheme } from "./theme-light";
 import { breakpoints } from "/common/assets/breakpoints";
 import { colors } from "/common/assets/colors";
 import useScrollTop from "/common/hooks/useScrollTop";
-import Footer from "/features/Footer";
+import Header from "../Navigation/Header";
+import Footer from "../Navigation/Footer";
 
 export default function Layout({ title, children }) {
   const [mode, setMode] = useState("light");

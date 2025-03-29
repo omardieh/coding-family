@@ -22,15 +22,15 @@ root.render(
     <Router>
       <CsrfProvider>
         <CaptchaProvider>
-          <AuthProvider>
-            <SocketProvider>
-              <UserProvider>
+          <SocketProvider>
+            <UserProvider>
+              <AuthProvider>
                 <TutorialsProvider>
                   <App />
                 </TutorialsProvider>
-              </UserProvider>
-            </SocketProvider>
-          </AuthProvider>
+              </AuthProvider>
+            </UserProvider>
+          </SocketProvider>
         </CaptchaProvider>
       </CsrfProvider>
     </Router>
