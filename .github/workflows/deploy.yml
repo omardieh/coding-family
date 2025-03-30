@@ -29,14 +29,6 @@ jobs:
           ssh-keyscan -p ${{ secrets.SSH_PORT }} -t ed25519 ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Setup Git on server
-        run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '\
-            mkdir -p ~/coding-family/__app__ && \
-            cd ~/coding-family/__app__ && \
-            git init && \
-            git remote add origin ${{ github.repositoryUrl }} || true'
-
       - name: Test SSH Connection
         run: ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -T ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} exit
 
