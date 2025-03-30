@@ -7,11 +7,11 @@ import {
   AuthProvider,
   CaptchaProvider,
   CsrfProvider,
-} from "../features/auth-flow/context";
+} from "/features/auth-flow/context";
 import { SocketProvider } from "/common/contexts";
-import { TutorialsProvider } from "../features/tutorials/context";
+import { TutorialsProvider } from "/features/tutorials/context";
 import { StyleSheetManager } from "styled-components";
-import { UserProvider } from "../features/user-section/context";
+import { UserProvider } from "/features/user-section/context";
 import { AnalyticsService } from "/common/services";
 
 const { initialize } = AnalyticsService();

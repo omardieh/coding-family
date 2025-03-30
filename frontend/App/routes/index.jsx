@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import IsAnon from "./IsAnon";
 import IsPrivate from "./IsPrivate";
-import authPages from "../../features/auth-flow/pages";
-import userPages from "../../features/user-section/pages";
-import tutorialsPages from "../../features/tutorials/pages";
-import { HomePage } from "../../features/landing-page/pages";
-import { ErrorPage } from "../../features/error-boundaries/pages";
+import authPages from "/features/auth-flow/pages";
+import userPages from "/features/user-section/pages";
+import tutorialsPages from "/features/tutorials/pages";
+import { HomePage } from "/features/landing-page/pages";
+import { ErrorPage } from "/features/error-boundaries/pages";
 
 const routes = [
   { path: "/", element: <HomePage /> },
