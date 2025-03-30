@@ -3,18 +3,27 @@ name: Deploy to Production
 on:
   pull_request:
     types: [closed]
-    branches: [PRODUCTION]
+    branches: [production]
 
 jobs:
   deploy:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
+      - name: Debug Environment
+        run: |
+          echo "Environment name: ${{ env.ENVIRONMENT_NAME }}"
+          echo "Has SSH_PRIVATE_KEY secret: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
+
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Verify SSH Key
+        run: ssh-add -l
 
       - name: Add known hosts
         run: |
