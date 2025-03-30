@@ -20,17 +20,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Test Connection
+      - name: Setup Connection
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-          ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=accept-new ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git --version"
+
+      - name: Test Connection
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'git --version'
 
       - name: Deploy
         if: success()
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '\
-            cd ~/coding-family/__app__ && \
-            git fetch origin production && \
-            git reset --hard origin/production && \
-            pm2 restart all'
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /home/coding-family/__app__ && git fetch origin production && git reset --hard origin/production && pm2 restart all"
