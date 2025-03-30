@@ -36,7 +36,7 @@ jobs:
             git pull origin production && \
             git reset --hard origin/production && \
             node -v && \
-            yarn install && \
+            yarn app:install && \
             yarn app:build && \
             yarn app:restart 
           '
