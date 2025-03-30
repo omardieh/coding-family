@@ -27,9 +27,11 @@ jobs:
 
       - name: Test Connection
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git --version"
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'git --version'
 
       - name: Deploy
-        if: success()
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /home/coding-family/__app__ && git fetch origin production && git reset --hard origin/production && pm2 restart all"
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "cd /home/coding-family/__app__" && \
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git fetch origin production" && \
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git reset --hard origin/production" && \
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "pm2 restart all"
