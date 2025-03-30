@@ -12,11 +12,6 @@ jobs:
     environment: production
 
     steps:
-      - name: Debug Environment
-        run: |
-          echo "Environment name: ${{ env.ENVIRONMENT_NAME }}"
-          echo "Has SSH_PRIVATE_KEY secret: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
-
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
