@@ -9,12 +9,16 @@ jobs:
   deploy:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Debug SSH Key
+        run: ssh-add -l
 
       - name: Add known hosts
         run: |
@@ -23,7 +27,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '\
+          ssh -v ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '\
             cd /home/coding-family/github-repo && \
             git fetch origin production && \
             git reset --hard origin/production && \
