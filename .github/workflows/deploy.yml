@@ -14,23 +14,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add known hosts
+      - name: Test Connection
         run: |
           mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -t ed25519 ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Test SSH Connection
-        run: ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -T ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} exit
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'echo "Connection test"'
 
       - name: Deploy
         run: |
