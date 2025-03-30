@@ -32,9 +32,4 @@ jobs:
       - name: Deploy
         if: success()
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
-            cd /home/coding-family/__app__ && \
-            git fetch origin production && \
-            git reset --hard origin/production && \
-            pm2 restart all
-          '
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'deploy'
