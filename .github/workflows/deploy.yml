@@ -25,7 +25,7 @@ jobs:
       - name: Verify SSH Key
         run: ssh-add -l
 
-      - name: Add known hosts
+      - name: Add known Hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
