@@ -1,0 +1,30 @@
+name: Deploy to Production
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [PRODUCTION]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '\
+            cd /home/coding-family/github-repo && \
+            git fetch origin production && \
+            git reset --hard origin/production && \
+            pm2 restart all'
