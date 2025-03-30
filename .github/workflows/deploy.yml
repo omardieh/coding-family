@@ -27,7 +27,7 @@ jobs:
 
       - name: Test Connection
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'git --version'
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "git --version"
 
       - name: Deploy
         if: success()
