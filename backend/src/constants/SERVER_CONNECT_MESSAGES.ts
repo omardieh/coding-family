@@ -1,13 +1,14 @@
 import colors from 'colors';
 
 const port = Number(process.env.SERVER_PORT);
+const host = process.env.SERVER_HOST;
 export const SERVER_CONNECT_MESSAGES = {
   server: {
     success: [
       '🖥️ ',
       colors.bgBlack.bold(` SERVER `),
       ` App is running, visit: `,
-      colors.blue(`http://localhost:${port}`),
+      colors.blue(`http://${host}:${port}`),
     ].join(''),
   },
   error: {
