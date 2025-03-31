@@ -99,7 +99,16 @@ const userSchema = new Schema<IUserModel>(
       enum: ['active', 'suspended'],
       default: 'active',
     },
+    failedLoginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lockoutUntil: {
+      type: Date,
+      default: null,
+    },
   },
+
   {
     timestamps: true,
   },

@@ -1,25 +1,20 @@
 import { ToastContainer } from "react-toastify";
-
 import RenderRoutes from "./routes";
-import Theme from "/features/Theme";
+import Theme from "/features/global-layout/theme";
+import { ErrorProvider } from "/features/error-boundaries/context";
+import { ErrorBoundary } from "/features/error-boundaries/components";
 
 function App() {
   return (
     <>
-      <Theme
-        title="Coding Family - Where Innovation is Home"
-        description="Where Innovation is Home."
-        logo="Coding Family"
-      >
-        <RenderRoutes />
-        <ToastContainer
-        // transition={{
-        //   enter: "noop",
-        //   exit: "noop",
-        //   collapse: false,
-        // }}
-        />
-      </Theme>
+      <ErrorProvider>
+        <ErrorBoundary>
+          <Theme>
+            <RenderRoutes />
+            <ToastContainer />
+          </Theme>
+        </ErrorBoundary>
+      </ErrorProvider>
     </>
   );
 }

@@ -2,6 +2,7 @@ import { EnvironmentConfig, ErrorsConfig, LoggingConfig, SecurityConfig } from '
 import { InitiateAuthRoutes, InitiateClientBuildRoutes, InitiateTutorialsRoutes, InitiateUserRoutes } from '@/routes';
 import express from 'express';
 import { InitiateIndexRoutes } from './routes/index.routes';
+import { maintenanceMiddleware } from './middlewares';
 
 class App {
   public app;
@@ -13,6 +14,7 @@ class App {
   }
 
   private initializeConfigs = (): void => {
+    this.app.use('*', maintenanceMiddleware);
     new EnvironmentConfig(this.app);
     new SecurityConfig(this.app);
     new LoggingConfig(this.app);

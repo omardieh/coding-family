@@ -1,30 +1,26 @@
-import { toast, Slide } from "react-toastify";
+import { toast } from "react-toastify";
 import "./index.css";
 
 export function Notifier() {
+  const common = {
+    position: "top-center",
+    autoClose: 2500,
+    hideProgressBar: false,
+    newestOnTop: false,
+    closeOnClick: false,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: false,
+    pauseOnHover: false,
+  };
+
   const toastOptions = {
     success: {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      newestOnTop: false,
-      closeOnClick: true,
-      rtl: false,
-      pauseOnFocusLoss: true,
-      draggable: true,
-      pauseOnHover: true,
+      ...common,
       type: "success",
     },
     error: {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      newestOnTop: false,
-      closeOnClick: false,
-      rtl: false,
-      pauseOnFocusLoss: true,
-      draggable: true,
-      pauseOnHover: true,
+      ...common,
       type: "error",
     },
   };
@@ -32,7 +28,9 @@ export function Notifier() {
   const useToast = ({ message, options, redirect }) =>
     toast(
       <p>
-        {message} <br /> redirecting to {redirect || "login"} page..
+        {message}
+        {redirect && <br />}
+        {redirect && `redirecting to ${redirect || "login"} page..`}
       </p>,
       options
     );

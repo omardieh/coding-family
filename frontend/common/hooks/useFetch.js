@@ -1,62 +1,76 @@
 import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
-import { useCsrfContext } from "/features/Auth/context";
+import { useCallback, useEffect } from "react";
+import { default as fetchSWR } from "swr";
+import { getCookie } from "../utilities/getCookie";
 
-export default function useFetch(baseURL) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const { csrfToken } = useCsrfContext();
+export default function useSWR({ baseURL }) {
+  if (!baseURL) throw new Error("baseURL is required");
+  const csrfToken = getCookie("XSRF-TOKEN");
+  if (!csrfToken) throw new Error("csrfToken is required");
+  const userToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    const accessToken = localStorage.getItem("accessToken");
-    const requestInterceptor = axios.interceptors.request.use((config) => {
-      if (accessToken) {
-        config.headers.Authorization = accessToken;
-      }
-      if (csrfToken) {
-        config.headers["X-XSRF-TOKEN"] = csrfToken;
-      }
-      return config;
-    });
-    return () => {
-      axios.interceptors.request.eject(requestInterceptor);
-      axios.defaults.withCredentials = false;
-    };
-  }, []);
-
-  const fetcher = useMemo(
-    () =>
-      async ({
-        method = "GET",
-        endPoint = "/",
-        reqBody = null,
-        headers = {},
-        timeout = 0,
-      }) => {
-        setLoading(true);
-        const source = axios.CancelToken.source();
-        try {
-          const response = await axios({
-            method,
-            url: endPoint,
-            baseURL,
-            data: reqBody,
-            headers,
-            timeout,
-            cancelToken: source.token,
-          });
-
-          setData(response.data);
-          setError(null);
-        } catch (err) {
-          setError(err.response ? err.response.data : err.message);
-        } finally {
-          setLoading(false);
-        }
+    const requestInterceptor = axios.interceptors.request.use((config) => ({
+      ...config,
+      headers: {
+        ...config.headers,
+        "X-XSRF-TOKEN": csrfToken,
+        ...(userToken && { Authorization: `Bearer ${userToken}` }),
       },
+    }));
+    return () => {
+      axios.defaults.withCredentials = false;
+      axios.interceptors.request.eject(requestInterceptor);
+    };
+  }, [csrfToken, userToken]);
+
+  const handleFetch = useCallback(
+    async ({
+      method = "GET",
+      endPoint = "/",
+      reqBody = null,
+      headers = {},
+      timeout = 0,
+    }) => {
+      const source = axios.CancelToken.source();
+      try {
+        const response = await axios({
+          method,
+          url: endPoint,
+          baseURL,
+          data: reqBody,
+          headers,
+          timeout,
+          cancelToken: source.token,
+        });
+        return {
+          data: response.data,
+          headers: response.headers,
+        };
+      } catch (err) {
+        if (import.meta.env.NODE_ENV === "development") console.error(err);
+        throw err.response ? err.response.data : err.message;
+      }
+    },
     [baseURL]
   );
-  return { data, error, loading, fetcher };
+
+  const fetcher = ({ method, endPoint, reqBody, headers, timeout }) => {
+    const { data, error, isValidating, ...swr } = fetchSWR(
+      [endPoint, method, reqBody],
+      () =>
+        handleFetch(
+          { method, endPoint, reqBody, headers, timeout },
+          {
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false,
+            shouldRetryOnError: false,
+          }
+        )
+    );
+    return { data, error, isValidating, ...swr };
+  };
+
+  return { fetcher };
 }

@@ -4,3 +4,4 @@ export * from './Tutorial.model.types';
 export * from './TutorialReview.model.types';
 export * from './TutorialTag.model.types';
 export * from './User.model.types';
+export * from './BlockedIP.model.types';

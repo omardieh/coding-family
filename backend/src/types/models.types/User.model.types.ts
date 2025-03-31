@@ -29,6 +29,8 @@ export interface IUserModel extends Document {
     email: boolean;
   };
   accountStatus: 'active' | 'suspended';
+  failedLoginAttempts: number;
+  lockoutUntil: Date | null;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(password: string): Promise<boolean>;
