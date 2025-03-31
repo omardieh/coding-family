@@ -1,11 +1,11 @@
 import { Application, NextFunction, Request, Response } from 'express';
 import path from 'path';
 
-// backend/src/routes/clientBuild.routes/index.ts
 export class InitiateClientBuildRoutes {
   public app: Application;
   constructor(app: Application) {
     this.app = app;
+
     this.app.use((_: Request, res: Response, next: NextFunction) => {
       res.set({
         'Content-Security-Policy': "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
@@ -13,6 +13,7 @@ export class InitiateClientBuildRoutes {
       });
       next();
     });
+
     this.app.get('*', (req: Request, res: Response, next: NextFunction) => {
       if (/^\/(?:api|auth)\/.*$/i.test(req.path)) return next();
       try {
@@ -22,7 +23,6 @@ export class InitiateClientBuildRoutes {
           Expires: '0',
           'Surrogate-Control': 'no-store',
         });
-
         res.sendFile(path.resolve(__dirname, '..', '..', '..', 'public', 'index.html'), {
           headers: {
             'Content-Type': 'text/html; charset=UTF-8',
