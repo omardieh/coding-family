@@ -28,18 +28,20 @@ export function useAuthHook() {
     },
 
     // OAuth providers
-    logGithubUserIn: (code) =>
+    logGithubUserIn: (code, isFetching) =>
       fetcher({
         method: "POST",
         endPoint: "/auth/github",
         reqBody: { code },
+        isFetching,
       }),
 
-    logGoogleUserIn: (code) =>
+    logGoogleUserIn: (code, isFetching) =>
       fetcher({
         method: "POST",
         endPoint: "/auth/google",
         reqBody: { code },
+        isFetching,
       }),
 
     // Token management
