@@ -2,8 +2,6 @@
 
 A full-stack platform for creating, sharing, and exploring coding tutorials. Built with React, Node.js/Express, and MongoDB.
 
-![Coding Family Platform](https://placeholder-for-screenshot.com)
-
 ## Features
 
 - **User Authentication**: Sign in with email, GitHub, or Google OAuth
