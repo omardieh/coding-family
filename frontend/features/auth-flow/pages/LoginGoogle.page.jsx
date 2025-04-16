@@ -1,28 +1,42 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAuthContext } from "../context";
-import AuthService from "/common/services/AuthService";
+import { useAuthHook } from "/features/auth-flow/hooks";
+import { LoadingSpinner } from "/common/components";
 
 export function LoginGoogle() {
-  const { storeToken, authenticateUser } = useAuthContext();
+  const [isFetching, setIsFetching] = useState(false);
+  const { authenticateUser } = useAuthContext();
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
+  const { logGoogleUserIn, storeUserToken } = useAuthHook();
+  const { data, isLoading, isValidating, error } = logGoogleUserIn(
+    code,
+    isFetching
+  );
+
+  const headersAuth = data?.headers?.authorization;
 
   useEffect(() => {
-    if (code) {
-      AuthService.loginGoogle(code)
-        .then((response) => {
-          const accessToken = response.headers.authorization.split(" ")[1];
-          storeToken(accessToken);
-          authenticateUser();
-        })
-        .catch((error) => {
-          console.error("GoogleAuth:", error);
-        });
+    if (code) setIsFetching(true);
+
+    if (headersAuth) {
+      const accessToken = headersAuth.split(" ")[1];
+      storeUserToken(accessToken);
+      authenticateUser();
       return;
     }
-    window.location.replace(`${import.meta.env.VITE_SERVER_URL}/auth/google`);
-  }, [code, authenticateUser, storeToken]);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    if (!code)
+      window.location.replace(`${import.meta.env.VITE_SERVER_URL}/auth/google`);
+  }, [code, headersAuth, error]);
+
+  if (isLoading || isValidating) return <LoadingSpinner />;
 
   return (
     <div>
