@@ -15,16 +15,12 @@ import { NavLink } from "react-router-dom";
 import validator from "validator";
 import countries from "/common/assets/countries.json";
 import { useAuthContext } from "../../auth-flow/context";
+import { useUserContext } from "../context";
 
 export function UserEditProfile() {
-  const {
-    user,
-    authenticateUser,
-    updateUserInfo,
-    errorMessage,
-    setErrorMessage,
-  } = useAuthContext();
-
+  const { authenticateUser, updateUserInfo, errorMessage, setErrorMessage } =
+    useAuthContext();
+  const { user } = useUserContext();
   useEffect(() => {
     authenticateUser();
   }, [authenticateUser]);

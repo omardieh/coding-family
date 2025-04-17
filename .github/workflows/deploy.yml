@@ -31,12 +31,5 @@ jobs:
         if: success()
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} '
-            cd /home/coding-family/__app__ && \
-            git fetch origin production && \
-            git pull origin production && \
-            git reset --hard origin/production && \
-            node -v && \
-            yarn app:install && \
-            yarn app:build && \
-            yarn app:restart 
+          ${{ secrets.DEPLOY_SCRIPT }}
           '

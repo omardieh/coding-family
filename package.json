@@ -10,7 +10,7 @@
     "app:dev": "yarn kill-port && concurrently \"yarn --cwd ./backend dev\" \"yarn --cwd frontend dev\"",
     "app:build": "yarn --cwd ./frontend build && yarn --cwd ./backend build",
     "app:start": "yarn --cwd ./backend start",
-    "app:restart": "pm2 restart all",
+    "app:restart": "pm2 stop all && pm2 flush && pm2 start all",
     "format": "yarn --cwd ./frontend format && yarn --cwd ./backend format"
   },
   "keywords": [],
